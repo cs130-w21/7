@@ -1,9 +1,13 @@
 from django.db import models
 
-# Create your models here.
-class Yummy(models.Model):
-    title = models.CharField(max_length=120)
-    name = models.TextField()
+class UserInfo(models.Model):
+    username = models.CharField(max_length=120, blank=False, default='')
+    name = models.CharField(max_length=120, blank=False, default='')
+    email = models.TextField(max_length=120, blank=False, default='')
+    age = models.IntegerField()
+    height = models.FloatField()
+    weight = models.FloatField()
+    
+    # def _str_(self):
+    #     return self.username
 
-def _str_(self):
-    return self.title

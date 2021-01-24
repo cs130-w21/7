@@ -1,33 +1,68 @@
 // App.js
 import React, { Component } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from "react-router-dom";
+
+import Settings from "./components/Pages/Settings"
+import Home from "./components/Pages/Home"
 
 class App extends Component {
-  state = {
-    items: []
-  };
-  async componentDidMount() {
-    try {
-      const res = await fetch('http://127.0.0.1:8000/api/'); // fetching the data from api, before the page loaded
-      const items = await res.json();
-      this.setState({items});
-    } catch (e) {
-      console.log(e);
-    }
-  }
 
-  render() {
-    return (
-      <div>
-        <h1>Welcome to YummY</h1>
-        {this.state.items.map(item => (
-          <div key={item.id}>
-            <h4>{item.title}</h4>
-            <span>{item.name}</span>
+  constructor(){
+    super();
+    this.state = {user:null}
+  }
+  render() {    
+    if (this.state.user != null) {
+      // return <Login/>;
+    }else { 
+      return (
+        <Router>
+          <div id="routeDiv">
+            <Switch>
+              <Route path="/">
+                <Main />
+              </ Route>
+            </Switch>
           </div>
-        ))}
-      </div>
-    );
+        </Router>
+      );
+    } 
   }
 }
+
+function Main() {
+  return(
+    <Router>
+      <React.Fragment>
+          <Switch>
+              <Route exact path={'/'} render={() => {
+                  return <Redirect to={'/home'}/>
+              }}/>
+              <Route exact path={'/home'} component={Home}/>
+              <Route exact path={'/setting'} component={Settings}/>
+          </Switch>
+      </React.Fragment>
+    </Router>
+  )
+}
+
+// function Login(){
+//   function onSubmit() {
+//     return  <Redirect to="/home"/>
+//  }
+//   return (
+//     <div className="app">
+//       <h1>Welcome to YummY</h1>
+//       <h2>This is Login Page</h2>
+//       <button onClick={onSubmit}>Login</button>
+//     </div>
+//   )
+// }
+
 
 export default App;
