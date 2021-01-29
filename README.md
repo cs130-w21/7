@@ -6,7 +6,6 @@
 -->
 
 
-
 <!-- PROJECT SHIELDS -->
 <!--
 *** I'm using markdown "reference style" links for readability.
@@ -16,16 +15,13 @@
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
 [![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-
 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <!-- <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+  </a> -->
 
   <h3 align="center">Yummy Web Application</h3>
 
@@ -76,8 +72,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 Add Later.
 
 ### Built With
@@ -101,7 +96,7 @@ To get a local copy up and running follow these simple example steps.
 
 3. Optional:
 - Download and install MongoDB Compact.
-- 
+  
 ### Installation
 
 Assuming you have Python setup, to run locally, do the following commands. 
@@ -139,9 +134,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-Ad Later
-
-
+Add Later
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -172,3 +165,10 @@ Add Later
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 Add Later
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/cs130-w21/7/graphs/contributors
+<!-- [product-screenshot]: images/screenshot.png -->
