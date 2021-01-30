@@ -1,15 +1,41 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import generics         
-from .serializers import YummySerializer  
-from .models import Yummy
+from django.http.response import JsonResponse
+from rest_framework.parsers import JSONParser
+from rest_framework import generics, status
+from rest_framework.decorators import api_view
+from .serializers import UserInfoSerializer  
+from .models import UserInfo
 
-class ListYummy(generics.ListCreateAPIView):
-    queryset = Yummy.objects.all()
-    serializer_class = YummySerializer
+@api_view(['POST'])
+def userinfo(request):
+    # GET list of userinfo, POST a new userinfo, DELETE all userinfo
+    if request.method == 'POST':
+        userinfo_data = JSONParser().parse(request)
+        userinfo_serializer = UserInfoSerializer(data=userinfo_data)
+        if userinfo_serializer.is_valid():
+            userinfo_serializer.save()
+            return JsonResponse(userinfo_serializer.data, status=status.HTTP_201_CREATED)
+        return JsonResponse(userinfo_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class DetailYummy(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Yummy.objects.all()
-    serializer_class = YummySerializer
+@api_view(['GET', 'PUT', 'DELETE'])
+def userinfo_detail(request, pk):
+    try: 
+        userinfo = UserInfo.objects.get(pk=pk) 
+    except UserInfo.DoesNotExist: 
+        return JsonResponse({'message': 'The user does not exist'}, status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET': 
+        userinfo_serializer = UserInfoSerializer(userinfo) 
+        return JsonResponse(userinfo_serializer.data)
+    elif request.method == 'PUT':
+        userinfo_data =JSONParser().parse(request)
+        userinfo_serializer = UserInfoSerializer(userinfo, data=userinfo_data)
+        if userinfo_serializer.is_valid():
+            userinfo_serializer.save()
+            return JsonResponse(userinfo_serializer.data)
+        return JsonResponse(userinfo_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'DELETE': 
+        userinfo.delete() 
+        return JsonResponse({'message': 'The user was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)

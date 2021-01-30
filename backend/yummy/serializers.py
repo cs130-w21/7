@@ -1,8 +1,8 @@
 # todo/serializers.py
 from rest_framework import serializers
-from .models import Yummy
+from .models import UserInfo
 
-class YummySerializer(serializers.ModelSerializer):
+class UserInfoSerializer(serializers.ModelSerializer):
   class Meta:
-    model = Yummy
-    fields = ('id', 'title', 'name')
+    model = UserInfo
+    fields = ('id','username', 'name', 'email', 'age', 'height', 'weight')
