@@ -36,3 +36,71 @@
     transform: rotate(360deg);
   }
 }
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'PT Sans', sans-serif;
+}
+
+.home,
+.restaurants,
+.products,
+.login {
+  display: flex;
+  height: 90vh;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.restaurants {
+  /* background-image: url('/images/img-2.jpg'); */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
+.products {
+  /* background-image: url('/images/img-1.jpg'); */
+  background-position: center;
+  background-size: fill;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
+.seperator {
+  width: 100%;
+  height: 20px;
+}
+
+.login {
+  /* background-image: url('/images/img-8.jpg'); */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
+.login-attr {
+  width: 200px;
+  height: 60px;
+  margin: auto;
+
+}
+
+.login-input {
+  width:200px;
+  height: 30px;
+}
+
+.warning-text {
+  width: 100%;
+  color: red;
+  visibility: hidden;
+}
