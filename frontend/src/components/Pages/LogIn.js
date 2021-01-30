@@ -37,7 +37,7 @@ export default function LogIn() {
   return (
     <div className="Login">
       <form onSubmit={handleSubmit}>
-        <div className='form-group login-attr' size="lg" controlId="email">
+        <div className='form-group login-attr' size="lg" id="email">
           <label>Email</label>
           <input
             className='login-input'
@@ -47,7 +47,7 @@ export default function LogIn() {
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div class='form-group login-attr' size="lg" controlId="password">
+        <div className='form-group login-attr' size="lg" id="password">
           <label>Password</label>
           <input
             className='login-input'
