@@ -1,22 +1,4 @@
 .DS_Store
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Django #
-backend/*.log
-backend/*.pot
-backend/*.pyc
-backend/__pycache__
-backend/db.sqlite3
-backend/media
 
-# Backup files # 
-*.bak
-
-# Environments 
-backend/.env
-backend/.venv
-backend/env
-backend/venv
-backend/ENV/
-backend/env.bak/
-backend/venv.bak/
