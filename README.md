@@ -108,8 +108,8 @@ Assuming you have Python setup, to run locally, do the following commands.
 2. Go to backend directory and run the server
     ```sh
     cd backend
-    virtualenv env --no-site-packages   // create and start a virtual environment
-    source env/bin/activate             // activate the virtual environment
+    virtualenv env                      // create and start a virtual environment
+    . env/bin/activate                  // activate the virtual environment
     pip3 install -r requirements.txt    // Install the project dependencies
     python3 manage.py migrate
     python manage.py createsuperuser    // optional: create admin account
