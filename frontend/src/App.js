@@ -1,68 +1,30 @@
 // App.js
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
-} from "react-router-dom";
-
+import Navbar from './components/Navbar';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import './App.css';
+import Home from './components/Pages/Home';
+import LogIn from './components/Pages/LogIn';
 import Settings from "./components/Pages/Settings"
-import Home from "./components/Pages/Home"
 
 class App extends Component {
 
-  constructor(){
-    super();
-    this.state = {user:null}
-  }
-  render() {    
-    if (this.state.user != null) {
-      // return <Login/>;
-    }else { 
-      return (
-        <Router>
-          <div id="routeDiv">
-            <Switch>
-              <Route path="/">
-                <Main />
-              </ Route>
-            </Switch>
-          </div>
-        </Router>
-      );
-    } 
+  render() {
+    return (
+      <>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path="/" exact component={Home}/>
+          {/* <Route path="/restaurants" exact component={Restaurants}/> */}
+          <Route path="/login" exact component={LogIn}/>
+          <Route exact path={'/setting'} component={Settings}/>
+        </Switch>
+      </Router>
+        
+      </>
+    );
   }
 }
-
-function Main() {
-  return(
-    <Router>
-      <React.Fragment>
-          <Switch>
-              <Route exact path={'/'} render={() => {
-                  return <Redirect to={'/home'}/>
-              }}/>
-              <Route exact path={'/home'} component={Home}/>
-              <Route exact path={'/setting'} component={Settings}/>
-          </Switch>
-      </React.Fragment>
-    </Router>
-  )
-}
-
-// function Login(){
-//   function onSubmit() {
-//     return  <Redirect to="/home"/>
-//  }
-//   return (
-//     <div className="app">
-//       <h1>Welcome to YummY</h1>
-//       <h2>This is Login Page</h2>
-//       <button onClick={onSubmit}>Login</button>
-//     </div>
-//   )
-// }
-
 
 export default App;
