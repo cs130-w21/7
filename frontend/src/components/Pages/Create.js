@@ -26,12 +26,12 @@ export default function LogIn() {
       } else {
         document.getElementById('warning').style.visibility = 'hidden'
       }
-      // TODO : login API
+      //TODO : login API
   }
 
   function handleSignup () {
     console.log(password);
-    // TODO : Sign Up API
+    //TODO : Sign Up API
 }
 
   return (
