@@ -10,6 +10,10 @@ function Navbar() {
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
 
+    const loginHandler = () => {
+        window.location.href='/login';
+    }
+
     const showButton = () => {
         if(window.innerWidth <= 960) {
             setButton(false);
@@ -49,7 +53,7 @@ function Navbar() {
                         </Link>
                     </li>
                 </ul>
-                {button && <Button buttonStyle='btn--outline'>LOG IN</Button>}
+                {button && <Button buttonStyle='btn--outline' onClick={loginHandler}>LOG IN</Button>}
               </div>
           </nav>  
         </>
