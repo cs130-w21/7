@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     
 ]
 
+TOKEN_EXPIRED_AFTER_SECONDS = 300
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',

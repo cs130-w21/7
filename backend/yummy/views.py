@@ -4,9 +4,12 @@ from django.shortcuts import render
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import generics, status
-from rest_framework.decorators import api_view
-from .serializers import UserInfoSerializer, RegistrationSerializer  
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated 
+from .serializers import UserInfoSerializer, RegistrationSerializer, ProfileSerializer 
+from .authentication import token_expire_handler
+
 from .models import UserInfo
 
 @api_view(['POST'])
@@ -56,3 +59,45 @@ def registration_view(request):
         else:
             data = serializer.errors
         return JsonResponse(data)
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def create_profile_view(request):
+    if request.method == 'POST':
+        print(request.auth)
+        # token = Token.objects.get(user=)
+        # if token_expire_handler(token):
+        #     data['token'] = "Token expired"
+        #     JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+        serializer = ProfileSerializer(data=request.data)
+        data = {}
+        if serializer.is_valid():
+            if serializer.create_profile():
+                data['success'] = "created successful"
+                return JsonResponse(data=data)
+            data['username'] = "The username already existed"
+            return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+@permission_classes((IsAuthenticated,))
+def update_profile_view(request):
+    if request.method == 'PUT':
+        data = {}
+        token = Token.objects.get(key=request.auth)
+        if token_expire_handler(token):
+            data['token'] = "Token expired"
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = ProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            if not serializer.username_token_match(token):
+                data['username'] = "This username does not match to this token"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            if serializer.update_profile():
+                data['success'] = "Updated successful"
+                return JsonResponse(data=data)
+            data['username'] = "The username does not exist"
+            return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
