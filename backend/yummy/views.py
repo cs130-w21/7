@@ -53,7 +53,6 @@ def registration_view(request):
             data['username'] = user.username
             token = Token.objects.get(user=user)
             data['token'] = token.key
-            data['token_created'] = token.created
         else:
             data = serializer.errors
         return JsonResponse(data)
