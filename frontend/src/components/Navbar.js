@@ -87,6 +87,12 @@ function Navbar() {
                         </Link>
                     </li>
                     <li id='login-btn-mob' className='nav-item'>
+                    <li className='nav-item'>
+                        <Link to='/create' className='nav-links' onClick={closeMobileMenu}>
+                            Create a profile
+                        </Link>
+                    </li>
+                    <li className='nav-item'>
                         <Link to='/login' className='nav-links-mobile' onClick={closeMobileMenu}>
                             Log In
                         </Link>

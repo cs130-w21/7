@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
 import Home from './components/Pages/Home';
+import Create from './components/Pages/Create';
 import LogIn from './components/Pages/LogIn';
 import Settings from "./components/Pages/Settings"
 import SignUp from './components/Pages/SignUp';
@@ -21,6 +22,7 @@ class App extends Component {
           <Route path="/login" exact component={LogIn}/>
           <Route path="/signup" exact component={SignUp}/>
           <Route path="/recommend" exact component={Recommend}/>
+          <Route path="/create" exact component={Create}/>
           <Route exact path={'/setting'} component={Settings}/>
         </Switch>
       </Router>
