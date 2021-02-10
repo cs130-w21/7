@@ -5,7 +5,8 @@ from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import generics, status
 from rest_framework.decorators import api_view
-from .serializers import UserInfoSerializer  
+from .serializers import UserInfoSerializer, RegistrationSerializer  
+from rest_framework.authtoken.models import Token
 from .models import UserInfo
 
 @api_view(['POST'])
@@ -39,3 +40,19 @@ def userinfo_detail(request, pk):
     elif request.method == 'DELETE': 
         userinfo.delete() 
         return JsonResponse({'message': 'The user was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+def registration_view(request):
+    if request.method == 'POST':
+        serializer = RegistrationSerializer(data=request.data)
+        data = {}
+        if serializer.is_valid():
+            user = serializer.save()
+            data['response'] = "Successfully registered a new user."
+            data['email'] = user.email
+            data['username'] = user.username
+            token = Token.objects.get(user=user)
+            data['token'] = token.key
+        else:
+            data = serializer.errors
+        return JsonResponse(data)

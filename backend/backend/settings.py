@@ -42,15 +42,18 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'yummy.apps.YummyConfig',
+    'rest_framework.authtoken',
     
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ]
 }
-
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware', # new
