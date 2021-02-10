@@ -1,10 +1,11 @@
 import React from 'react';
 import '../../App.css';
 import Video from '../Video';
-import globalVal from '../../globalVal'
 
 function Home() {
-    console.log(globalVal.logIn);
+    // console.log(localStorage.logIn)
+    // localStorage.logIn = 1;
+    // console.log(localStorage.logIn)
     return (
         <>
             <Video />

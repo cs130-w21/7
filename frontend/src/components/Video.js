@@ -2,13 +2,12 @@ import React from 'react';
 import '../App.css';
 import { Button } from './Button';
 import './Video.css';
-import globalVal from '../globalVal'
 
 function openRestaurant() {
-  if(!globalVal.logIn) {
-    window.location.href='/login';
+  if(localStorage.logIn == 1) {
+    window.location.href='/recommend';
   } else {
-    console.log("OPEN RESTAURANTS")
+    window.location.href='/login';
   }
 }
 
