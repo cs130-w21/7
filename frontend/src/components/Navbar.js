@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom'
 import { Button } from './Button';
 import './Navbar.css';
 
@@ -9,6 +9,14 @@ function Navbar() {
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
+
+    const btnHandler = () => {
+        if(localStorage.logIn == 1) {
+            window.location.href='/settings';
+            localStorage.logIn = 0;
+        } else 
+            window.location.href='/login';
+    }
 
     const showButton = () => {
         if(window.innerWidth <= 960) {
@@ -21,7 +29,42 @@ function Navbar() {
         showButton()
     }, []);
     window.addEventListener('resize', showButton);
-    return (
+    if(localStorage.logIn == 1) {
+        return (
+            <>
+              <nav className="navbar">
+                  <div className="navbar-container">
+                    <Link to="/" className="navbar-logo" onClick=
+                    {closeMobileMenu}>
+                        YummY
+                    </Link>
+                    <div className="menu-icon" onClick={handleClick}>
+                        <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+                    </div>
+                    <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+                        <li className='nav-item'>
+                            <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                                Home
+                            </Link>
+                        </li>
+                        <li className='nav-item'>
+                            <Link to='/recommend' className='nav-links' onClick={closeMobileMenu}>
+                                Restaurants
+                            </Link>
+                        </li>
+                        <li id='login-btn-mob' className='nav-item'>
+                            <Link to='/settings' className='nav-links-mobile' onClick={closeMobileMenu}>
+                                My Page
+                            </Link>
+                        </li>
+                    </ul>
+                    {button && <Button id='login-btn' buttonStyle='btn--outline' onClick={btnHandler}>My Page</Button>}
+                  </div>
+              </nav>  
+            </>
+        )
+    } else 
+        return (
         <>
           <nav className="navbar">
               <div className="navbar-container">
@@ -39,10 +82,11 @@ function Navbar() {
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                        <Link to='/login' className='nav-links' onClick={closeMobileMenu}>
                             Restaurants
                         </Link>
                     </li>
+                    <li id='login-btn-mob' className='nav-item'>
                     <li className='nav-item'>
                         <Link to='/create' className='nav-links' onClick={closeMobileMenu}>
                             Create a profile
@@ -54,7 +98,7 @@ function Navbar() {
                         </Link>
                     </li>
                 </ul>
-                {button && <Button buttonStyle='btn--outline'>LOG IN</Button>}
+                {button && <Button id='login-btn' buttonStyle='btn--outline' onClick={btnHandler}>LOG IN</Button>}
               </div>
           </nav>  
         </>

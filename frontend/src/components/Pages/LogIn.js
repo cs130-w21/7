@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import '../../App.css';
 import { Button } from '../Button';
 import "../Login.css";
-import globalVal from '../../globalVal'
 
 export default function LogIn() {
   const [email, setEmail] = useState("");
@@ -17,21 +16,20 @@ export default function LogIn() {
   }
 
   function handleLogin() {
-      console.log(email);
-      var user_exist = false;
+      var user_exist = true;
       if(!user_exist){
-        globalVal.logIn = true;
         document.getElementById('warning').style.visibility = 'visible'
         document.getElementById('warning').textContent = 'User does not exist';
       } else {
         document.getElementById('warning').style.visibility = 'hidden'
       }
-      // TODO : login API
+      //TODO : login API
+      localStorage.logIn = 1;
+      window.location.href='/';
   }
 
   function handleSignup () {
-    console.log(password);
-    // TODO : Sign Up API
+    window.location.href='/signup';
 }
 
   return (
@@ -58,7 +56,7 @@ export default function LogIn() {
         </div>
         <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleLogin} disabled={!validateForm()}>LOG IN</Button>
         <div className='seperator'/>
-        <Button id="signup" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleSignup} type="submit" disabled={!validateForm()}>SIGN UP</Button>
+        <Button id="signup" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleSignup} type="submit">SIGN UP</Button>
         <div className='seperator'/>
         <div id='warning' className='warning-text'>Wrong Password</div>
       </form>
