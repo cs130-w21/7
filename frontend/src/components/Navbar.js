@@ -11,7 +11,7 @@ function Navbar() {
     const closeMobileMenu = () => setClick(false);
 
     const btnHandler = () => {
-        if(localStorage.logIn == 1) {
+        if(localStorage.logIn === 1) {
             window.location.href='/settings';
             localStorage.logIn = 0;
         } else 
@@ -29,7 +29,7 @@ function Navbar() {
         showButton()
     }, []);
     window.addEventListener('resize', showButton);
-    if(localStorage.logIn == 1) {
+    if(localStorage.logIn === 1) {
         return (
             <>
               <nav className="navbar">
