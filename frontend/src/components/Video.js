@@ -4,7 +4,7 @@ import { Button } from './Button';
 import './Video.css';
 
 function openRestaurant() {
-  if(localStorage.logIn === 1) {
+  if(localStorage.logIn == 1) {
     window.location.href='/recommend';
   } else {
     window.location.href='/login';

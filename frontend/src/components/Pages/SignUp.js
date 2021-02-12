@@ -51,7 +51,7 @@ export default function SignUp() {
         if("response" in data) {
             if(data.response === "Successfully registered a new user."){
                 console.log(data)
-                localStorage.logIn = true
+                localStorage.logIn = 1;
                 localStorage.token = data.token;
                 window.location.href='/create';
             } else {
