@@ -69,7 +69,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http://localhost:8000',
@@ -105,10 +105,12 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'YummyDB',
         'CLIENT': {
-           'host': 'mongodb+srv://YummyDB:Yummy130@cluster0.xlt3s.mongodb.net/YummyDB?retryWrites=true&w=majority',
+            'host': 'mongodb+srv://YummyDB:Yummy130@cluster0.xlt3s.mongodb.net/YummyDB?retryWrites=true&w=majority',
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1',
         }
     }
-}
+} 
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

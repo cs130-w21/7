@@ -52,8 +52,13 @@ function Navbar() {
                                 Restaurants
                             </Link>
                         </li>
+                        <li className='nav-item'>
+                            <Link to='/setting' className='nav-links' onClick={closeMobileMenu}>
+                                Profile
+                            </Link>
+                        </li>
                         <li id='login-btn-mob' className='nav-item'>
-                            <Link to='/settings' className='nav-links-mobile' onClick={closeMobileMenu}>
+                            <Link to='/' className='nav-links-mobile' onClick={closeMobileMenu}>
                                 My Page
                             </Link>
                         </li>
@@ -86,6 +91,11 @@ function Navbar() {
                             Restaurants
                         </Link>
                     </li>
+                    <li className='nav-item'>
+                        <Link to='/setting' className='nav-links' onClick={closeMobileMenu}>
+                            Profile
+                        </Link>
+                        </li>
                     <li id='login-btn-mob' className='nav-item'>
                         <Link to='/login' className='nav-links-mobile' onClick={closeMobileMenu}>
                             Log In
