@@ -20,17 +20,17 @@ export default function SignUp() {
       console.log(email);
       var user_exist = false;
       if(!user_exist){
-        document.getElementById('warning').style.visibility = 'visible'
+        document.getElementById('warning').style.visibility = 'visible';
         document.getElementById('warning').textContent = 'User does not exist';
       } else {
-        document.getElementById('warning').style.visibility = 'hidden'
+        document.getElementById('warning').style.visibility = 'hidden';
       }
       //TODO : login API
   }
 
   
   function parseJSON(response) {
-    return response.json()
+    return response.json();
   }
   
   function handleSignup () {
@@ -49,11 +49,11 @@ export default function SignUp() {
     }).then(parseJSON)
     .then(function(data) {
         if("response" in data) {
-            if(data.response == "Successfully registered a new user."){
+            if(data.response === "Successfully registered a new user."){
                 console.log(data)
-                localStorage.logIn = true
+                localStorage.logIn = 1;
                 localStorage.token = data.token;
-                window.location.href='/';
+                window.location.href='/create';
             } else {
                 document.getElementById('warning').style.visibility = 'visible'
                 document.getElementById('warning').textContent = data.response;
