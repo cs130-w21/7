@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/home/genuineeek/Workspace/Github/7/backend/env"
+$VIRTUAL_ENV = r"/mnt/c/Users/LuanNLe/workspace/Github/7/backend/env"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

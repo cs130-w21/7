@@ -8,7 +8,7 @@ if [ "${BASH_SOURCE-}" = "$0" ]; then
 fi
 
 deactivate () {
-    unset -f pydoc >/dev/null 2>&1
+    unset -f pydoc >/dev/null 2>&1 || true
 
     # reset old environment variables
     # ! [ -z ${VAR+_} ] returns true if VAR is declared at all
@@ -46,7 +46,10 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/home/genuineeek/Workspace/Github/7/backend/env'
+VIRTUAL_ENV='/mnt/c/Users/LuanNLe/workspace/Github/7/backend/env'
+if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
+    VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
+fi
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
