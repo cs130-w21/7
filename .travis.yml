@@ -13,3 +13,7 @@ matrix:
     - language: node_js
       node_js:
         - 14
+      script: 
+        - npm install
+      after_success: 
+        - npm test
