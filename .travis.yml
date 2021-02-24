@@ -14,6 +14,7 @@ matrix:
       node_js:
         - 14
       script: 
+        - cd ./frontend
         - npm install
       after_success: 
         - npm test
