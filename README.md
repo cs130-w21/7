@@ -14,8 +14,10 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
-
+<!-- [![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url] -->
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -23,7 +25,7 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a> -->
 
-  <h3 align="center">Yummy Web Application</h3>
+  <h2 align="center">Yummy Web Application</h2>
 
   <!-- <p align="center">
     An awesome README template to jumpstart your projects!
@@ -88,7 +90,6 @@ To get a local copy up and running follow these simple example steps.
 ### Prerequisites
 
 1. Instal lastest npm version
-* npm
   ```sh
   npm install npm@latest -g
   ```
@@ -108,16 +109,22 @@ Assuming you have Python setup, to run locally, do the following commands.
 2. Go to backend directory and run the server
     ```sh
     cd backend
-    virtualenv env --no-site-packages   // create and start a virtual environment
-    source env/bin/activate             // activate the virtual environment
+    virtualenv env                      // create and start a virtual environment
+    . env/bin/activate                  // activate the virtual environment
     pip3 install -r requirements.txt    // Install the project dependencies
+    pip3 install -r requirements.txt --user // optional: MacOS users
     python3 manage.py migrate
-    python manage.py createsuperuser    // optional: create admin account
+    python3 manage.py createsuperuser    // optional: create admin account
     python3 manage.py makemigrations yummy 
     python3 manage.py migrate           // run migrate again
     python3 manage.py runserver         // start the development server on localhost:8000
     ```
-3. Go to frontend directory, install NPM packages and run the frontend.
+3. Install Djongo framework -  SQL to Mongodb query transpiler for Django
+   ```
+   pip3 install dnspython
+   pip3 install djongo
+   ```
+4. Go to frontend directory, install NPM packages and run the frontend.
    ```sh
    cd frontend
    npm install                  // Install the React dependencies
@@ -169,6 +176,11 @@ Add Later
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+<!-- [contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
 [contributors-url]: https://github.com/cs130-w21/7/graphs/contributors
-<!-- [product-screenshot]: images/screenshot.png -->
+[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-url]: https://github.com/cs130-w21/7/network/members
+[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-url]: https://github.com/cs130-w21/7/stargazers
+[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-url]: https://github.com/cs130-w21/7/issues -->
