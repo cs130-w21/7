@@ -7,7 +7,7 @@ matrix:
 
       script:
       - echo "---- Start Running Backend Unit Tests ----"
-      - cd ./backend/test
+      - cd ./backend/tests
       - PYTHONPATH=.. pytest -v
     
     - language: node_js
