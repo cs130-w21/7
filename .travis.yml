@@ -1,0 +1,15 @@
+matrix:
+  include:
+    - language: bash
+      python: 3.6
+      install:
+      - sudo pip install -r ./backend/requirements.txt
+
+      script:
+      - echo "---- Start Running Backend Unit Tests ----"
+      - cd ./backend/test
+      - PYTHONPATH=.. pytest -v
+    
+    - language: node_js
+      node_js:
+        - 14
