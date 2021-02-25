@@ -3,7 +3,7 @@ matrix:
     - language: bash
       python: 3.6
       install:
-      - sudo pip install -r ./backend/requirements.txt
+      - sudo pip3 install -r ./backend/requirements.txt
 
       script:
       - echo "---- Start Running Backend Unit Tests ----"
