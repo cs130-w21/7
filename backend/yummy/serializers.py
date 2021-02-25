@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from .models import Profile
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist 
 import hashlib 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -37,10 +38,15 @@ class LoginSerializer(serializers.ModelSerializer):
   def save(self):
     email=self.validated_data['email']
     password=self.validated_data['password']
-    user = User.objects.get(email=email)
-    if user:
-      if user.check_password(password):
-        return user
+
+    try:
+      user_by_email = User.objects.get(email=email)
+    except ObjectDoesNotExist:
+      raise serializers.ValidationError({'email': 'Email does not exist.'}) 
+
+    if user_by_email:
+      if user_by_email.check_password(password):
+        return user_by_email
       else:
         raise serializers.ValidationError({'password': 'Password does not match.'})
     else:
