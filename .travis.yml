@@ -8,7 +8,8 @@ matrix:
       - pip3 install -r ./backend/requirements.txt
 
       script:
-      - pytest --rootdir=/backend
+      - cd ./backend/tests
+      - PYTHONPATH=.. pytest -v
     
     - language: node_js
       node_js:
