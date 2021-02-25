@@ -1,6 +1,6 @@
 # todo/serializers.py
 from rest_framework import serializers
-from .models import Profile
+from .models import Profile, Event
 from django.contrib.auth.models import User
 import hashlib 
 
@@ -94,3 +94,26 @@ class ProfileSerializer(serializers.ModelSerializer):
         return True
     else:
         return False
+
+class EventSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Event
+    fields = '__all__'
+
+  def create_event(self,username):
+    user = User.objects.get(username=username)
+    if user:
+      existing_event = Event.objects.filter(name=self.validated_data['name'])
+      if existing_event:
+        return False
+      self.validated_data["host"] = user
+      event = self.create(self.validated_data)
+      event.attendees.add(user)
+      event.save()
+      return True
+    return False
+
+  def add_host(self, username):
+    user = User.objects.get(username=username)
+    if user:
+      self.validated_data["host"] = user

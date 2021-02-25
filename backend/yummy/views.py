@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated 
-from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer
 from .authentication import token_expire_handler
 
 @api_view(['POST'])
@@ -102,4 +102,26 @@ def get_profile_view(request):
             data['data'] = serializer.get_profile()
             data['success'] = "GET successful"
             return JsonResponse(data=data)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def create_event(request):
+    data = {}
+    token = Token.objects.get(key=request.auth)
+    if token_expire_handler(token):
+        data['token'] = "Token expired"
+        return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'POST':
+        print(request.auth)
+        token = Token.objects.get(key=request.auth)
+        serializer = EventSerializer(data=request.data)
+        # serializer.add_host(token.user)
+        data = {}
+        if serializer.is_valid():
+            if serializer.create_event(token.user):
+                data['success'] = "created an event successful"
+                return JsonResponse(data=data,status=status.HTTP_200_OK)
+            data['event'] = "The event name exist"
+            return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
