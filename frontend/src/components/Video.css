@@ -43,6 +43,9 @@ video {
   .fa-play-circle {
     margin-left: 4px;
   }
+  #bt2 {
+    margin-left: 35px;
+  }
   
   @media screen and (max-width: 960px) {
     .video-container > h1 {
