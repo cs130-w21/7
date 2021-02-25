@@ -1,14 +1,14 @@
 matrix:
   include:
-    - language: bash
-      python: 3.6
-      install:
-      - sudo pip3 install -r ./backend/requirements.txt
+    - language: python
+      python: 
+      - 3.6
+      before_install:
+      - python3 --version
+      - pip3 install -r ./backend/requirements.txt
 
       script:
-      - echo "---- Start Running Backend Unit Tests ----"
-      - cd ./backend/tests
-      - PYTHONPATH=.. pytest -v
+      - pytest
     
     - language: node_js
       node_js:
