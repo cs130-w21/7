@@ -7,6 +7,7 @@
 
 backend/env/
 /backend/backend/__pycache__/
+/backend/yummy/__pycache__/
 /backend/*.py[cod]
 /backend/*$py.class
 
