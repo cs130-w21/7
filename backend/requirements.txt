@@ -35,4 +35,5 @@ wheel==0.34.2
 pytest==4.6.11
 # django-cors-headers
 django-cors-middleware==1.5.0
+pytest==4.6.11
 

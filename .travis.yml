@@ -1,0 +1,20 @@
+matrix:
+  include:
+    - language: python
+      python: 
+      - 3.6
+      before_install:
+      - python3 --version
+      - pip3 install -r ./backend/requirements.txt
+
+      script:
+      - cd ./backend/tests
+      - PYTHONPATH=.. pytest -v
+    
+    - language: node_js
+      node_js:
+        - 14
+      script: 
+        - cd ./frontend
+        - npm install
+        - npm test
