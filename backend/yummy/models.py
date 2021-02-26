@@ -39,7 +39,7 @@ class Profile(models.Model):
 
 class Event(models.Model):
     name = models.CharField(max_length=120)
-    datetime = models.DateTimeField(auto_now=True)
+    datetime = models.DateTimeField()
     attendees = models.ManyToManyField(User,blank=True)
     location = models.CharField(max_length=200)
     description = models.CharField(max_length=500,blank=True)

@@ -126,7 +126,6 @@ def create_event(request):
         data['token'] = "Token expired"
         return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
     if request.method == 'POST':
-        print(request.auth)
         token = Token.objects.get(key=request.auth)
         serializer = EventSerializer(data=request.data)
         # serializer.add_host(token.user)
@@ -136,5 +135,25 @@ def create_event(request):
                 data['success'] = "created an event successful"
                 return JsonResponse(data=data,status=status.HTTP_200_OK)
             data['event'] = "The event name exist"
+            return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
+        return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+@permission_classes((IsAuthenticated,))
+def update_event(request):
+    data = {}
+    token = Token.objects.get(key=request.auth)
+    if token_expire_handler(token):
+        data['token'] = "Token expired"
+        return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+    if request.method == 'PUT':
+        token = Token.objects.get(key=request.auth)
+        serializer = EventSerializer(data=request.data)
+        if serializer.is_valid():
+            response = serializer.update_event(token.user)
+            if response['status']:
+                data['success'] = response['message']
+                return JsonResponse(data=data,status=status.HTTP_200_OK)
+            data['event'] = response['message']
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
