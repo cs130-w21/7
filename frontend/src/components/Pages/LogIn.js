@@ -2,17 +2,10 @@ import React, { useState, useContext } from "react";
 import '../../App.css';
 import { Button } from '../Button';
 import "../Login.css";
-import { AppContext } from '../../App'
 
 export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const {dispatch} = useContext(AppContext);
-
-  const changeInputValue = (newValue) => {
-    dispatch({ type: 'UPDATE_INPUT', data: newValue,});
-  };
 
   function validateForm() {
     return email.length > 0 && email.includes('@') && password.length > 0;
@@ -22,46 +15,37 @@ export default function LogIn() {
     event.preventDefault();
   }
 
-  function handleLogin() {
-    function getData() {
-      fetch('http://127.0.0.1:8000/api/login/', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          "email": email,
-          "password": password
-        }),
-      }).then(response => response.json())
-        .then(result => {
-          console.log(result.token)
-          changeInputValue(result.token)
-          // localStorage.setItem('token', result.token);
-          // localStorage.token = result.token;
-        })
+  function fetchToken(){
+    return fetch('http://127.0.0.1:8000/api/login/', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "email": email,
+        "password": password
+      }),
+    }).then(response => response.json())
+      .then(result => {
+        console.log(result.token);
+        localStorage.setItem('token', result.token);
+    })
+  }
 
-    }
-    getData();
-
+  async function handleLogin() {
+    await fetchToken();
     var token = localStorage.getItem('token');
-
     if (token == null) {
       document.getElementById('warning').style.visibility = 'visible'
       document.getElementById('warning').textContent = 'User does not exist';
-    } else {
-      console.log("Successfully Loged In")
-      localStorage.logIn = 1;
-      // setTimeout(function () {
-      //   window.location.href = '/';
-      // }, 3000);
-      // 
-      document.getElementById('warning').style.visibility = 'hidden'
     }
-    // //TODO : login API
-    // localStorage.logIn = 1;
-    // window.location.href='/';
+    else {
+      console.log("Successfully Loged In")
+      localStorage.setItem('logIn', 1);
+      document.getElementById('warning').style.visibility = 'hidden'
+      window.location.href='/';
+    }
   }
 
   function handleSignup() {
