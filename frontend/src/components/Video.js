@@ -15,7 +15,12 @@ function Video() {
   const [count, setCount] = useState(0);
   
   function showButtonOption(){
-    setCount(1)
+    if(localStorage.logIn == 1) {
+      setCount(1);
+    } else {
+      window.location.href='/login';
+    }
+   
   }
 
   return (

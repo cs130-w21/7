@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import { Button } from './Button';
+import { Logout } from './LogOut';
 import './Navbar.css';
 
 function Navbar() {
@@ -18,6 +19,10 @@ function Navbar() {
             window.location.href='/login';
     }
 
+    const handleLogout = () =>{
+        localStorage.clear();
+        window.location.href='/';
+    }
     const showButton = () => {
         if(window.innerWidth <= 960) {
             setButton(false);
@@ -29,6 +34,7 @@ function Navbar() {
         showButton()
     }, []);
     window.addEventListener('resize', showButton);
+    console.log(localStorage.logIn);
     if(localStorage.logIn == 1) {
         return (
             <>
@@ -57,13 +63,13 @@ function Navbar() {
                                 Profile
                             </Link>
                         </li>
-                        <li id='login-btn-mob' className='nav-item'>
-                            <Link to='/' className='nav-links-mobile' onClick={closeMobileMenu}>
-                                My Page
+                        {/* <li id='login-btn-mob' className='nav-item'>
+                            <Link to='/setting' className='nav-links-mobile' onClick={handleLogout}>
+                                Log Out
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
-                    {button && <Button id='login-btn' buttonStyle='btn--outline' onClick={btnHandler}>My Page</Button>}
+                    {button && <Button id='login-btn' buttonStyle='btn--outline' onClick={handleLogout}>Log Out</Button>}
                   </div>
               </nav>  
             </>
