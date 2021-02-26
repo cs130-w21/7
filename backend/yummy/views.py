@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated 
-from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventIDSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventSerializer, GetEventIDSerializer, LeaveEventIDSerializer
 from .authentication import token_expire_handler
 from .models import User, Profile, Event
 
@@ -66,9 +66,9 @@ def create_profile_view(request):
         data = {}
         if serializer.is_valid():
             if serializer.create_profile():
-                data['success'] = "created successful"
+                data['message'] = "created successful"
                 return JsonResponse(data=data)
-            data['username'] = "The username already existed"
+            data['message'] = "The username already existed"
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -85,12 +85,12 @@ def update_profile_view(request):
         serializer = ProfileSerializer(data=request.data)
         if serializer.is_valid():
             if not serializer.username_token_match(token):
-                data['username'] = "This username does not match to this token"
+                data['message'] = "This username does not match to this token"
                 return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
             if serializer.update_profile():
-                data['success'] = "Updated successful"
+                data['message'] = "Updated successful"
                 return JsonResponse(data=data)
-            data['username'] = "The username does not exist"
+            data['message'] = "The username does not exist"
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -103,7 +103,7 @@ def get_profile_view(request):
         print(request.auth)
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
-            data['token'] = "Token expired"
+            data['message'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
             
         try:
@@ -132,7 +132,7 @@ def create_event(request):
     data = {}
     token = Token.objects.get(key=request.auth)
     if token_expire_handler(token):
-        data['token'] = "Token expired"
+        data['message'] = "Token expired"
         return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
     if request.method == 'POST':
         token = Token.objects.get(key=request.auth)
@@ -143,7 +143,7 @@ def create_event(request):
             if serializer.create_event(token.user):
                 data['success'] = "created an event successful"
                 return JsonResponse(data=data,status=status.HTTP_200_OK)
-            data['event'] = "The event name exist"
+            data['message'] = "The event name exist"
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -153,7 +153,7 @@ def update_event(request):
     data = {}
     token = Token.objects.get(key=request.auth)
     if token_expire_handler(token):
-        data['token'] = "Token expired"
+        data['message'] = "Token expired"
         return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
     if request.method == 'PUT':
         token = Token.objects.get(key=request.auth)
@@ -161,9 +161,9 @@ def update_event(request):
         if serializer.is_valid():
             response = serializer.update_event(token.user)
             if response['status']:
-                data['success'] = response['message']
+                data['message'] = response['message']
                 return JsonResponse(data=data,status=status.HTTP_200_OK)
-            data['event'] = response['message']
+            data['message'] = response['message']
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -174,25 +174,27 @@ def get_events(request):
         data = {}
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
-            data['token'] = "Token expired"
+            data['message'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
-        
-        events = Event.objects.filter(name__contains=request.data['name'])
-        return JsonResponse(data=EventSerializer(events,many=True).data,status=status.HTTP_200_OK,safe=False)
+        serializer = GetEventSerializer(data=request.data)
+        if serializer.is_valid():
+            events = Event.objects.filter(name__contains=request.data['name'])
+            return JsonResponse(data=EventSerializer(events,many=True).data,status=status.HTTP_200_OK,safe=False)
+        else:
+            data = serializer.errors
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
 def get_event_by_id(request):
     if request.method == 'GET':
-            
         data = {}
+        token = Token.objects.get(key=request.auth)
+        if token_expire_handler(token):
+            data['message'] = "Token expired"
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         serializer = GetEventIDSerializer(data=request.data)
         if serializer.is_valid():
-            token = Token.objects.get(key=request.auth)
-            if token_expire_handler(token):
-                data['Message'] = "Token expired"
-                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
-            
             events = Event.objects.get(id=request.data['id'])
             return JsonResponse(data=EventSerializer(events).data,status=status.HTTP_200_OK,safe=False)
         else:
@@ -206,7 +208,7 @@ def join_event(request):
         data = {}
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
-            data['token'] = "Token expired"
+            data['message'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         
         serializer = JoinEventIDSerializer(data=request.data)
@@ -218,8 +220,8 @@ def join_event(request):
                 return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
             # check if the user exist
             existing_user = User.objects.filter(id=request.data['user_id'])
-            if not existing_event:
-                data['message'] = "The event does not exist"
+            if not existing_user:
+                data['message'] = "The user does not exist"
                 return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
 
             event = Event.objects.get(id=request.data['event_id'])
@@ -233,6 +235,44 @@ def join_event(request):
                 return JsonResponse(data=data,status=status.HTTP_200_OK)
             event.attendees.add(user)
             data['message'] = "Join successful"
+            return JsonResponse(data=data,status=status.HTTP_200_OK)
+        else:
+            data = serializer.errors
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes((IsAuthenticated,))
+def leave_event(request):
+    if request.method == 'DELETE':
+        data = {}
+        token = Token.objects.get(key=request.auth)
+        if token_expire_handler(token):
+            data['message'] = "Token expired"
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+        serializer = LeaveEventIDSerializer(data=request.data)
+        if serializer.is_valid():
+            # check if the event exist
+            existing_event = Event.objects.filter(id=request.data['event_id'])
+            if not existing_event:
+                data['message'] = "The event does not exist"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            # check if the user exist
+            existing_user = User.objects.filter(id=request.data['user_id'])
+            if not existing_user:
+                data['message'] = "The user does not exist"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            event = Event.objects.get(id=request.data['event_id'])
+            user = User.objects.get(id=request.data['user_id'])
+            #check if the token belongs to the user or not
+            if str(token.user) != str(user.username):
+                data['message'] = "You cannot remove this user from the list"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            # check if user is in the event
+            if user not in event.attendees.all():
+                data['message'] = "The user did not join the event"
+                return JsonResponse(data=data,status=status.HTTP_200_OK)
+            event.attendees.remove(user)
+            data['message'] = "Leave successful"
             return JsonResponse(data=data,status=status.HTTP_200_OK)
         else:
             data = serializer.errors

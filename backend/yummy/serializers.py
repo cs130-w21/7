@@ -156,15 +156,17 @@ class EventSerializer(serializers.ModelSerializer):
     data['message'] = "Cannot find the event"
     return data
 
-  # def add_host(self, username):
-  #   user = User.objects.get(username=username)
-  #   if user:
-  #     self.validated_data["host"] = user
+class GetEventSerializer(serializers.Serializer):
+  name = serializers.CharField(max_length=200,required=True)
 
 class GetEventIDSerializer(serializers.Serializer):
   id = serializers.IntegerField(required=True)
 
 class JoinEventIDSerializer(serializers.Serializer):
+  event_id = serializers.IntegerField(required=True)
+  user_id = serializers.IntegerField(required=True)
+
+class LeaveEventIDSerializer(serializers.Serializer):
   event_id = serializers.IntegerField(required=True)
   user_id = serializers.IntegerField(required=True)
 
