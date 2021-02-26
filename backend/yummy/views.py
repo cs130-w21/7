@@ -11,7 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer
 from .authentication import token_expire_handler
 from .models import Profile, Event
-from rest_framework import serializers
 
 @api_view(['POST'])
 def registration_view(request):
@@ -97,12 +96,26 @@ def get_profile_view(request):
         if token_expire_handler(token):
             data['token'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            
         try:
             profile = Profile.objects.get(username=token.user)
             serializer = ProfileSerializer(profile)
             return JsonResponse(data=serializer.data,status=status.HTTP_200_OK)
         except Profile.DoesNotExist:
             return JsonResponse(status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        
+        # is_existed = serializer.get_profile(request.data.username)
+        # if is_existed:
+        #     data['data'] = is_existed
+        #     return data
+        # data['username'] = "User not exist"
+        # return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
+        # data['data'] = serializer.get_profile()
+        # data['success'] = "GET successful"
+        # return JsonResponse(data=data)
+        # return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
@@ -145,10 +158,9 @@ def update_event(request):
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
-def get_events(request):
+def get_event_by_id(request):
     if request.method == 'GET':
         data = {}
         token = Token.objects.get(key=request.auth)
@@ -156,5 +168,5 @@ def get_events(request):
             data['token'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         
-        events = Event.objects.filter(name__contains=request.data['name'])
-        return JsonResponse(data=EventSerializer(events,many=True).data,status=status.HTTP_200_OK,safe=False)
+        events = Event.objects.get(id=request.data['id'])
+        return JsonResponse(data=EventSerializer(events).data,status=status.HTTP_200_OK,safe=False)
