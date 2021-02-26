@@ -110,7 +110,7 @@ class EventSerializer(serializers.ModelSerializer):
   id = serializers.IntegerField(required=False)
   class Meta:
     model = Event
-    fields = ['name','datetime','location','description','id']
+    fields = ['name','datetime','location','description','host','attendees','id']
 
   def create_event(self,username):
     user = User.objects.get(username=username)
@@ -158,3 +158,6 @@ class EventSerializer(serializers.ModelSerializer):
     user = User.objects.get(username=username)
     if user:
       self.validated_data["host"] = user
+
+
+    
