@@ -70,12 +70,6 @@ class ProfileSerializer(serializers.ModelSerializer):
   def update_profile(self):
     is_existed =self.is_username_existing(self.validated_data['username'])
     if is_existed:
-      profile = Profile.objects.filter(username=self.validated_data['username'])
-      return profile
-
-  def get_profile(self):
-    is_existed =self.is_username_existing(self.validated_data['username'])
-    if is_existed:
       profile = Profile.objects.get(username=self.validated_data['username'])
       profile.first_name = self.validated_data['first_name']
       profile.last_name = self.validated_data['last_name']
@@ -85,6 +79,17 @@ class ProfileSerializer(serializers.ModelSerializer):
       profile.sex = self.validated_data['sex']
       profile.vegetarian = self.validated_data['vegetarian']
       profile.diet_plan = self.validated_data['diet_plan']
+      profile.save()
+      return True
+    return False
+
+  def get_profile(self,username):
+    is_existed =Profile.objects.filter(username)
+    if is_existed:
+      profile = Profile.objects.get(username=username)
+      return profile
+    return None
+    
 
 
 
