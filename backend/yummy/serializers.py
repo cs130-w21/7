@@ -27,30 +27,32 @@ class RegistrationSerializer(serializers.ModelSerializer):
     user.save()
     return user
 
-class LoginSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = User
-    fields = ['email', 'password']
-    extra_kwargs = {
-                'password': {'write_only': True}
-    }
+class LoginSerializer(serializers.Serializer):
+  email = serializers.EmailField(required=True)
+  password = serializers.CharField(max_length=200,required=True)
+  # class Meta:
+  #   model = User
+  #   fields = ['email', 'password']
+  #   extra_kwargs = {
+  #               'password': {'write_only': True}
+  #   }
 
-  def save(self):
-    email=self.validated_data['email']
-    password=self.validated_data['password']
+  # def save(self):
+  #   email=self.validated_data['email']
+  #   password=self.validated_data['password']
 
-    try:
-      user_by_email = User.objects.get(email=email)
-    except ObjectDoesNotExist:
-      raise serializers.ValidationError({'email': 'Email does not exist.'}) 
+  #   try:
+  #     user_by_email = User.objects.get(email=email)
+  #   except ObjectDoesNotExist:
+  #     raise serializers.ValidationError({'email': 'Email does not exist.'}) 
 
-    if user_by_email:
-      if user_by_email.check_password(password):
-        return user_by_email
-      else:
-        raise serializers.ValidationError({'password': 'Password does not match.'})
-    else:
-      raise serializers.ValidationError({'email': 'Email does not exist.'})
+  #   if user_by_email:
+  #     if user_by_email.check_password(password):
+  #       return user_by_email
+  #     else:
+  #       raise serializers.ValidationError({'password': 'Password does not match.'})
+  #   else:
+  #     raise serializers.ValidationError({'email': 'Email does not exist.'})
 
 
 
@@ -154,10 +156,17 @@ class EventSerializer(serializers.ModelSerializer):
     data['message'] = "Cannot find the event"
     return data
 
-  def add_host(self, username):
-    user = User.objects.get(username=username)
-    if user:
-      self.validated_data["host"] = user
+  # def add_host(self, username):
+  #   user = User.objects.get(username=username)
+  #   if user:
+  #     self.validated_data["host"] = user
+
+class GetEventIDSerializer(serializers.Serializer):
+  id = serializers.IntegerField(required=True)
+
+class JoinEventIDSerializer(serializers.Serializer):
+  event_id = serializers.IntegerField(required=True)
+  user_id = serializers.IntegerField(required=True)
 
 
     
