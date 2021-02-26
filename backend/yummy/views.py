@@ -160,6 +160,19 @@ def update_event(request):
 
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
+def get_events(request):
+    if request.method == 'GET':
+        data = {}
+        token = Token.objects.get(key=request.auth)
+        if token_expire_handler(token):
+            data['token'] = "Token expired"
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+        
+        events = Event.objects.filter(name__contains=request.data['name'])
+        return JsonResponse(data=EventSerializer(events,many=True).data,status=status.HTTP_200_OK,safe=False)
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
 def get_event_by_id(request):
     if request.method == 'GET':
         data = {}
