@@ -1,18 +1,14 @@
 # todo/serializers.py
 from rest_framework import serializers
-from .models import UserInfo, Profile
+from .models import Profile, Event
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist 
 import hashlib 
-
-class UserInfoSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = UserInfo
-    fields = ('id','username', 'name', 'email', 'age', 'height', 'weight')
 
 class RegistrationSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
-    fields = ['email', 'username', 'password']
+    fields = ['email','username', 'password']
     extra_kwargs = {
                 'password': {'write_only': True}
     }
@@ -31,6 +27,33 @@ class RegistrationSerializer(serializers.ModelSerializer):
     user.save()
     return user
 
+class LoginSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['email', 'password']
+    extra_kwargs = {
+                'password': {'write_only': True}
+    }
+
+  def save(self):
+    email=self.validated_data['email']
+    password=self.validated_data['password']
+
+    try:
+      user_by_email = User.objects.get(email=email)
+    except ObjectDoesNotExist:
+      raise serializers.ValidationError({'email': 'Email does not exist.'}) 
+
+    if user_by_email:
+      if user_by_email.check_password(password):
+        return user_by_email
+      else:
+        raise serializers.ValidationError({'password': 'Password does not match.'})
+    else:
+      raise serializers.ValidationError({'email': 'Email does not exist.'})
+
+
+
 class ProfileSerializer(serializers.ModelSerializer):
   class Meta:
     model = Profile
@@ -47,6 +70,12 @@ class ProfileSerializer(serializers.ModelSerializer):
   def update_profile(self):
     is_existed =self.is_username_existing(self.validated_data['username'])
     if is_existed:
+      profile = Profile.objects.filter(username=self.validated_data['username'])
+      return profile
+
+  def get_profile(self):
+    is_existed =self.is_username_existing(self.validated_data['username'])
+    if is_existed:
       profile = Profile.objects.get(username=self.validated_data['username'])
       profile.first_name = self.validated_data['first_name']
       profile.last_name = self.validated_data['last_name']
@@ -56,9 +85,8 @@ class ProfileSerializer(serializers.ModelSerializer):
       profile.sex = self.validated_data['sex']
       profile.vegetarian = self.validated_data['vegetarian']
       profile.diet_plan = self.validated_data['diet_plan']
-      profile.save()
-      return True
-    return False
+
+
 
   def is_username_existing(self, username):
     profile = Profile.objects.filter(username=username)
@@ -72,3 +100,26 @@ class ProfileSerializer(serializers.ModelSerializer):
         return True
     else:
         return False
+
+class EventSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Event
+    fields = '__all__'
+
+  def create_event(self,username):
+    user = User.objects.get(username=username)
+    if user:
+      existing_event = Event.objects.filter(name=self.validated_data['name'])
+      if existing_event:
+        return False
+      self.validated_data["host"] = user
+      event = self.create(self.validated_data)
+      event.attendees.add(user)
+      event.save()
+      return True
+    return False
+
+  def add_host(self, username):
+    user = User.objects.get(username=username)
+    if user:
+      self.validated_data["host"] = user

@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     
 ]
 
-TOKEN_EXPIRED_AFTER_SECONDS = 300
+TOKEN_EXPIRED_AFTER_SECONDS = 7200
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -105,10 +105,12 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'YummyDB',
         'CLIENT': {
-           'host': 'mongodb+srv://YummyDB:Yummy130@cluster0.xlt3s.mongodb.net/YummyDB?retryWrites=true&w=majority',
+            'host': 'mongodb+srv://YummyDB:Yummy130@cluster0.xlt3s.mongodb.net/YummyDB?retryWrites=true&w=majority',
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1',
         }
     }
-}
+} 
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
