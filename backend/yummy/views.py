@@ -8,9 +8,9 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated 
-from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventIDSerializer
 from .authentication import token_expire_handler
-from .models import Profile, Event
+from .models import User, Profile, Event
 
 @api_view(['POST'])
 def registration_view(request):
@@ -30,19 +30,28 @@ def registration_view(request):
 
 @api_view(['POST'])
 def login_view(request):
+    data = {}
     if request.method == 'POST':
         serializer = LoginSerializer(data=request.data)
-        data = {}
         if serializer.is_valid():
-            user = serializer.save()
-            data['response'] = 'User successfully Login'
-            token, created = Token.objects.get_or_create(user=user)
-            data['token'] = token.key
+            # check if the user exists or not
+            existing_user = User.objects.filter(email=serializer.data['email'])
+            if existing_user:
+                user = User.objects.get(email=serializer.data['email'])
+                # check if the password is correct
+                if not user.check_password(serializer.data['password']):
+                    data['message'] = 'Wrong password'
+                    return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+                data['message'] = 'User successfully Login'
+                token, created = Token.objects.get_or_create(user=user)
+                data['token'] = token.key
+                return JsonResponse(data=data,status=status.HTTP_200_OK)
+            else:
+                data['message'] = 'You have entered an invalid username or password'
+                return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
         else:
-            data['response'] = 'You have entered an invalid username or password'
-        
-        return JsonResponse(data)
-
+            data = serializer.errors
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
@@ -175,11 +184,56 @@ def get_events(request):
 @permission_classes((IsAuthenticated,))
 def get_event_by_id(request):
     if request.method == 'GET':
+            
+        data = {}
+        serializer = GetEventIDSerializer(data=request.data)
+        if serializer.is_valid():
+            token = Token.objects.get(key=request.auth)
+            if token_expire_handler(token):
+                data['Message'] = "Token expired"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            
+            events = Event.objects.get(id=request.data['id'])
+            return JsonResponse(data=EventSerializer(events).data,status=status.HTTP_200_OK,safe=False)
+        else:
+            data = serializer.errors
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+@permission_classes((IsAuthenticated,))
+def join_event(request):
+    if request.method == 'PUT':
         data = {}
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
             data['token'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         
-        events = Event.objects.get(id=request.data['id'])
-        return JsonResponse(data=EventSerializer(events).data,status=status.HTTP_200_OK,safe=False)
+        serializer = JoinEventIDSerializer(data=request.data)
+        if serializer.is_valid():
+            # check if the event exist
+            existing_event = Event.objects.filter(id=request.data['event_id'])
+            if not existing_event:
+                data['message'] = "The event does not exist"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            # check if the user exist
+            existing_user = User.objects.filter(id=request.data['user_id'])
+            if not existing_event:
+                data['message'] = "The event does not exist"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+
+            event = Event.objects.get(id=request.data['event_id'])
+            user = User.objects.get(id=request.data['user_id'])
+            #check if the token belongs to the user or not
+            if str(token.user) != str(user.username):
+                data['message'] = "This user's id cannot join"
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            if user in event.attendees.all():
+                data['message'] = "The user aleady join the event"
+                return JsonResponse(data=data,status=status.HTTP_200_OK)
+            event.attendees.add(user)
+            data['message'] = "Join successful"
+            return JsonResponse(data=data,status=status.HTTP_200_OK)
+        else:
+            data = serializer.errors
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
