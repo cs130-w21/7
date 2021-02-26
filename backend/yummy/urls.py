@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^api/profile/update', views.update_profile_view),
     url(r'^api/profile/get', views.get_profile_view),
     url(r'^api/event/create', views.create_event),
+    url(r'^api/event/update', views.update_event),
 ]

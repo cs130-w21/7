@@ -102,9 +102,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         return False
 
 class EventSerializer(serializers.ModelSerializer):
+  id = serializers.IntegerField(required=False)
   class Meta:
     model = Event
-    fields = '__all__'
+    fields = ['name','datetime','location','description','id']
 
   def create_event(self,username):
     user = User.objects.get(username=username)
@@ -118,6 +119,35 @@ class EventSerializer(serializers.ModelSerializer):
       event.save()
       return True
     return False
+
+  def update_event(self,username):
+    data = {}
+    event = Event.objects.filter(id=self.validated_data['id'])
+    # check if the event exists
+    if event:
+      event = Event.objects.get(id=self.validated_data['id'])
+      # check if the host is the one editing
+      if str(event.host.username) != str(username):
+        data['status'] = False
+        data['message'] = 'You are not the host of the event'
+        return data
+      # check if the the updating name exists or not
+      existing_event = Event.objects.filter(name=self.validated_data['name'])
+      if existing_event.count() > 1:
+        data['status'] = False
+        data['message'] = "The event name already existed!"
+        return data
+      event.name = self.validated_data['name']
+      event.datetime = self.validated_data['datetime']
+      event.location = self.validated_data['location']
+      event.description = self.validated_data['description']
+      event.save()
+      data['status'] = True
+      data['message'] = "The event updated successful"
+      return data
+    data['status'] = False
+    data['message'] = "Cannot find the event"
+    return data
 
   def add_host(self, username):
     user = User.objects.get(username=username)
