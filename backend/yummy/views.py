@@ -53,6 +53,26 @@ def login_view(request):
             data = serializer.errors
             return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+@permission_classes((IsAuthenticated,))
+def logout_view(request):
+    data = {}
+    if request.method == 'DELETE':
+        # check if the user is login or not
+        existing_token = Token.objects.filter(key=request.auth)
+        if existing_token:
+            token = Token.objects.get(key=request.auth)
+            operation = token.delete()
+            if operation:
+                data['message'] = 'User loged out'
+                return JsonResponse(data=data,status=status.HTTP_200_OK)
+            else:
+                data['message'] = 'User cannot log out'
+                return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+        else:
+            data['message'] = 'You already loged out'
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def create_profile_view(request):
