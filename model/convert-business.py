@@ -14,4 +14,4 @@ business_restaurants = business_open[business_open['categories'].str.contains('|
 
 # Exporting business
 final_business = business_restaurants[['business_id', 'categories']]
-final_business.to_csv('business.csv', mode='w')
+final_business.to_csv('business.csv', mode='w', index=False)
