@@ -1,12 +1,18 @@
 import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom'
 import { Button } from './Button';
-import { Logout } from './LogOut';
 import './Navbar.css';
 
 function Navbar() {
     const [click, setClick] = useState(false);
     const [button, setButton] = useState(true);
+    const [token, setToken] = useState("")
+
+    useEffect(() => {
+        showButton()
+        var getToken = localStorage.getItem('token');
+        setToken(getToken)
+    }, []);
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
@@ -14,15 +20,30 @@ function Navbar() {
     const btnHandler = () => {
         if(localStorage.logIn == 1) {
             window.location.href='/create';
-            // localStorage.logIn = 0;
         } else 
             window.location.href='/login';
     }
 
-    const handleLogout = () =>{
+    const deleteAuth= () =>{
+        if (token != null)
+        {
+            return fetch('http://127.0.0.1:8000/api/logout/', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Token ${token}`, 
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            }).then(response => console.log("User loged out",response.json()))
+        }
+    }
+
+    const handleLogout = async () =>{
+        await deleteAuth();
         localStorage.clear();
         window.location.href='/';
     }
+
     const showButton = () => {
         if(window.innerWidth <= 960) {
             setButton(false);
@@ -30,11 +51,9 @@ function Navbar() {
             setButton(true);
         }
     }
-    useEffect(() => {
-        showButton()
-    }, []);
+
     window.addEventListener('resize', showButton);
-    console.log(localStorage.logIn);
+
     if(localStorage.logIn == 1) {
         return (
             <>
