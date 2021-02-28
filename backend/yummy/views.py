@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated 
-from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventIDSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventIDSerializer, ChangePasswordSerializer
 from .authentication import token_expire_handler
 from .models import User, Profile, Event
 
@@ -237,3 +237,35 @@ def join_event(request):
         else:
             data = serializer.errors
             return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes((IsAuthenticated,))
+def update_password(request):
+    data={}
+    if request.method == 'POST':
+        token = Token.objects.get(key=request.auth)
+        if token_expire_handler(token):
+            data['token'] = "Token expired"
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+        print(user)
+        print(request.data)
+        serializer = ChangePasswordSerializer(data=request.data)
+
+        if serializer.is_valid():
+            # Check old password
+            if not user.check_password(serializer.data.get("old_password")):
+                data['message'] = "Wrong password"
+                return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
+            user.set_password(serializer.data.get("new_password"))
+            user.save()
+            data['message'] = {
+                'status': 'success',
+                'code': status.HTTP_200_OK,
+                'message': 'Password updated successfully',
+            }
+
+            return JsonResponse(data=data)
+        return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)

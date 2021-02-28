@@ -28,17 +28,18 @@ export default function LogIn() {
       }),
     }).then(response => response.json())
       .then(result => {
-        console.log(result.token);
         localStorage.setItem('token', result.token);
+        localStorage.setItem('email', email);
     })
   }
 
   async function handleLogin() {
     await fetchToken();
     var token = localStorage.getItem('token');
-    if (token == null) {
+    console.log(token)
+    if (token == "undefined") {
       document.getElementById('warning').style.visibility = 'visible'
-      document.getElementById('warning').textContent = 'User does not exist';
+      document.getElementById('warning').textContent = 'User does not exist or incorrect password';
     }
     else {
       console.log("Successfully Loged In")
