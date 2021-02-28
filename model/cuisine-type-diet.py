@@ -1,0 +1,1 @@
+import pandas as pdimport osos.chdir('/Users/ucla/Desktop/cs130/project/7/model/')categories = pd.read_csv('categories.csv')categories[categories['cuisine'] == 1].iloc[:,0].to_csv('cuisine.csv', header=False, index = False)categories[categories['type'] == 1].iloc[:,0].to_csv('type.csv', header=False, index = False)
