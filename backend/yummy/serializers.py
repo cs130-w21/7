@@ -30,30 +30,16 @@ class RegistrationSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
   email = serializers.EmailField(required=True)
   password = serializers.CharField(max_length=200,required=True)
-  # class Meta:
-  #   model = User
-  #   fields = ['email', 'password']
-  #   extra_kwargs = {
-  #               'password': {'write_only': True}
-  #   }
+  
 
-  # def save(self):
-  #   email=self.validated_data['email']
-  #   password=self.validated_data['password']
+class ChangePasswordSerializer(serializers.Serializer):
+  model = User
 
-  #   try:
-  #     user_by_email = User.objects.get(email=email)
-  #   except ObjectDoesNotExist:
-  #     raise serializers.ValidationError({'email': 'Email does not exist.'}) 
-
-  #   if user_by_email:
-  #     if user_by_email.check_password(password):
-  #       return user_by_email
-  #     else:
-  #       raise serializers.ValidationError({'password': 'Password does not match.'})
-  #   else:
-  #     raise serializers.ValidationError({'email': 'Email does not exist.'})
-
+  """
+  Serializer for password change endpoint.
+  """
+  old_password = serializers.CharField(max_length=200,required=True)
+  new_password = serializers.CharField(max_length=200,required=True)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
