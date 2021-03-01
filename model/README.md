@@ -1,5 +1,4 @@
 # File Description
-
 * `convert-business.py`
     * Run this file to filter out a list of restaurants from the `yelp_academic_dataset_business.json`.
     * This also helps reduce the memory requires from 152.9MB to 4.8MB.
