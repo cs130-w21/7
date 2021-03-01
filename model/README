@@ -30,4 +30,12 @@
 * `cuisine.csv`: Created by `cuisine-type-diet.py`.
 * `type.csv`: Created by `cuisine-type-diet.py`.
 * `feature-augment.sql`:
-    * Use to one hot encode *cuisine* and *type* for each business review.
+    * Use to one hot encode *cuisine* and *type* for each business review using MySQL.
+    * Due to low processing power, this method was not used.
+* `data-processing.py`: 
+    * This file performs the final stage of data processing for our model.
+    * Three files will be generated:
+        * `model-business-info.csv`: containing OneHotEncoded features of different cuisine for each businesses' reviews
+        * `model-user-info.csv`: containing users' eating habits
+        * `finalDataframe.csv`: the final dataframe resulting from merging `model-business-info.csv` with `model-user-info.csv`
+* `packaging.sh`: Compress the three csv files created by `data-processing.py`
