@@ -1,5 +1,4 @@
 # File Description
-
 * `convert-business.py`
     * Run this file to filter out a list of restaurants from the `yelp_academic_dataset_business.json`.
     * This also helps reduce the memory requires from 152.9MB to 4.8MB.
@@ -39,3 +38,8 @@
         * `model-user-info.csv`: containing users' eating habits
         * `finalDataframe.csv`: the final dataframe resulting from merging `model-business-info.csv` with `model-user-info.csv`
 * `packaging.sh`: Compress the three csv files created by `data-processing.py`
+* `model.py`: building a machine learning model for food suggestion using XGBoost
+* `basemodel`:
+    * Base XGBoost model saved using pickle
+    * Created by model.py
+    * In order to use this, the system needs to have module `pickle` installed and imported
