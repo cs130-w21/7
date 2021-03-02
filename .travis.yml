@@ -17,7 +17,8 @@ matrix:
       # - PYTHONPATH=.. pytest -v
       - python3 
       - ./manage.py test tests
-    
+      after_success:
+      - coveralls
     - language: node_js
       node_js:
         - 14
