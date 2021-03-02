@@ -6,6 +6,8 @@ matrix:
       before_install:
       - python3 --version
       - pip3 install -r ./backend/requirements.txt
+      - touch .env
+      - echo SECRET_KEY='br^(wet+z_bvav+orj2dnr5f530&o3^5o6!to1k=vo@#kp!nst'">> .env
 
       script:
       - cd ./backend/tests
