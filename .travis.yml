@@ -4,9 +4,11 @@ matrix:
       python: 
       - 3.6
       before_install:
-      - export DJANGO_SETTINGS_MODULE=backend.settings
       - python3 --version
       - pip3 install -r ./backend/requirements.txt
+      env:
+      - DJANGO_VERSION=3.1.7
+      - DJANGO_SETTINGS_MODULE='backend.settings'
       script:
       - cd ./backend/tests
       - PYTHONPATH=.. pytest -v
