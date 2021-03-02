@@ -6,8 +6,9 @@ import django
 
 
 def main():
-    django.setup()
+    
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+    django.setup()
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
