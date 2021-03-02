@@ -10,8 +10,9 @@ matrix:
       - DJANGO_VERSION=3.1.7
       - DJANGO_SETTINGS_MODULE='backend.settings'
       script:
-      - cd ./backend/tests
-      - PYTHONPATH=.. pytest -v
+      - cd ./backend/
+      # - PYTHONPATH=.. pytest -v
+      - ./manage.py test tests
     
     - language: node_js
       node_js:
