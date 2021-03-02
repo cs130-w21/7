@@ -4,9 +4,9 @@ from . import views
 
 urlpatterns = [
     # url(r'^api/user/(?P<username>\w+)$', views.userinfo_detail),
-    url(r'^api/register', views.registration_view),
-    url(r'^api/login', views.login_view),
-    url(r'^api/logout', views.logout_view),
+    url(r'^api/register', views.registration_view, name="register"),
+    url(r'^api/login', views.login_view, name="login"),
+    url(r'^api/logout', views.logout_view, name="logout"),
     url(r'^api/update_password', views.update_password),
     url(r'^api/profile/create', views.create_profile_view),
     url(r'^api/profile/update', views.update_profile_view),
