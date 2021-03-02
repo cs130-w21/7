@@ -28,4 +28,4 @@ evaluation = pd.DataFrame({'Actual' : y_test,
 plt.scatter(x=y_pred, y=y_test)
 
 # Saving model to disk with pickle
-pickle.dump(xgbmodel, open('basemodel', 'wb'))
+pickle.dump(xgbmodel, open('basemodel.pkl', 'wb'))
