@@ -1,6 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import generics, status,viewsets
@@ -22,11 +20,12 @@ def registration_view(request):
             data['response'] = "Successfully registered a new user."
             data['email'] = user.email
             token, created = Token.objects.get_or_create(user=user)
-
             data['token'] = token.key
+            return JsonResponse(data=data, status=status.HTTP_201_CREATED)
         else:
             data = serializer.errors
-        return JsonResponse(data)
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+        
 
 @api_view(['POST'])
 def login_view(request):
@@ -48,10 +47,10 @@ def login_view(request):
                 return JsonResponse(data=data,status=status.HTTP_200_OK)
             else:
                 data['message'] = 'You have entered an invalid username or password'
-                return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+                return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         else:
             data = serializer.errors
-            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
 @permission_classes((IsAuthenticated,))
