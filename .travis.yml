@@ -9,9 +9,12 @@ matrix:
       env:
       - DJANGO_VERSION=3.1.7
       - DJANGO_SETTINGS_MODULE='backend.settings'
+      before_script:
+      - python manage.py runserver &
       script:
       - cd ./backend/
       # - PYTHONPATH=.. pytest -v
+      - python3 
       - ./manage.py test tests
     
     - language: node_js
