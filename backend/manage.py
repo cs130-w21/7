@@ -6,7 +6,6 @@ import django
 
 
 def main():
-    
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
     django.setup()
     try:

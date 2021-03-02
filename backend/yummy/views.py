@@ -77,10 +77,6 @@ def logout_view(request):
 def create_profile_view(request):
     if request.method == 'POST':
         print(request.auth)
-        # token = Token.objects.get(user=)
-        # if token_expire_handler(token):
-        #     data['token'] = "Token expired"
-        #     JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         serializer = ProfileSerializer(data=request.data)
         data = {}
         if serializer.is_valid():
