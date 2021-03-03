@@ -7,14 +7,10 @@ matrix:
       - cd ./backend/
       - python3 --version
       - pip3 install -r requirements.txt
-      env:
-      - DJANGO_VERSION=3.1.7
-      - DJANGO_SETTINGS_MODULE='backend.settings'
       before_script:
       - python manage.py runserver &
       script:
-      # - PYTHONPATH=.. pytest -v
-      - ./manage.py test tests
+      - PYTHONPATH=.. pytest -v -p no:warnings
       after_script:
       - coveralls
     

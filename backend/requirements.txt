@@ -32,8 +32,7 @@ six==1.14.0
 urllib3==1.25.8
 webencodings==0.5.1
 wheel==0.34.2
-pytest==4.6.11
+pytest-django==4.1.0
 # django-cors-headers
 django-cors-middleware==1.5.0
-pytest==4.6.11
 
