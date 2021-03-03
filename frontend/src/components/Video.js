@@ -4,7 +4,7 @@ import { Button } from './Button';
 import './Video.css';
 
 function openRestaurant() {
-  if(localStorage.logIn == 1) {
+  if(localStorage.logIn === 1) {
     window.location.href='/recommend';
   } else {
     window.location.href='/login';
@@ -15,7 +15,7 @@ function Video() {
   const [count, setCount] = useState(0);
   
   function showButtonOption(){
-    if(localStorage.logIn == 1) {
+    if(localStorage.logIn === 1) {
       setCount(1);
     } else {
       window.location.href='/login';
@@ -29,7 +29,7 @@ function Video() {
       <h1>YummY</h1>
       <p>Let us decide for you</p>
       
-      {count == 0 ?
+      {count === 0 ?
           <div className='video-btns'>
           <Button
             id="bt"

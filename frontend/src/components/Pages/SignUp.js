@@ -49,7 +49,7 @@ export default function SignUp() {
     }).then(parseJSON)
     .then(function(data) {
         if("response" in data) {
-            if(data.response == "Successfully registered a new user."){
+            if(data.response === "Successfully registered a new user."){
                 console.log(data)
                 localStorage.logIn = 1;
                 localStorage.token = data.token;
@@ -77,7 +77,7 @@ export default function SignUp() {
 }
 
   return (
-    <div className="Login">
+    <div className="SignUp">
       <form onSubmit={handleSubmit}>
         <div className='form-group login-attr' size="lg">
           <label>Email</label>

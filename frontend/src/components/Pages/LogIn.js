@@ -37,7 +37,7 @@ export default function LogIn() {
     await fetchToken();
     var token = localStorage.getItem('token');
     console.log(token)
-    if (token == "undefined") {
+    if (token === "undefined") {
       document.getElementById('warning').style.visibility = 'visible'
       document.getElementById('warning').textContent = 'User does not exist or incorrect password';
     }
@@ -54,7 +54,7 @@ export default function LogIn() {
   }
 
   return (
-    <div className="Login">
+    <div className="LogIn">
       <form onSubmit={handleSubmit}>
         <div className='form-group login-attr' size="lg" id="email">
           <label>Email</label>

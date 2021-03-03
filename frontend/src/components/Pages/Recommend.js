@@ -20,7 +20,7 @@ function Recommend() {
     //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyCY4-DiMtofTkDmGbLyL01OyXfdh1S0wBc
     //https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=ATtYBwKwwOlknJALhji-kYQzZHV0c3v7quYsrRU5b6Ci2qDuezSVvpHfSA59ZxaREMLUoKcaG7sOCHrxhdgp0bp0nCOAGnhDNpCVF5XV0hcOxE97WzyX3kMUkemmGmoaQopJuPnm7SRqKuNKQzDvCr0uGcWcpN1yRS3VmbZ4Z4Kzhkq8xx_r&sensor=false&key=AIzaSyCY4-DiMtofTkDmGbLyL01OyXfdh1S0wBc
     return (
-        <div className='cards'>
+        <div className='Recommend'>
             <h1>Here are some suggestions!</h1>
             <div className='cards__container'>
             <div className='cards__wrapper'>
