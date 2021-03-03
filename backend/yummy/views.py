@@ -127,19 +127,6 @@ def get_profile_view(request):
             return JsonResponse(data=serializer.data,status=status.HTTP_200_OK)
         except Profile.DoesNotExist:
             return JsonResponse(status=status.HTTP_400_BAD_REQUEST)
-        
-        
-        
-        # is_existed = serializer.get_profile(request.data.username)
-        # if is_existed:
-        #     data['data'] = is_existed
-        #     return data
-        # data['username'] = "User not exist"
-        # return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
-        # data['data'] = serializer.get_profile()
-        # data['success'] = "GET successful"
-        # return JsonResponse(data=data)
-        # return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
