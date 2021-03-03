@@ -157,5 +157,9 @@ class LeaveEventIDSerializer(serializers.Serializer):
   event_id = serializers.IntegerField(required=True)
   user_id = serializers.IntegerField(required=True)
 
+class RecommendationSerializer(serializers.Serializer):
+  latitude = serializers.FloatField(required=True)
+  longitude = serializers.FloatField(required=True)
+
 
     

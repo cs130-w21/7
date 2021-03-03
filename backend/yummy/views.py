@@ -6,9 +6,11 @@ from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated 
-from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventSerializer, GetEventIDSerializer, LeaveEventIDSerializer, ChangePasswordSerializer
+from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventSerializer, GetEventIDSerializer, LeaveEventIDSerializer, ChangePasswordSerializer,RecommendationSerializer
 from .authentication import token_expire_handler
 from .models import User, Profile, Event
+import requests
+import json
 
 @api_view(['POST'])
 def registration_view(request):
@@ -310,3 +312,42 @@ def update_password(request):
 
             return JsonResponse(data=data)
         return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+@permission_classes((IsAuthenticated,))
+def recommendation(request):
+    if request.method == 'GET':
+        data = {}
+        print(request.auth)
+        token = Token.objects.get(key=request.auth)
+        if token_expire_handler(token):
+            data['message'] = "Token expired"
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
+            
+        try:
+            profile = Profile.objects.get(username=token.user)
+            serializer = RecommendationSerializer(data=request.data)
+            if serializer.is_valid():
+                yelp_api = "https://api.yelp.com/v3/businesses/search"
+                auth = {"Authorization": "Bearer jZsa2Da9xZlA7tD2UIUrDszi4ffcGOukaOMlDEWmo6MSIpvhf4r2sfoYQbx3jyQN3_9ElU6nkDBZePsmeCETwWrln-tLq6AhQqwbV-yMwN78WX8pEJ0-q1mfziE_YHYx"}
+                params = {
+                    "latitude": request.data['latitude'],
+                    "longitude": request.data['longitude'],
+                    "radius": 20000,
+                    "limit": 50
+                }
+
+                res = requests.get(yelp_api, headers=auth, params=params)
+                res = json.loads(res.content)
+                result = ML_predict(res,profile.cuisin,profile.food_type)
+                return JsonResponse(data=result,status=status.HTTP_200_OK)
+            else:
+                data = serializer.errors
+                return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
+        except Profile.DoesNotExist:
+            return JsonResponse(status=status.HTTP_400_BAD_REQUEST)
+
+# Machine Learning Model
+def ML_predict(businesses,cuisin,food_type):
+    print(cuisin,food_type)
+    return businesses
