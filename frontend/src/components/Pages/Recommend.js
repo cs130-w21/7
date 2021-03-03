@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import CardView from './CardView';
 import '../Cards.css';
 
 function Recommend() {
+    const [latitude, setLatitude] = useState("");
+    const [longtitude, setLongtitude]=useState("");
+
     var state = {
         listitem1: [
             {src:'images/img-beef.jpg', text: 'Steak House : 930 Hilgard Ave, Los Angeles, CA 90024', label:'Meal', path:'/service'}, 
@@ -16,6 +19,20 @@ function Recommend() {
             state.listitem1.push({src:'images/img-beef.jpg', text: 'Hell', label:'T', path:'/service'});
         });
 
+
+    function getLocation(){
+        if(navigator.geolocation){
+            return new Promise((res, rej) => {
+                navigator.geolocation.getCurrentPosition(res, rej)
+            })
+        }
+    }    
+    useEffect(async () =>{
+        const { coords } = await getLocation();
+        const { latitude, longitude } = coords;
+        console.log(latitude);
+        console.log(longitude);
+    })
     
     //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyCY4-DiMtofTkDmGbLyL01OyXfdh1S0wBc
     //https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=ATtYBwKwwOlknJALhji-kYQzZHV0c3v7quYsrRU5b6Ci2qDuezSVvpHfSA59ZxaREMLUoKcaG7sOCHrxhdgp0bp0nCOAGnhDNpCVF5XV0hcOxE97WzyX3kMUkemmGmoaQopJuPnm7SRqKuNKQzDvCr0uGcWcpN1yRS3VmbZ4Z4Kzhkq8xx_r&sensor=false&key=AIzaSyCY4-DiMtofTkDmGbLyL01OyXfdh1S0wBc

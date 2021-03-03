@@ -13,7 +13,6 @@ class RegistrationTestCase(APITestCase):
         return response
 
     def test_registration(self):
-
         response = self.register()
         self.assertEqual(response.status_code, 201)
         
@@ -27,6 +26,7 @@ class RegistrationTestCase(APITestCase):
 
 class LoginTestCase(APITestCase):
     def login(self):
+        RegistrationTestCase.register(self)
         dataJson={
                     "email":"test@gmail.com",
                     "password":"tEst1$"
@@ -44,8 +44,6 @@ class LoginTestCase(APITestCase):
             "password":"tEst1$"
         }
        
-        RegistrationTestCase.register(self)
-
         response = self.login()
         self.assertEqual(response.status_code, 200)
         token = response.json()['token']
@@ -63,8 +61,28 @@ class LoginTestCase(APITestCase):
 
 class LogoutTestCase(APITestCase):
     def test_logout(self):
-        RegistrationTestCase.register(self)
         response = LoginTestCase.login(self)
         token = response.json()['token']
         response = self.client.delete(reverse('logout'), HTTP_AUTHORIZATION='Token ' + token)
+        self.assertEqual(response.status_code, 200)
+
+class UpdatePasswordTestCase(APITestCase):
+    def test_updatePassword(self):
+        dataJson={
+            "old_password":"tEst1$",
+            "new_password":"tEst2!"
+        }
+        dataJsonWrongOldPassword={
+            "old_password":"tEst3",
+            "new_password":"tEst2!"
+        }
+        response = LoginTestCase.login(self)
+        token = response.json()['token']
+
+        response = self.client.post(reverse('update_password'), dataJsonWrongOldPassword, format='json', HTTP_AUTHORIZATION='Token ' + token)
+        self.assertEqual(response.status_code, 400)
+        message = response.json()['message']
+        assert message == 'Wrong password'
+
+        response = self.client.post(reverse('update_password'), dataJson, format='json', HTTP_AUTHORIZATION='Token ' + token)
         self.assertEqual(response.status_code, 200)
