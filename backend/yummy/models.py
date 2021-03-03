@@ -9,33 +9,20 @@ class Profile(models.Model):
         FEMALE = 'F','Female'
         MALE = 'M', 'Male'
         OTHER = 'O', 'Other'
-
-    class DietPlan(models.TextChoices):
-        PLAN1 = 1,'plan1'
-        PLAN2 = 2, 'plan2'
-        PLAN3 = 3, 'plan3'
     username = models.CharField(max_length=120)
     first_name = models.CharField(max_length=120)
     last_name = models.CharField(max_length=120)
-    age = models.IntegerField()
-    height = models.FloatField()
-    weight = models.FloatField()
+    age = models.IntegerField(blank=True)
+    height = models.FloatField(blank=True)
+    weight = models.FloatField(blank=True)
     sex = models.CharField(
         max_length=2,
         choices=Sex.choices,
         default=Sex.FEMALE
     )
-    #friends =
     vegetarian = models.BooleanField()
-    diet_plan = models.CharField(
-        max_length=2,
-        choices=DietPlan.choices,
-        default=DietPlan.PLAN1
-    )
-
-    
-    # def _str_(self):
-    #     return self.username
+    cuisin = models.CharField(max_length=500)
+    food_type = models.CharField(max_length=500)
 
 class Event(models.Model):
     name = models.CharField(max_length=120)
