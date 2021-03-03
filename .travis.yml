@@ -11,8 +11,6 @@ matrix:
       - python manage.py runserver &
       script:
       - PYTHONPATH=.. pytest -v -p no:warnings
-      after_script:
-      - coveralls
     
     - language: node_js
       node_js:
