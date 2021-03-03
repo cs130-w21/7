@@ -17,8 +17,8 @@ matrix:
       before_script:
       - python manage.py runserver &
       script:
-      - PYTHONPATH=.. pytest -v
-      # - ./manage.py test tests
+      # - PYTHONPATH=.. pytest -v
+      - ./manage.py test tests
       after_script:
       - coveralls
     
