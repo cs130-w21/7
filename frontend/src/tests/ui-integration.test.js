@@ -3,11 +3,11 @@ import '@testing-library/jest-dom/extend-expect'
 import ReactDOM from 'react-dom';
 import { act } from 'react-dom/test-utils'
 import { unmountComponentAtNode } from 'react-dom';
-import Home from './components/Pages/Home';
-import Create from './components/Pages/Create';
-import LogIn from './components/Pages/LogIn';
-import SignUp from './components/Pages/SignUp';
-import Recommend from './components/Pages/Recommend';
+import Home from '../components/Pages/Home';
+import Create from '../components/Pages/Create';
+import LogIn from '../components/Pages/LogIn';
+import SignUp from '../components/Pages/SignUp';
+import Recommend from '../components/Pages/Recommend';
 
 
 let container = null;
@@ -45,14 +45,6 @@ it('integrates Create', () => {
 it('integrates LogIn', () => {
     act(() => {
       ReactDOM.render(<LogIn />, container);
-    });
-    
-    expect();
-});
-
-it('integrates Recommend', () => {
-    act(() => {
-      ReactDOM.render(<Recommend />, container);
     });
     
     expect();
