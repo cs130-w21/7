@@ -8,8 +8,6 @@ matrix:
       - cd ./backend/
       - python3 --version
       - pip3 install -r requirements.txt
-      install:
-      - pip3 install pytest coverage
       env:
       - DJANGO_VERSION=3.1.7
       - DJANGO_SETTINGS_MODULE='backend.settings'
@@ -19,8 +17,8 @@ matrix:
       before_script:
       - python3 manage.py runserver &
       script:
-      - coverage run manage.py test tests
-      after_script:
+      - ./manage.py test tests
+      after_success:
       - coveralls
     
     - language: node_js
