@@ -1,70 +1,101 @@
-from rest_framework.test import APITestCase
 from django.urls import reverse
 import json
+import pytest
 
-class RegistrationTestCase(APITestCase):
-    def register(self):
-        self.dataJson={
+@pytest.fixture
+def client():
+   from rest_framework.test import APIClient
+   return APIClient()
+
+@pytest.mark.django_db
+def test_registration(client):
+    dataJson={
             'email':'test@gmail.com',
             'username':'test123',
             'password':'tEst1$'
         }
-        response = self.client.post(reverse('register'), self.dataJson, format='json')
-        return response
+    response = client.post(reverse('register'), dataJson, format='json')
+    assert response.status_code == 201
+    
+    token = response.json()['token']
+    email = response.json()['email']
+    assert token != None
+    assert email == dataJson['email']
 
-    def test_registration(self):
+    response = client.post(reverse('register'), None)
+    assert response.status_code == 400
 
-        response = self.register()
-        self.assertEqual(response.status_code, 201)
-        
-        token = response.json()['token']
-        email = response.json()['email']
-        assert token != None
-        assert email == self.dataJson['email']
 
-        response = self.client.post(reverse('register'), None)
-        self.assertEqual(response.status_code, 400)
+@pytest.mark.django_db
+def login(client, dataJson):
+    test_registration(client)
+    response = client.post(reverse('login'), dataJson, format='json')
+    return response
 
-class LoginTestCase(APITestCase):
-    def login(self):
-        dataJson={
-                    "email":"test@gmail.com",
-                    "password":"tEst1$"
-                }
-        response = self.client.post(reverse('login'), dataJson, format='json')
-        return response
-        
-    def test_login(self):
-        dataJsonWrongPassword={
+
+@pytest.mark.django_db
+def test_login(client):
+    dataJson={
             "email":"test@gmail.com",
-            "password":"tEstW1$"
-        }
-        dataJsonWrongEmail={
-            "email":"test123@gmail.com",
             "password":"tEst1$"
         }
-       
-        RegistrationTestCase.register(self)
+    dataJsonWrongPassword={
+        "email":"test@gmail.com",
+        "password":"tEstW1$"
+    }
+    dataJsonWrongEmail={
+        "email":"test123@gmail.com",
+        "password":"tEst1$"
+    }
 
-        response = self.login()
-        self.assertEqual(response.status_code, 200)
-        token = response.json()['token']
-        assert token != None
+    response = login(client, dataJson)
+    assert response.status_code == 200
+    token = response.json()['token']
+    assert token != None
 
-        response = self.client.post(reverse('login'), dataJsonWrongPassword, format='json')
-        self.assertEqual(response.status_code, 400)
-        message = response.json()['message']
-        assert message == 'Wrong password'
+    response = client.post(reverse('login'), dataJsonWrongPassword, format='json')
+    assert response.status_code == 400
+    message = response.json()['message']
+    assert message == 'Wrong password'
 
-        response = self.client.post(reverse('login'), dataJsonWrongEmail, format='json')
-        self.assertEqual(response.status_code, 400)
-        message = response.json()['message']
-        assert message == 'You have entered an invalid username or password'
+    response = client.post(reverse('login'), dataJsonWrongEmail, format='json')
+    assert response.status_code == 400
+    message = response.json()['message']
+    assert message == 'You have entered an invalid username or password'
 
-class LogoutTestCase(APITestCase):
-    def test_logout(self):
-        RegistrationTestCase.register(self)
-        response = LoginTestCase.login(self)
-        token = response.json()['token']
-        response = self.client.delete(reverse('logout'), HTTP_AUTHORIZATION='Token ' + token)
-        self.assertEqual(response.status_code, 200)
+@pytest.mark.django_db
+def test_logout(client):
+    dataJson={
+            "email":"test@gmail.com",
+            "password":"tEst1$"
+        }
+    response = login(client, dataJson)
+    token = response.json()['token']
+    response = client.delete(reverse('logout'), HTTP_AUTHORIZATION='Token ' + token)
+    assert response.status_code == 200
+
+@pytest.mark.django_db
+def test_updatePassword(client):
+    dataJson={
+            "email":"test@gmail.com",
+            "password":"tEst1$"
+        }
+    dataJsonCorrectPassword={
+        "old_password":"tEst1$",
+        "new_password":"tEst2!"
+    }
+    dataJsonWrongOldPassword={
+        "old_password":"tEst3",
+        "new_password":"tEst2!"
+    }
+
+    response = login(client, dataJson)
+    token = response.json()['token']
+
+    response = client.post(reverse('update_password'), dataJsonWrongOldPassword, format='json', HTTP_AUTHORIZATION='Token ' + token)
+    assert response.status_code == 400
+    message = response.json()['message']
+    assert message == 'Wrong password'
+
+    response = client.post(reverse('update_password'), dataJsonCorrectPassword, format='json', HTTP_AUTHORIZATION='Token ' + token)
+    assert response.status_code == 200
