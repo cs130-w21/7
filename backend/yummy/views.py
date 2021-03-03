@@ -84,7 +84,7 @@ def create_profile_view(request):
         if serializer.is_valid():
             if serializer.create_profile():
                 data['message'] = "created successful"
-                return JsonResponse(data=data)
+                return JsonResponse(data=data, status=status.HTTP_201_CREATED)
             data['message'] = "The username already existed"
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -106,7 +106,7 @@ def update_profile_view(request):
                 return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
             if serializer.update_profile():
                 data['message'] = "Updated successful"
-                return JsonResponse(data=data)
+                return JsonResponse(data=data,status=status.HTTP_200_OK)
             data['message'] = "The username does not exist"
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
