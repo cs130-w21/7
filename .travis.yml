@@ -18,7 +18,7 @@ matrix:
       - python3 manage.py runserver &
       script:
       - ./manage.py test tests
-      after_success:
+      after_script:
       - coveralls
     
     - language: node_js
