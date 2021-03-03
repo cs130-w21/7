@@ -8,6 +8,8 @@ matrix:
       - cd ./backend/
       - python3 --version
       - pip3 install -r requirements.txt
+      install:
+      - pip3 install coveralls
       env:
       - DJANGO_VERSION=3.1.7
       - DJANGO_SETTINGS_MODULE='backend.settings'
@@ -18,7 +20,7 @@ matrix:
       - python3 manage.py runserver &
       script:
       - ./manage.py test tests
-      after_script:
+      after_success:
       - coveralls
     
     - language: node_js
