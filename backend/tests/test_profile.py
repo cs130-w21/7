@@ -121,7 +121,7 @@ def test_getProfile(client):
     response = client.get(reverse('get_profile'), HTTP_AUTHORIZATION='Token ' + token)
     assert response.status_code == 200
     first_name = response.json()['first_name']
-    cuisin = response.json()['cuisin']
+    cuisine = response.json()['cuisine']
 
     assert first_name == dataJsonCreate['first_name']
-    assert cuisin == dataJsonCreate['cuisin']
+    assert cuisine == dataJsonCreate['cuisine']
