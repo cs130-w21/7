@@ -33,7 +33,7 @@ urllib3==1.25.8
 webencodings==0.5.1
 wheel==0.34.2
 pytest-django==4.1.0
-pandas==1.2.2
+pandas==1.1.5
 cloudpickle==1.6.0
 pickleshare==0.7.5
 jsonschema==3.2.0
