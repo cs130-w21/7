@@ -11,6 +11,8 @@ from .authentication import token_expire_handler
 from .models import User, Profile, Event
 import requests
 import json
+import pandas as pd
+import pickle
 
 @api_view(['POST'])
 def registration_view(request):
@@ -349,5 +351,67 @@ def recommendation(request):
 
 # Machine Learning Model
 def ML_predict(businesses,cuisine,food_type):
-    print(cuisine,food_type)
-    return businesses
+    # List of cuisines
+    cuisines = ["American (Traditional)", "Mexican", "American (New)", "Italian",
+        "Chinese", "Japanese", "Asian Fusion", "Indian", "Thai", "Middle Eastern",
+        "Vietnamese", "Greek", "French", "Korean", "Caribbean", "Latin American",
+        "Pakistani", "Hawaiian", "Lebanese", "Taiwanese", "Filipino", "Spanish",
+        "Irish", "African", "Turkish", "Cantonese", "Pan Asian", "German",
+        "Brazilian", "Ethiopian", "Polish", "Malaysian", "Arabian", "Mongolian"]
+
+    # List of types
+    types = ["Restaurants", "Fast Food", "Sandwiches", "Pizza", "Breakfast & Brunch", "Burgers",
+        "Specialty Food", "Bakeries", "Desserts", "Cafes", "Ice Cream & Frozen Yogurt",
+        "Chicken Wings", "Salad", "Seafood", "Sushi Bars", "Beer", "Sports Bars",
+        "Pubs", "Steakhouses", "Cocktail Bars", "Diners", "Ethnic Food",
+        "Food Delivery Services", "Food Trucks", "Soup", "Comfort Food", "Buffets",
+        "Donuts", "Tacos", "Hot Dogs", "Bubble Tea", "Chicken Shop", "Bagels",
+        "Noodles", "Tapas/Small Plates", "Food Stands", "Cupcakes", "Soul Food",
+        "Fish & Chips", "Dim Sum", "Cajun/Creole", "Ramen", "Creperies", "Food Court",
+        "Bistros", "Gelato", "Waffles", "Hot Pot", "Acai Bowls", "Kebab", "Pretzels"]
+    # Loading list of businesses nearby
+    json_file = json.loads(businesses)
+
+    # Converting business information to dataframe format for machine learning prediction
+    df = pd.DataFrame(columns = ["business_id", "categories"])
+    for business in json_file["businesses"]:
+        categories_list = ""
+        for category in business["categories"]:
+            categories_list += category["title"] + ","
+        df = df.append({"business_id":business["id"], "categories":categories_list}, ignore_index = True)
+    for c in cuisines:
+        df[c] = (df['categories'].str.contains(c, regex=False)).astype('int8')
+    for t in types:
+        df[t] = (df['categories'].str.contains(t, regex=False)).astype('int8')
+    df.drop(columns="categories", inplace=True)
+    cuisines_col_x = list(map(lambda name : name + '_x', cuisines))
+    types_col_x = list(map(lambda name : name + '_x', types))
+    df.columns = ["business_id"] + cuisines_col_x + types_col_x
+    
+    # Converting user information to dataframe format for machine learning prediction
+    cuisines_col_y = list(map(lambda name : name + '_y', cuisines))
+    types_col_y = list(map(lambda name : name + '_y', types))
+    user = pd.DataFrame(columns = cuisines_col_y + types_col_y)
+    user_values = []
+    for c in cuisines:
+        user_values.append((c in cuisine) & 1)
+    for t in types:
+        user_values.append((t in food_type) & 1)
+    user.loc[0]= user_values
+    user[cuisines_col_y] = user[cuisines_col_y].div(user[cuisines_col_y].sum(axis=1), axis=0)
+    user[types_col_y] = user[types_col_y].div(user[types_col_y].sum(axis=1), axis=0)
+    user = pd.concat([user]*len(df), ignore_index = True)
+    user = user.astype('float')
+    
+    # Finalizing dataframe for machine learning prediction
+    final_df = pd.concat([df, user], axis=1)
+    prediction = final_df.iloc[:,0].to_frame()
+    model_df = final_df.drop(columns="business_id")
+    
+    # Loading machine learning model
+    loaded_model = pickle.load(open("models/basemodel.pkl", 'rb'))
+    rating = loaded_model.predict(model_df)
+    prediction["rating"] = rating
+    result = prediction.sort_values(by='rating', ascending=False).iloc[0:6,0].to_list()
+    
+    return result
