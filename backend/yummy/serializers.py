@@ -45,7 +45,7 @@ class ChangePasswordSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
   class Meta:
     model = Profile
-    fields = ['username','first_name', 'last_name', 'age', 'height', 'weight', 'sex', 'vegetarian', 'cuisin', 'food_type']
+    fields = ['username','first_name', 'last_name', 'age', 'height', 'weight', 'sex', 'vegetarian', 'cuisine', 'food_type']
 
   def create_profile(self):
     is_existed =self.is_username_existing(self.validated_data['username'])

@@ -5,7 +5,7 @@ from .models import Profile, Event
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('username','first_name', 'last_name', 'age','sex', 'vegetarian', 'cuisin', 'food_type')
+    list_display = ('username','first_name', 'last_name', 'age','sex', 'vegetarian', 'cuisine', 'food_type')
 
 class EventAdmin(admin.ModelAdmin):
     list_display = ('name','datetime', 'location', 'description','host')
