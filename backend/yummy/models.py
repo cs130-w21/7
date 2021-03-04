@@ -21,7 +21,7 @@ class Profile(models.Model):
         default=Sex.FEMALE
     )
     vegetarian = models.BooleanField()
-    cuisin = models.CharField(max_length=500)
+    cuisine = models.CharField(max_length=500)
     food_type = models.CharField(max_length=500)
 
 class Event(models.Model):

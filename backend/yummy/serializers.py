@@ -66,7 +66,7 @@ class ProfileSerializer(serializers.ModelSerializer):
       profile.weight = self.validated_data['weight']
       profile.sex = self.validated_data['sex']
       profile.vegetarian = self.validated_data['vegetarian']
-      profile.cuisin = self.validated_data['cuisin']
+      profile.cuisine = self.validated_data['cuisine']
       profile.food_type = self.validated_data['food_type']
       profile.save()
       return True
