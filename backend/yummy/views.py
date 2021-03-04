@@ -415,5 +415,13 @@ def ML_predict(businesses,cuisine,food_type):
     rating = loaded_model.predict(model_df)
     prediction["rating"] = rating
     result = prediction.sort_values(by='rating', ascending=False).iloc[0:6,0].to_list()
+
+    # Getting JSON format of suggested restaurants
+    json_result = []
+    for business in json_file["businesses"]:
+        if (business["id"] in result):
+            json_result.append(business)
+    return json_result
+
     
     return result
