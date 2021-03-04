@@ -2,6 +2,8 @@
 * `convert-business.py`
     * Run this file to filter out a list of restaurants from the `yelp_academic_dataset_business.json`.
     * This also helps reduce the memory requires from 152.9MB to 4.8MB.
+* `get-business-attributes.py`
+    * Run this file to create a relation between business_id and its attributes, from `yelp_academic_dataset_business.json`.
 * `business.csv`: the list of restaurants containing their `business_id` and `category`.
 * `downsize-review.sh`
     * This shell script is used to reduce the size of `yelp_academic_dataset_review.json` from 6.32GB to 1GB by getting rid of the reviews itself and other irrelevant information.

@@ -57,4 +57,30 @@ backend/*.pid
 # **/migrations/**
 # !**/migrations
 # !**/migrations/__init__.py
+
 node_modules
+backend/tests/__pycache__/test_auth.cpython-38-pytest-6.2.2.pyc
+backend/tests/__pycache__/test_profile.cpython-38-pytest-6.2.2.pyc
+backend/tests/__pycache__/test_sample.cpython-38-pytest-6.2.2.pyc
+backend/yummy/__pycache__/__init__.cpython-38.pyc
+backend/yummy/__pycache__/admin.cpython-38.pyc
+backend/yummy/__pycache__/apps.cpython-38.pyc
+backend/yummy/__pycache__/authentication.cpython-38.pyc
+backend/yummy/__pycache__/models.cpython-38.pyc
+backend/yummy/__pycache__/serializers.cpython-38.pyc
+backend/yummy/__pycache__/urls.cpython-38.pyc
+backend/yummy/__pycache__/views.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0001_initial.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0002_profile.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0003_profile_username.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0004_auto_20210208_1849.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0005_auto_20210208_1931.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0009_auto_20210225_2142.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0006_delete_userinfo.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0008_auto_20210225_2140.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0007_event.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0010_auto_20210225_2153.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0011_auto_20210226_0112.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0012_auto_20210303_0528.cpython-38.pyc
+backend/yummy/migrations/__pycache__/0013_auto_20210303_0533.cpython-38.pyc
+backend/yummy/migrations/__pycache__/__init__.cpython-38.pyc
