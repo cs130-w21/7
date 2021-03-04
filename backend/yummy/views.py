@@ -333,10 +333,12 @@ def recommendation(request):
                 yelp_api = "https://api.yelp.com/v3/businesses/search"
                 auth = {"Authorization": "Bearer jZsa2Da9xZlA7tD2UIUrDszi4ffcGOukaOMlDEWmo6MSIpvhf4r2sfoYQbx3jyQN3_9ElU6nkDBZePsmeCETwWrln-tLq6AhQqwbV-yMwN78WX8pEJ0-q1mfziE_YHYx"}
                 params = {
+                    "term": "food",
                     "latitude": request.data['latitude'],
                     "longitude": request.data['longitude'],
                     "radius": 20000,
-                    "limit": 50
+                    "limit": 50,
+                    "open_now": True,
                 }
 
                 res = requests.get(yelp_api, headers=auth, params=params)
