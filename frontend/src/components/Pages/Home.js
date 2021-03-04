@@ -4,9 +4,9 @@ import Video from '../Video';
 
 function Home() {
     return (
-        <>
+        <div className="Home">
             <Video />
-        </>
+        </div>
     );
 }
 

@@ -57,6 +57,8 @@ backend/*.pid
 # **/migrations/**
 # !**/migrations
 # !**/migrations/__init__.py
+
+node_modules
 backend/tests/__pycache__/test_auth.cpython-38-pytest-6.2.2.pyc
 backend/tests/__pycache__/test_profile.cpython-38-pytest-6.2.2.pyc
 backend/tests/__pycache__/test_sample.cpython-38-pytest-6.2.2.pyc

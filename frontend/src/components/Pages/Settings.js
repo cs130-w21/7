@@ -24,7 +24,7 @@ function TabPanel(props) {
         aria-labelledby={`vertical-tab-${index}`}
         {...other}
       >
-        {value == index && (
+        {value === index && (
           <Box>
             <Typography component={'span'}>{children}</Typography>
           </Box>
@@ -100,7 +100,7 @@ export default function Setting() {
     useEffect(() => {
         var getToken = localStorage.getItem('token');
         var getEmail = localStorage.getItem('email');
-        if (token != null)
+        if (token !== null)
         {
             const fetchProfiles = async () => {
                 setIsLoading(true);
@@ -185,7 +185,7 @@ export default function Setting() {
         .then(res => res.json())
         .then(result => {
             var resMessage = result.message
-            if (resMessage == "Wrong password"){
+            if (resMessage === "Wrong password"){
                 setForm({
                     ...form,
                     helperTextPassword: "Wrong Password",
