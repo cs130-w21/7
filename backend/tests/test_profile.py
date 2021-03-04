@@ -24,7 +24,7 @@ def test_createProfile(client):
         "weight":150,
         "sex":"F",
         "vegetarian":"false",
-        "cuisin":"Vietnamese",
+        "cuisine":"Vietnamese",
         "food_type":"Sandwiches"
     }
 
@@ -51,7 +51,7 @@ def test_updateProfile(client):
         "weight":150,
         "sex":"F",
         "vegetarian":"false",
-        "cuisin":"Vietnamese",
+        "cuisine":"Vietnamese",
         "food_type":"Sandwiches"
     }
     dataJsonUpdate={
@@ -63,7 +63,7 @@ def test_updateProfile(client):
         "weight":150,
         "sex":"F",
         "vegetarian":"false",
-        "cuisin":"Korean",
+        "cuisine":"Korean",
         "food_type":"Bakeries"
     }
 
@@ -76,7 +76,7 @@ def test_updateProfile(client):
         "weight":150,
         "sex":"F",
         "vegetarian":"false",
-        "cuisin":"Korean",
+        "cuisine":"Korean",
         "food_type":"Bakeries"
     }
 
@@ -108,7 +108,7 @@ def test_getProfile(client):
         "weight":150,
         "sex":"F",
         "vegetarian":"false",
-        "cuisin":"Vietnamese",
+        "cuisine":"Vietnamese",
         "food_type":"Sandwiches"
     }
 
