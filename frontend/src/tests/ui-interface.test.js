@@ -1,6 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import ReactDOM from 'react-dom';
+import { screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils'
 import { unmountComponentAtNode } from 'react-dom';
 import Create from '../components/Pages/Create';

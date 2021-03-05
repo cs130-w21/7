@@ -17,5 +17,5 @@ matrix:
         - 14
       script: 
         - cd ./frontend
-        - npm install
+        - npm install --silent
         - npm test --quiet
