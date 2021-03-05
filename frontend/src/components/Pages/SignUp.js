@@ -107,9 +107,12 @@ export default function SignUp() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        <div className='form-group login-attr'>
         <Button id="signup" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleSignup} type="submit" disabled={!validateForm()}>SIGN UP</Button>
         <div className='seperator'/>
         <div id='warning' className='warning-text'>Wrong Password</div>
+        </div>
+
       </form>
     </div>
   );

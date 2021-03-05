@@ -28,7 +28,7 @@ export default function CreateEvent() {
         var month = datetime.getMonth() + 1; //months are zero based
         var year = datetime.getFullYear();
         var time = datetime.toTimeString().split(" ")[0];
-        var date = year + '-' + month.pad() + '-' + day.pad() + 'T' + time;
+        var date = year + '-' + month.pad() + '-' + day.pad() + ' ' + time;
         fetch('http://127.0.0.1:8000/api/event/create_event/', {
             method: 'POST',
             headers: {
@@ -40,7 +40,7 @@ export default function CreateEvent() {
             "name": name,
             "location": location,
             "description": description,
-            "datetime": datetime
+            "datetime": date
             }),
         }).then(response => response.json())
             .then(result => {

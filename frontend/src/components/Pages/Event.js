@@ -34,14 +34,24 @@ class Event extends React.Component {
         window.location.href='/';
     }
     componentDidMount(){
-        fetch('http://ip-api.com/json')
-            .then(response => response.json())
+        fetch('http://127.0.0.1:8000/api/event/get_events/', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Token ${this.token}`
+            },
+            body: JSON.stringify({
+                "name": ""
+            }),
+        }).then(response => response.json())
             .then(data => {
                 console.log(data);
                 var name = "IN-AND-OUT";
-                var datetime = "2021-02-03T15:00:00";
+                var datetime = "2021-02-03 15:00:00";
                 var location = "930 Hilgard Ave, Los Angeles, CA 90024";
                 var description = "Party";
+                var attendee = ["Party", "Party2", "Party", "Party2"];
 
                 this.setState({
                     myEvents: [
@@ -50,10 +60,10 @@ class Event extends React.Component {
                         {src:'images/img-in-and-out.png', text: "IN-AND-OUT : 922 Gayley Ave, Los Angeles, CA 90024", label:'Meal', path:'/service'}
                     ],
                     otherEvents: [
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, path:'/service'},
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, path:'/service'},
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, path:'/service'},
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, path:'/service'}
+                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'},
+                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'},
+                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'},
+                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'}
                     ]
                 })
             });
@@ -80,6 +90,7 @@ class Event extends React.Component {
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
                     path={events[i*3]["path"]}
+                    attendee={events[i*3]["attendee"]}
                     /><li className='cards__item'>
                     </li><li className='cards__item'>
                     </li></ul>
@@ -91,6 +102,7 @@ class Event extends React.Component {
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
                     path={events[i*3]["path"]}
+                    attendee={events[i*3]["attendee"]}
                     /><CardView
                     name={events[i*3+1]["name"]}
                     key={events[i*3+1]["text"]}
@@ -98,6 +110,7 @@ class Event extends React.Component {
                     description={events[i*3+1]["description"]}
                     datetime={events[i*3+1]["datetime"]}
                     path={events[i*3+1]["path"]}
+                    attendee={events[i*3+1]["attendee"]}
                     /><li className='cards__item'>
                     </li></ul>
                 }
@@ -110,6 +123,7 @@ class Event extends React.Component {
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
                     path={events[i*3]["path"]}
+                    attendee={events[i*3]["attendee"]}
                     /><CardView
                     name={events[i*3+1]["name"]}
                     key={events[i*3+1]["text"]}
@@ -117,6 +131,7 @@ class Event extends React.Component {
                     description={events[i*3+1]["description"]}
                     datetime={events[i*3+1]["datetime"]}
                     path={events[i*3+1]["path"]}
+                    attendee={events[i*3+1]["attendee"]}
                     /><CardView
                     name={events[i*3+2]["name"]}
                     key={events[i*3+2]["text"]}
@@ -124,6 +139,7 @@ class Event extends React.Component {
                     description={events[i*3+2]["description"]}
                     datetime={events[i*3+2]["datetime"]}
                     path={events[i*3+2]["path"]}
+                    attendee={events[i*3+2]["attendee"]}
                     /></ul>
             listItems.push(ob)
         }
