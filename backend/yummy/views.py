@@ -25,6 +25,7 @@ def registration_view(request):
             data['email'] = user.email
             token, created = Token.objects.get_or_create(user=user)
             data['token'] = token.key
+            data['id'] = user.id
             return JsonResponse(data=data, status=status.HTTP_201_CREATED)
         else:
             data = serializer.errors
@@ -48,6 +49,7 @@ def login_view(request):
                 data['message'] = 'User successfully Login'
                 token, created = Token.objects.get_or_create(user=user)
                 data['token'] = token.key
+                data['id'] = user.id
                 return JsonResponse(data=data,status=status.HTTP_200_OK)
             else:
                 data['message'] = 'You have entered an invalid username or password'
