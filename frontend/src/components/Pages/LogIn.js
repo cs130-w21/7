@@ -30,6 +30,7 @@ export default function LogIn() {
       .then(result => {
         localStorage.setItem('token', result.token);
         localStorage.setItem('email', email);
+        localStorage.setItem('id', result.id);
     })
   }
 

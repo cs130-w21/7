@@ -16,9 +16,6 @@ export default function CardView(props) {
                 <h5 className='cards__item__text'>Attendees : {props.attendee.map(attendee => (
                                     attendee+" "
                                 ))}</h5><br/>
-                <div className='cards__button'>
-                  <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--medium" onClick={props.onclick}>JOIN</Button>
-                </div>
               </div>
             </Link>
           </li>

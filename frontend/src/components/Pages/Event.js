@@ -14,27 +14,13 @@ class Event extends React.Component {
         console.log(this.token);
     }
 
-    deleteAuth= () =>{
-        if (this.token != null)
-        {
-            return fetch('http://127.0.0.1:8000/api/logout/', {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Token ${this.token}`, 
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            }).then(response => console.log("User loged out",response.json()))
-        }
-    }
-
-    handleLogout = async () =>{
-        await this.deleteAuth();
+    handleLogout = () =>{
         localStorage.clear();
         window.location.href='/';
     }
+
     componentDidMount(){
-        fetch('http://127.0.0.1:8000/api/event/get_events/', {
+        fetch('http://127.0.0.1:8000/api/event/get_events', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -42,38 +28,58 @@ class Event extends React.Component {
                 'Authorization': `Token ${this.token}`
             },
             body: JSON.stringify({
-                "name": ""
+                'name': ""
             }),
         }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                var name = "IN-AND-OUT";
-                var datetime = "2021-02-03 15:00:00";
-                var location = "930 Hilgard Ave, Los Angeles, CA 90024";
-                var description = "Party";
-                var attendee = ["Party", "Party2", "Party", "Party2"];
+            .then(result => {
+                console.log(result);
+                if(result["message"]=="Token expired" || result["detail"]=="Invalid token." ){
+                    this.handleLogout();
+                } 
+                var myEvents = [];
+                var otherEvents = [];
+                var attend = false;
+                result.map(event => {
+                    var attendees = [];
+                    event.attendees.map(attendee=>{
+                        attendees.push(attendee.username);
+                        if(attendee.id.toString() == localStorage.getItem("id"))
+                            attend = true
+                    })
+                    var name = event.name;
+                    var m = new Date(event.datetime);
+                    var datetime = m.getUTCFullYear() + "/" +
+                                    ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+                                    ("0" + m.getUTCDate()).slice(-2) + " " +
+                                    ("0" + m.getUTCHours()).slice(-2) + ":" +
+                                    ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+                                    ("0" + m.getUTCSeconds()).slice(-2);
+    
+                    var location = event.location;
+                    var description = event.description;
+                    if(attend){
+                        myEvents.push({id:event.id, name:name, datetime:datetime, location:location, description:description, attendee:attendees, path:'/event_details?id='+event.id})
+                    } else {
+                        otherEvents.push({id:event.id, name:name, datetime:datetime, location:location, description:description, attendee:attendees, path:'/event_details?id='+event.id})
+                    }
+                })
 
                 this.setState({
-                    myEvents: [
-                        {src:'images/img-beef.jpg', text: 'Steak House : 930 Hilgard Ave, Los Angeles, CA 90024', label:'Meal', path:'/service'}, 
-                        {src:'images/img-philz.jpg', text: "Philz Coffee : 525 Santa Monica Blvd, Santa Monica, CA 90401", label:'Cafe', path:'/service'},
-                        {src:'images/img-in-and-out.png', text: "IN-AND-OUT : 922 Gayley Ave, Los Angeles, CA 90024", label:'Meal', path:'/service'}
-                    ],
-                    otherEvents: [
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'},
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'},
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'},
-                        {src:'images/img-beef.jpg', name: name, location:location, datetime:datetime, description:description, attendee:attendee, path:'/service'}
-                    ]
+                    myEvents: myEvents,
+                    otherEvents: otherEvents
                 })
             });
     }
 
-    joinEvent(event_id) {
-
+    leaveEvent(event_id, user_id) {
+        console.log(event_id);
     }
 
-    getOtherEvents(events) {
+    joinEvent(event_id, user_id) {
+        console.log(event_id);
+    }
+
+    getEvents(events) {
         var i = 0;
         var length = events.length;
         var count = Math.ceil(length/3);
@@ -83,9 +89,8 @@ class Event extends React.Component {
             var ob;
             if(i==count-1){
                 if(last==1){
-                    ob = <ul key={i*3} id='my' className='cards__items'><CardView
+                    ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><CardView
                     name={events[i*3]["name"]}
-                    key={events[i*3]["text"]}
                     location={events[i*3]["location"]}
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
@@ -95,9 +100,8 @@ class Event extends React.Component {
                     </li><li className='cards__item'>
                     </li></ul>
                 } else if(last==2){
-                    ob = <ul key={i*3} id='my' className='cards__items'><CardView
+                    ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><CardView
                     name={events[i*3]["name"]}
-                    key={events[i*3]["text"]}
                     location={events[i*3]["location"]}
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
@@ -105,7 +109,6 @@ class Event extends React.Component {
                     attendee={events[i*3]["attendee"]}
                     /><CardView
                     name={events[i*3+1]["name"]}
-                    key={events[i*3+1]["text"]}
                     location={events[i*3+1]["location"]}
                     description={events[i*3+1]["description"]}
                     datetime={events[i*3+1]["datetime"]}
@@ -115,10 +118,9 @@ class Event extends React.Component {
                     </li></ul>
                 }
             }
-            if(ob==undefined)
-                ob = <ul key={i*3} id='my' className='cards__items'><CardView
+            if(ob==undefined) {
+                ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><CardView
                     name={events[i*3]["name"]}
-                    key={events[i*3]["text"]}
                     location={events[i*3]["location"]}
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
@@ -126,7 +128,6 @@ class Event extends React.Component {
                     attendee={events[i*3]["attendee"]}
                     /><CardView
                     name={events[i*3+1]["name"]}
-                    key={events[i*3+1]["text"]}
                     location={events[i*3+1]["location"]}
                     description={events[i*3+1]["description"]}
                     datetime={events[i*3+1]["datetime"]}
@@ -134,14 +135,15 @@ class Event extends React.Component {
                     attendee={events[i*3+1]["attendee"]}
                     /><CardView
                     name={events[i*3+2]["name"]}
-                    key={events[i*3+2]["text"]}
                     location={events[i*3+2]["location"]}
                     description={events[i*3+2]["description"]}
                     datetime={events[i*3+2]["datetime"]}
                     path={events[i*3+2]["path"]}
                     attendee={events[i*3+2]["attendee"]}
                     /></ul>
+            }
             listItems.push(ob)
+            ob=undefined;
         }
         return listItems;
     }
@@ -150,31 +152,22 @@ class Event extends React.Component {
         window.location.href = '/create_event';
     }
     
-    //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&keyword=cruise&key=AIzaSyCY4-DiMtofTkDmGbLyL01OyXfdh1S0wBc
-    //https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=ATtYBwKwwOlknJALhji-kYQzZHV0c3v7quYsrRU5b6Ci2qDuezSVvpHfSA59ZxaREMLUoKcaG7sOCHrxhdgp0bp0nCOAGnhDNpCVF5XV0hcOxE97WzyX3kMUkemmGmoaQopJuPnm7SRqKuNKQzDvCr0uGcWcpN1yRS3VmbZ4Z4Kzhkq8xx_r&sensor=false&key=AIzaSyCY4-DiMtofTkDmGbLyL01OyXfdh1S0wBc
     render(){
-        const otherEvents = this.getOtherEvents(this.state.otherEvents);
+        if (this.state.otherEvents.length == 0)
+            return(<></>);
+        const myEvents = this.getEvents(this.state.myEvents);
+        const otherEvents = this.getEvents(this.state.otherEvents);
         return (
             <div className='cards'>
                 <h2>Your Events</h2>
                 <div className='cards__container'>
                     <div className='cards__wrapper'>
                         {
-                            <ul id='my' className='cards__items'>
-                            {
-                                this.state.myEvents.map(myEvents => (
-                                    <CardView
-                                    src={myEvents.src}
-                                    key={myEvents.text}
-                                    text={myEvents.text}
-                                    label={myEvents.label}
-                                    path={myEvents.path}
-                                    />
-                                ))
-                            }
-                            </ul>
+                            myEvents.map(myEvents => (
+                                myEvents
+                            ))
                         }
-                        <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={this.createEvent}>CREATE AN EVENT</Button>
+                        <Button id="createEvent" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={this.createEvent}>CREATE AN EVENT</Button>
                     </div>
                 </div>
                 <h2>All other events</h2>
