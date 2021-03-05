@@ -95,8 +95,14 @@ class ProfileSerializer(serializers.ModelSerializer):
     else:
         return False
 
+class UserSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = User
+    fields = ['id','username','email']
+
 class EventSerializer(serializers.ModelSerializer):
   id = serializers.IntegerField(required=False)
+  attendees = UserSerializer(many=True)
   class Meta:
     model = Event
     fields = ['name','datetime','location','description','host','attendees','id']
