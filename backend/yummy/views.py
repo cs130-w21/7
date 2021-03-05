@@ -173,10 +173,10 @@ def update_event(request):
             return JsonResponse(data=data, status=status.HTTP_400_BAD_REQUEST)
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def get_events(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = {}
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
@@ -190,10 +190,10 @@ def get_events(request):
             data = serializer.errors
             return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def get_event_by_id(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = {}
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):

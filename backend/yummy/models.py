@@ -27,7 +27,7 @@ class Profile(models.Model):
 class Event(models.Model):
     name = models.CharField(max_length=120)
     datetime = models.DateTimeField()
-    attendees = models.ManyToManyField(User,blank=True)
+    attendees = models.ManyToManyField(User,blank=True,related_name="usernames")
     location = models.CharField(max_length=200)
     description = models.CharField(max_length=500,blank=True)
     host = models.ForeignKey(User, on_delete=models.CASCADE, related_name="host",blank=True)
