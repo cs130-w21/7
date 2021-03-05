@@ -64,6 +64,14 @@
   font-size: 100px;
 }
 
+.event {
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #fff;
+  font-size: 100px;
+}
+
 .products {
   /* background-image: url('/images/img-1.jpg'); */
   background-position: center;

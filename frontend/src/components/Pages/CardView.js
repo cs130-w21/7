@@ -1,24 +1,45 @@
 import React, { setState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '../Button';
 
 export default function CardView(props) {
-  return (
-    <>
-      <li className='cards__item'>
-        <Link className='cards__item__link' to={props.path}>
-          <figure className='cards__item__pic-wrap' data-category={props.label}>
-            <img
-              className='cards__item__img'
-              alt='Travel Image'
-              src={props.src}
-            />
-          </figure>
-          <div className='cards__item__info'>
-            <h5 className='cards__item__text'>{props.text}</h5>
-          </div>
-        </Link>
-      </li>
-    </>
-  );
+  if(props.name != undefined) {
+      return (
+        <>
+          <li className='cards__item'>
+            <Link className='cards__item__link' to={props.path}>
+              <div className='cards__item__info'>
+                <h3 className='cards__item__text'>{props.name}</h3><br/>
+                <h5 className='cards__item__text'>{props.location}</h5><br/>
+                <h5 className='cards__item__text'>{props.datetime}</h5><br/>
+                <h5 className='cards__item__text'>{props.description}</h5>
+                <div className='cards__button'>
+                  <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--medium" onClick={props.onclick}>JOIN</Button>
+                </div>
+              </div>
+            </Link>
+          </li>
+        </>
+      );
+  } else {
+    return (
+      <>
+        <li className='cards__item'>
+          <Link className='cards__item__link' to={props.path}>
+            <figure className='cards__item__pic-wrap' data-category={props.label}>
+              <img
+                className='cards__item__img'
+                alt='Travel Image'
+                src={props.src}
+              />
+            </figure>
+            <div className='cards__item__info'>
+              <h5 className='cards__item__text'>{props.text}</h5>
+            </div>
+          </Link>
+        </li>
+      </>
+    );
+  }
 }
 
