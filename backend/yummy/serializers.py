@@ -144,7 +144,7 @@ class EventSerializer(serializers.ModelSerializer):
     return data
 
 class GetEventSerializer(serializers.Serializer):
-  name = serializers.CharField(max_length=200,required=True)
+  name = serializers.CharField(required=False,max_length=200)
 
 class GetEventIDSerializer(serializers.Serializer):
   id = serializers.IntegerField(required=True)
