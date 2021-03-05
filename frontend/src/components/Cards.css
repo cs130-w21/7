@@ -98,6 +98,11 @@
     padding: 20px 30px 30px;
   }
   
+  .cards__button {
+    display: flex; 
+    justify-content: flex-end
+  }
+
   .cards__item__text {
     color: #252e48;
     font-size: 18px;
