@@ -54,7 +54,7 @@ export default function LogIn() {
   }
 
   return (
-    <div className="LogIn">
+    <div className="Login">
       <form onSubmit={handleSubmit}>
         <div className='form-group login-attr' size="lg" id="email">
           <label>Email</label>
