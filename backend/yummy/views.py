@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
-from django.http import QueryDict
+from django.http import HttpResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import generics, status,viewsets
 from django.contrib.auth import authenticate, login
@@ -14,6 +14,35 @@ import requests
 import json
 import pandas as pd
 import pickle
+from django.views.generic import TemplateView
+from django.views.decorators.cache import never_cache
+import os
+import logging
+from django.views.generic import View
+from django.conf import settings
+
+
+class FrontendAppView(View):
+    """
+    Serves the compiled frontend entry point (only works if you have run `yarn
+    build`).
+    """
+    index_file_path = os.path.join(settings.REACT_APP_DIR, 'build', 'index.html')
+
+    def get(self, request):
+        try:
+            with open(self.index_file_path) as f:
+                return HttpResponse(f.read())
+        except FileNotFoundError:
+            logging.exception('Production build of app not found')
+            return HttpResponse(
+                """
+                This URL is only used when you have built the production
+                version of the app. Visit http://localhost:3000/ instead after
+                running `yarn start` on the frontend/ directory
+                """,
+                status=501,
+            )
 
 @api_view(['POST'])
 def registration_view(request):

@@ -27,7 +27,7 @@ function Navbar() {
     const deleteAuth= () =>{
         if (token != null)
         {
-            return fetch('http://127.0.0.1:8000/api/logout/', {
+            return fetch('/api/logout/', {
             method: 'DELETE',
             headers: {
                 'Authorization': `Token ${token}`, 
