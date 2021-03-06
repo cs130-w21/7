@@ -37,19 +37,8 @@ pandas==1.1.5
 cloudpickle==1.6.0
 pickleshare==0.7.5
 jsonschema==3.2.0
-<<<<<<< Updated upstream
-
-<<<<<<< Updated upstream
-=======
-#heroku buildpacks
-gunicorn==19.7.1
-whitenoise==3.3.1
-
-=======
 gunicorn==20.0.4
 whitenoise==5.2.0
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 # django-cors-headers
 django-cors-middleware==1.5.0
 

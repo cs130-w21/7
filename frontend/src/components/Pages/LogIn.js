@@ -6,6 +6,7 @@ import "../Login.css";
 export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
 
   function validateForm() {
     return email.length > 0 && email.includes('@') && password.length > 0;
@@ -54,7 +55,7 @@ export default function LogIn() {
   }
 
   return (
-    <div className="Login">
+    <div className="LogIn">
       <form onSubmit={handleSubmit}>
         <div className='form-group login-attr' size="lg" id="email">
           <label>Email</label>

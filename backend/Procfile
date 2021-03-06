@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-release: python manage.py migrate
-web: gunicorn yummy.wsgi --log-file -
-=======
 release: python3 manage.py migrate
 web gunicorn backend.wsgi --log-file -
->>>>>>> Stashed changes
+
