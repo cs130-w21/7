@@ -79,32 +79,37 @@ class EventDetails extends React.Component {
 
   leaveEvent() {
     fetch('http://127.0.0.1:8000/api/event/leave_event', {
-        method: 'POST',
+        method: 'DELETE',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': `Token ${this.token}`
         },
         body: JSON.stringify({
-            'id_event': this.event_id,
-            'id_user': this.user_id
+            'event_id': this.event_id,
+            'user_id': this.user_id
         }),
     }).then(response => response.json())
         .then(result => {
+          if(result["message"]=="Token expired" || result["detail"]=="Invalid token." ){
+            this.handleLogout();
+          } 
+          console.log(result)
+          window.location.href='/event';
         });
   }
 
   joinEvent() {
     fetch('http://127.0.0.1:8000/api/event/join_event', {
-        method: 'GET',
+        method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': `Token ${this.token}`
         },
         body: JSON.stringify({
-            'id_event': this.event_id,
-            'id_user': this.user_id
+            'event_id': this.event_id,
+            'user_id': this.user_id
         }),
     }).then(response => response.json())
         .then(result => {
@@ -112,7 +117,7 @@ class EventDetails extends React.Component {
           if(result["message"]=="Token expired" || result["detail"]=="Invalid token." ){
             this.handleLogout();
           } 
-          // window.location.href='/event';
+          window.location.href='/event';
         });
   }
 

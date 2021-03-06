@@ -2,6 +2,7 @@ import React from 'react';
 import CardView from './CardView';
 import '../Cards.css';
 import { Button } from '../Button';
+import EventView from './EventView';
 
 class Event extends React.Component {
     constructor(){
@@ -11,6 +12,7 @@ class Event extends React.Component {
             otherEvents: []
         };
         this.token = localStorage.getItem('token');
+        this.loaded = false;
         console.log(this.token);
     }
 
@@ -46,24 +48,29 @@ class Event extends React.Component {
                         if(attendee.id.toString() == localStorage.getItem("id"))
                             attend = true
                     })
-                    var name = event.name;
-                    var m = new Date(event.datetime);
-                    var datetime = m.getUTCFullYear() + "/" +
-                                    ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
-                                    ("0" + m.getUTCDate()).slice(-2) + " " +
-                                    ("0" + m.getUTCHours()).slice(-2) + ":" +
-                                    ("0" + m.getUTCMinutes()).slice(-2) + ":" +
-                                    ("0" + m.getUTCSeconds()).slice(-2);
-    
-                    var location = event.location;
-                    var description = event.description;
-                    if(attend){
-                        myEvents.push({id:event.id, name:name, datetime:datetime, location:location, description:description, attendee:attendees, path:'/event_details?id='+event.id})
-                    } else {
-                        otherEvents.push({id:event.id, name:name, datetime:datetime, location:location, description:description, attendee:attendees, path:'/event_details?id='+event.id})
+                    var t1 = new Date(event.datetime).getTime();
+                    var curr = new Date().getTime();
+                    if(curr < t1) {
+                        var name = event.name;
+                        var m = new Date(event.datetime);
+                        var datetime = m.getUTCFullYear() + "/" +
+                                        ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" +
+                                        ("0" + m.getUTCDate()).slice(-2) + " " +
+                                        ("0" + m.getUTCHours()).slice(-2) + ":" +
+                                        ("0" + m.getUTCMinutes()).slice(-2) + ":" +
+                                        ("0" + m.getUTCSeconds()).slice(-2);
+        
+                        var location = event.location;
+                        var description = event.description;
+                        if(attend){
+                            myEvents.push({id:event.id, name:name, datetime:datetime, location:location, description:description, attendee:attendees, path:'/event_details?id='+event.id})
+                        } else {
+                            otherEvents.push({id:event.id, name:name, datetime:datetime, location:location, description:description, attendee:attendees, path:'/event_details?id='+event.id})
+                        }
                     }
+                    attend = false
                 })
-
+                this.loaded = true;
                 this.setState({
                     myEvents: myEvents,
                     otherEvents: otherEvents
@@ -89,7 +96,7 @@ class Event extends React.Component {
             var ob;
             if(i==count-1){
                 if(last==1){
-                    ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><CardView
+                    ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><EventView
                     name={events[i*3]["name"]}
                     location={events[i*3]["location"]}
                     description={events[i*3]["description"]}
@@ -100,14 +107,14 @@ class Event extends React.Component {
                     </li><li className='cards__item'>
                     </li></ul>
                 } else if(last==2){
-                    ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><CardView
+                    ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><EventView
                     name={events[i*3]["name"]}
                     location={events[i*3]["location"]}
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
                     path={events[i*3]["path"]}
                     attendee={events[i*3]["attendee"]}
-                    /><CardView
+                    /><EventView
                     name={events[i*3+1]["name"]}
                     location={events[i*3+1]["location"]}
                     description={events[i*3+1]["description"]}
@@ -119,21 +126,21 @@ class Event extends React.Component {
                 }
             }
             if(ob==undefined) {
-                ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><CardView
+                ob = <ul key={events[i*3]["id"]} id='my' className='cards__items'><EventView
                     name={events[i*3]["name"]}
                     location={events[i*3]["location"]}
                     description={events[i*3]["description"]}
                     datetime={events[i*3]["datetime"]}
                     path={events[i*3]["path"]}
                     attendee={events[i*3]["attendee"]}
-                    /><CardView
+                    /><EventView
                     name={events[i*3+1]["name"]}
                     location={events[i*3+1]["location"]}
                     description={events[i*3+1]["description"]}
                     datetime={events[i*3+1]["datetime"]}
                     path={events[i*3+1]["path"]}
                     attendee={events[i*3+1]["attendee"]}
-                    /><CardView
+                    /><EventView
                     name={events[i*3+2]["name"]}
                     location={events[i*3+2]["location"]}
                     description={events[i*3+2]["description"]}
@@ -153,8 +160,8 @@ class Event extends React.Component {
     }
     
     render(){
-        if (this.state.otherEvents.length == 0)
-            return(<></>);
+        if(!this.loaded)
+            return (<div className='cards'><h2>Loading Event Data...</h2></div>)
         const myEvents = this.getEvents(this.state.myEvents);
         const otherEvents = this.getEvents(this.state.otherEvents);
         return (

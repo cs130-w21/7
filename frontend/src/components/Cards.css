@@ -24,6 +24,7 @@
   .cards__wrapper {
     position: relative;
     margin: 50px 0 45px;
+    width: 100%;
   }
   
   .cards__items {
