@@ -16,7 +16,25 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+<<<<<<< Updated upstream
 
+=======
+<<<<<<< Updated upstream
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+=======
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+
+# REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
+
+# STATICFILES_DIRS = [
+#     os.path.join(REACT_APP_DIR, 'build', 'static'),
+# ]
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -27,7 +45,15 @@ SECRET_KEY = 'br^(wet+z_bvav+orj2dnr5f530&o3^5o6!to1k=vo@#kp!nst'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+<<<<<<< Updated upstream
 ALLOWED_HOSTS = []
+=======
+<<<<<<< Updated upstream
+ALLOWED_HOSTS = ['yummy-web.herokuapp.com', '127.0.0.1:8000']
+=======
+ALLOWED_HOSTS = ["*"]
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 
 # Application definition
@@ -69,6 +95,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -97,7 +124,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+# WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
