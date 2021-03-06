@@ -168,4 +168,5 @@ class RecommendationSerializer(serializers.Serializer):
   longitude = serializers.FloatField(required=True)
 
 
+
     

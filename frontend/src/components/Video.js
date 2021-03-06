@@ -1,24 +1,34 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../App.css';
 import { Button } from './Button';
 import './Video.css';
 
-function openRestaurant() {
-  if(localStorage.logIn === 1) {
-    window.location.href='/recommend';
-  } else {
-    window.location.href='/login';
-  }
-}
+
 
 function Video() {
   const [count, setCount] = useState(0);
-  
-  function showButtonOption(){
-    if(localStorage.logIn === 1) {
-      setCount(1);
+  const [loginBool, setLoginBool] = useState(0);
+
+  useEffect(()=>{
+    var loginTemp = localStorage.getItem('logIn');
+    setLoginBool(loginTemp);
+  })
+
+  function openRestaurant() {
+    if(loginBool == 1) {
+      window.location.href='/recommend';
     } else {
       window.location.href='/login';
+    }
+  }
+
+
+  function showButtonOption(){
+    if(loginBool == 1) {
+      setCount(1);
+    } else {
+      console.log("login")
+      // window.location.href='/login';
     }
    
   }

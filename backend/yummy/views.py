@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http.response import JsonResponse
+from django.http import QueryDict
 from rest_framework.parsers import JSONParser
 from rest_framework import generics, status,viewsets
 from django.contrib.auth import authenticate, login
@@ -36,6 +37,7 @@ def registration_view(request):
 def login_view(request):
     data = {}
     if request.method == 'POST':
+        print(request.data)
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             # check if the user exists or not
@@ -321,23 +323,24 @@ def update_password(request):
 @permission_classes((IsAuthenticated,))
 def recommendation(request):
     if request.method == 'GET':
+        latitude = request.GET.get('latitude')
+        longitude = request.GET.get('latitude')
+        print(request.GET)
         data = {}
-        print(request.auth)
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
             data['message'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
-            
         try:
             profile = Profile.objects.get(username=token.user)
-            serializer = RecommendationSerializer(data=request.data)
+            serializer = RecommendationSerializer(data=request.GET)
             if serializer.is_valid():
                 yelp_api = "https://api.yelp.com/v3/businesses/search"
                 auth = {"Authorization": "Bearer jZsa2Da9xZlA7tD2UIUrDszi4ffcGOukaOMlDEWmo6MSIpvhf4r2sfoYQbx3jyQN3_9ElU6nkDBZePsmeCETwWrln-tLq6AhQqwbV-yMwN78WX8pEJ0-q1mfziE_YHYx"}
                 params = {
                     "term": "food",
-                    "latitude": request.data['latitude'],
-                    "longitude": request.data['longitude'],
+                    "latitude": latitude,
+                    "longitude": longitude,
                     "radius": 20000,
                     "limit": 50,
                     "open_now": True,
@@ -351,7 +354,7 @@ def recommendation(request):
                 data = serializer.errors
                 return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
         except Profile.DoesNotExist:
-            return JsonResponse(status=status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
 
 # Machine Learning Model
 def ML_predict(businesses,cuisine,food_type):
