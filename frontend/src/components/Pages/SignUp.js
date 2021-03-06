@@ -16,26 +16,13 @@ export default function SignUp() {
     event.preventDefault();
   }
 
-  // function handleLogin() {
-  //     console.log(email);
-  //     var user_exist = false;
-  //     if(!user_exist){
-  //       document.getElementById('warning').style.visibility = 'visible';
-  //       document.getElementById('warning').textContent = 'User does not exist';
-  //     } else {
-  //       document.getElementById('warning').style.visibility = 'hidden';
-  //     }
-  //     //TODO : login API
-  // }
-
-  
   function parseJSON(response) {
     return response.json();
   }
   
   function handleSignup () {
     //TODO : Sign Up API
-    fetch('/api/register/', {
+    fetch('http://127.0.0.1:8000/api/register/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',

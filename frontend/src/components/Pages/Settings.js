@@ -104,7 +104,7 @@ export default function Setting() {
         {
             const fetchProfiles = async () => {
                 setIsLoading(true);
-                await fetch('/api/profile/get/', {
+                await fetch('http://127.0.0.1:8000/api/profile/get/', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Token ${getToken}`, 
@@ -142,7 +142,7 @@ export default function Setting() {
     const submitUpdateProfile = (event) => {
         event.preventDefault() 
         const updateProfile = async() => {
-            await fetch('/api/profile/update/', {
+            await fetch('http://127.0.0.1:8000/api/profile/update/', {
                 method : 'PUT',
                 headers: {
                     'Authorization': `Token ${token}`, 
@@ -170,7 +170,7 @@ export default function Setting() {
 
     const submitChangePassword = async (event) => {
         event.preventDefault();
-        fetch('/api/update_password/', {
+        fetch('http://127.0.0.1:8000/api/update_password/', {
             method : 'POST',
             headers: {
                 'Authorization': `Token ${token}`, 
