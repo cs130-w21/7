@@ -166,6 +166,4 @@ class LeaveEventIDSerializer(serializers.Serializer):
 class RecommendationSerializer(serializers.Serializer):
   latitude = serializers.FloatField(required=True)
   longitude = serializers.FloatField(required=True)
-
-
     
