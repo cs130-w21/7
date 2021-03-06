@@ -15,19 +15,6 @@ export default function SignUp() {
   function handleSubmit(event) {
     event.preventDefault();
   }
-
-  // function handleLogin() {
-  //     console.log(email);
-  //     var user_exist = false;
-  //     if(!user_exist){
-  //       document.getElementById('warning').style.visibility = 'visible';
-  //       document.getElementById('warning').textContent = 'User does not exist';
-  //     } else {
-  //       document.getElementById('warning').style.visibility = 'hidden';
-  //     }
-  //     //TODO : login API
-  // }
-
   
   function parseJSON(response) {
     return response.json();
