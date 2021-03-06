@@ -40,7 +40,7 @@ function Recommend() {
         
         const postLocation = async () => {
             setIsLoading(true);
-            await fetch('http://127.0.0.1:8000/api/recommendation/?latitude='+latitude+'&longitude='+longitude, {
+            await fetch('/api/recommendation/?latitude='+latitude+'&longitude='+longitude, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Token ${token}`, 

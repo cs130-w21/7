@@ -35,7 +35,7 @@ export default function SignUp() {
   
   function handleSignup () {
     //TODO : Sign Up API
-    fetch('http://127.0.0.1:8000/api/register/', {
+    fetch('/api/register/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
