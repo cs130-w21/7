@@ -17,7 +17,7 @@ export default function LogIn() {
   }
 
   function fetchToken(){
-    return fetch('http://127.0.0.1:8000/api/login/', {
+    return fetch('/api/login/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
