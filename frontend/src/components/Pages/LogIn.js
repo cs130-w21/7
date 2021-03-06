@@ -2,7 +2,10 @@ import React, { useState, useContext } from "react";
 import '../../App.css';
 import { Button } from '../Button';
 import "../Login.css";
+import axios from 'axios';
 
+// axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+// axios.defaults.xsrfCookieName = "csrftoken";
 export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,11 +20,13 @@ export default function LogIn() {
   }
 
   function fetchToken(){
-    return fetch('/api/login/', {
+    return fetch('/api/login', {
       method: 'POST',
+      credentials: 'include',
+      mode: 'same-origin',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         "email": email,

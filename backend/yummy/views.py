@@ -6,7 +6,7 @@ from rest_framework import generics, status,viewsets
 from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventSerializer, GetEventIDSerializer, LeaveEventIDSerializer, ChangePasswordSerializer,RecommendationSerializer
 from .authentication import token_expire_handler
 from .models import User, Profile, Event
@@ -20,6 +20,7 @@ import os
 import logging
 from django.views.generic import View
 from django.conf import settings
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 class FrontendAppView(View):

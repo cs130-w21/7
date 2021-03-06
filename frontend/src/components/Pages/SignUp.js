@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import '../../App.css';
 import { Button } from '../Button';
 import "../Login.css";
+import axios from 'axios';
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.withCredentials = true;
+
 
 export default function SignUp() {
+  
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -15,37 +21,16 @@ export default function SignUp() {
   function handleSubmit(event) {
     event.preventDefault();
   }
-
-  // function handleLogin() {
-  //     console.log(email);
-  //     var user_exist = false;
-  //     if(!user_exist){
-  //       document.getElementById('warning').style.visibility = 'visible';
-  //       document.getElementById('warning').textContent = 'User does not exist';
-  //     } else {
-  //       document.getElementById('warning').style.visibility = 'hidden';
-  //     }
-  //     //TODO : login API
-  // }
-
   
   function parseJSON(response) {
     return response.json();
   }
   
   function handleSignup () {
-    //TODO : Sign Up API
-    fetch('http://127.0.0.1:8000/api/register/', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: email,
-            password: password,
-            username: username
-        })
+    axios.post('/api/register', {
+      email: email,
+      password: password,
+      username: username
     }).then(parseJSON)
     .then(function(data) {
         if("response" in data) {

@@ -11,32 +11,11 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-# import django_on_heroku
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Configure app for Heroku deployment
-# django_on_heroku.settings(locals())
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
-REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
-
-STATICFILES_DIRS = [os.path.join(REACT_APP_DIR, 'build', 'static'),]
-# If you want to serve user uploaded files add these settings
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(REACT_APP_DIR, 'build', 'media')
-
-STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
-# REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
-
-# STATICFILES_DIRS = [
-#     os.path.join(REACT_APP_DIR, 'build', 'static'),
-# ]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -73,7 +52,7 @@ TOKEN_EXPIRED_AFTER_SECONDS = 7200
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.TokenAuthentication'
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
@@ -95,10 +74,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'http://localhost:8000',
-    'http://localhost:8080',
-    'http://localhost:8081',
+    # 'http://localhost:8000',
+    # 'http://localhost:3000',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -106,7 +83,7 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, '../frontend')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -119,8 +96,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'wsgi.application'
-
+WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -174,3 +150,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
+
+STATICFILES_DIRS = [os.path.join(REACT_APP_DIR, 'build', 'static'),]
+# If you want to serve user uploaded files add these settings
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(REACT_APP_DIR, 'build', 'media')
+
+STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
