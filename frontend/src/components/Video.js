@@ -25,7 +25,7 @@ function Video() {
       setCount(1);
     } else {
       console.log("login")
-      window.location.href='/login';
+      // window.location.href='/login';
     }
    
   }
