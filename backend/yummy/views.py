@@ -405,12 +405,10 @@ def ML_predict(businesses,cuisine,food_type):
         "Noodles", "Tapas/Small Plates", "Food Stands", "Cupcakes", "Soul Food",
         "Fish & Chips", "Dim Sum", "Cajun/Creole", "Ramen", "Creperies", "Food Court",
         "Bistros", "Gelato", "Waffles", "Hot Pot", "Acai Bowls", "Kebab", "Pretzels"]
-    # Loading list of businesses nearby
-    json_file = json.loads(businesses)
 
     # Converting business information to dataframe format for machine learning prediction
     df = pd.DataFrame(columns = ["business_id", "categories"])
-    for business in json_file["businesses"]:
+    for business in businesses["businesses"]:
         categories_list = ""
         for category in business["categories"]:
             categories_list += category["title"] + ","
@@ -452,7 +450,7 @@ def ML_predict(businesses,cuisine,food_type):
 
     # Getting JSON format of suggested restaurants
     json_result = []
-    for business in json_file["businesses"]:
+    for business in businesses["businesses"]:
         if (business["id"] in result):
             json_result.append(business)
     return json_result
