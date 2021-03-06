@@ -11,15 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-# import django_on_heroku
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Configure app for Heroku deployment
-# django_on_heroku.settings(locals())
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -27,16 +20,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
 
 STATICFILES_DIRS = [os.path.join(REACT_APP_DIR, 'build', 'static'),]
+
 # If you want to serve user uploaded files add these settings
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = os.path.join(REACT_APP_DIR, 'build', 'media')
 
 STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
-# REACT_APP_DIR = os.path.join(BASE_DIR, 'frontend')
-
-# STATICFILES_DIRS = [
-#     os.path.join(REACT_APP_DIR, 'build', 'static'),
-# ]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
