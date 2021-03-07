@@ -469,4 +469,3 @@ def ML_predict(businesses,cuisine,food_type):
         if (business["id"] in result):
             json_result.append(business)
     return json_result
-    return result
