@@ -393,7 +393,7 @@ def recommendation(request):
                 res = requests.get(yelp_api, headers=auth, params=params)
                 res = json.loads(res.content)
                 result = ML_predict(res,profile.cuisine,profile.food_type)
-                return JsonResponse(data=result,status=status.HTTP_200_OK)
+                return JsonResponse(data=result,status=status.HTTP_200_OK, safe=False)
             else:
                 data = serializer.errors
                 return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
