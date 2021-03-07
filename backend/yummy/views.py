@@ -473,4 +473,4 @@ def ML_predict(businesses,cuisine,food_type):
     for business in businesses["businesses"]:
         if (business["id"] in result):
             json_result.append(business)
-    return json_result
+    return json.dumps(json_result, indent=4, sort_keys=True)
