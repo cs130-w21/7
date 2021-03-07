@@ -6,7 +6,7 @@ from rest_framework import generics, status,viewsets
 from django.contrib.auth import authenticate, login
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.authtoken.models import Token
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import RegistrationSerializer, LoginSerializer, ProfileSerializer, EventSerializer, JoinEventIDSerializer, GetEventSerializer, GetEventIDSerializer, LeaveEventIDSerializer, ChangePasswordSerializer,RecommendationSerializer
 from .authentication import token_expire_handler
 from .models import User, Profile, Event
@@ -20,8 +20,13 @@ import os
 import logging
 from django.views.generic import View
 from django.conf import settings
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 class FrontendAppView(View):
+    """
+    Serves the compiled frontend entry point (only works if you have run `yarn
+    build`).
+    """
     index_file_path = os.path.join(settings.REACT_APP_DIR, 'build', 'index.html')
 
     def get(self, request):
@@ -39,6 +44,7 @@ class FrontendAppView(View):
                 status=501,
             )
 
+
 @api_view(['POST'])
 def registration_view(request):
     if request.method == 'POST':
@@ -55,9 +61,10 @@ def registration_view(request):
         else:
             data = serializer.errors
             return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
-        
+
 
 @api_view(['POST'])
+@ensure_csrf_cookie
 def login_view(request):
     data = {}
     if request.method == 'POST':

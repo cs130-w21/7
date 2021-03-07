@@ -1,13 +1,16 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import '../../App.css';
 import { Button } from '../Button';
 import "../Login.css";
+import Cookies from 'js-cookie';
 
 export default function LogIn() {
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  var csrfCookie = Cookies.get('XSRF-TOKEN');
+  console.log(csrfCookie)
   
-
   function validateForm() {
     return email.length > 0 && email.includes('@') && password.length > 0;
   }
@@ -19,14 +22,15 @@ export default function LogIn() {
   function fetchToken(){
     return fetch('/api/login/', {
       method: 'POST',
+      credentials: 'include',
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
-      body: JSON.stringify({
-        "email": email,
-        "password": password
-      }),
+      body : JSON.stringify({
+        email: email,
+        password: password
+      })
     }).then(response => response.json())
       .then(result => {
         localStorage.setItem('token', result.token);
@@ -37,7 +41,6 @@ export default function LogIn() {
   async function handleLogin() {
     await fetchToken();
     var token = localStorage.getItem('token');
-    console.log(token)
     if (token === "undefined") {
       document.getElementById('warning').style.visibility = 'visible'
       document.getElementById('warning').textContent = 'User does not exist or incorrect password';
@@ -76,7 +79,7 @@ export default function LogIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleLogin} disabled={!validateForm()}>LOG IN</Button>
+        <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleLogin} disabled={!validateForm()} type="submit">LOG IN</Button>
         <div className='seperator' />
         <Button id="signup" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleSignup} type="submit">SIGN UP</Button>
         <div className='seperator' />

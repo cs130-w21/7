@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import '../App.css';
 import { Button } from './Button';
 import './Video.css';
+import video from '../assets/videos/video.mp4'
+
 function Video() {
   const [count, setCount] = useState(0);
   const [loginBool, setLoginBool] = useState(0);
@@ -32,7 +34,7 @@ function Video() {
 
   return (
     <div className='video-container'>
-      <video src='/videos/video.mp4' autoPlay loop muted />
+      <video src={video} autoPlay loop muted />
       <h1>YummY</h1>
       <p>Let us decide for you</p>
       
@@ -72,5 +74,4 @@ function Video() {
     </div>
   );
 }
-
 export default Video;

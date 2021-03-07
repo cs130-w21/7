@@ -10,6 +10,7 @@ import Settings from "./components/Pages/Settings"
 import SignUp from './components/Pages/SignUp';
 import Recommend from './components/Pages/Recommend';
 
+
 export default function App() {
   return (
     <>
@@ -24,7 +25,6 @@ export default function App() {
           <Route path="/setting" component={Settings}/>
       </Switch>
     </Router>
-      sdfsdf
     </>
   );
 }

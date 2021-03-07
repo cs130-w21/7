@@ -82,11 +82,6 @@ function Navbar() {
                                 Profile
                             </Link>
                         </li>
-                        {/* <li id='login-btn-mob' className='nav-item'>
-                            <Link to='/setting' className='nav-links-mobile' onClick={handleLogout}>
-                                Log Out
-                            </Link>
-                        </li> */}
                     </ul>
                     {button && <Button id='login-btn' buttonStyle='btn--outline' onClick={handleLogout}>Log Out</Button>}
                   </div>

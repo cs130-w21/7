@@ -13,18 +13,6 @@ function Recommend() {
             {src:'images/img-in-and-out.png', text: "IN-AND-OUT : 922 Gayley Ave, Los Angeles, CA 90024", label:'Meal', path:'/service'}]
     };
 
-    
-    // const getUserLocation = async () => {
-    //     await fetch('http://ip-api.com/json')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log(data);
-    //         setLat(data.lat)
-    //         setLong(data.lon)
-    //         state.listitem1.push({src:'images/img-beef.jpg', text: 'Hell', label:'T', path:'/service'});
-    //     });
-    // }
-
     const getUserLocation = () => {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);

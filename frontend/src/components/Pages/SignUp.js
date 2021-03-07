@@ -4,6 +4,7 @@ import { Button } from '../Button';
 import "../Login.css";
 
 export default function SignUp() {
+  
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +22,6 @@ export default function SignUp() {
   }
   
   function handleSignup () {
-    //TODO : Sign Up API
     fetch('http://127.0.0.1:8000/api/register/', {
         method: 'POST',
         headers: {
@@ -59,8 +59,6 @@ export default function SignUp() {
     }).catch(function(error) {
       console.log('request failed', error)
     });
-      
-
 }
 
   return (

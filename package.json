@@ -5,6 +5,8 @@
   "author": "Group 7",
   "license": "MIT",
   "private": true,
+  "homepage": ".",
+  "proxy": "http://localhost:8000",
   "scripts": {
     "heroku-prebuild": "NODE_ENV=production cd frontend/ && npm install && npm run build && cd .."
   },
@@ -12,3 +14,4 @@
     "frontend/node_modules"
   ]
 }
+
