@@ -368,9 +368,8 @@ def update_password(request):
 @permission_classes((IsAuthenticated,))
 def recommendation(request):
     if request.method == 'GET':
-        latitude = request.GET.get('latitude')
-        longitude = request.GET.get('latitude')
-        print(request.GET)
+        latitude = float(request.GET.get('latitude'))
+        longitude = float(request.GET.get('longitude'))
         data = {}
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
