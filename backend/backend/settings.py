@@ -157,8 +157,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
 WHITENOISE_ROOT = os.path.join(REACT_APP_DIR, 'build', 'root')
-# from corsheaders.defaults import default_headers
-
-# CORS_ALLOW_HEADERS = list(default_headers) + [
-#     'X-CSRFTOKEN',
-# ]
