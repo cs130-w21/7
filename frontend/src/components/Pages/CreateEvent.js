@@ -6,8 +6,10 @@ import DateTimePicker from 'react-datetime-picker';
 
 
 export default function CreateEvent() {
-    const [name, setName] = useState("");
-    const [location, setLocation] = useState("");
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const [name, setName] = useState(urlParams.get('name') == null ? "" : urlParams.get('name'));
+    const [location, setLocation] = useState(urlParams.get('location') == null ? "" : urlParams.get('location'));
     const [datetime, setDatetime] = useState(new Date());
     const [description, setDescription] = useState("");
 
