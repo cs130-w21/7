@@ -177,7 +177,8 @@ def get_profile_view(request):
             serializer = ProfileSerializer(profile)
             return JsonResponse(data=serializer.data,status=status.HTTP_200_OK)
         except Profile.DoesNotExist:
-            return JsonResponse(status=status.HTTP_400_BAD_REQUEST)
+            data['message'] = "The profile does nto exist"
+            return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
