@@ -42,12 +42,10 @@ export default function CreateEvent() {
             "name": name,
             "location": location,
             "description": description,
-            "datetime": date,
-            "attendees": localStorage.id
+            "datetime": date
             }),
         }).then(response => response.json())
             .then(result => {
-                console.log(result);
                 if(result["message"]=="Token expired" || result["detail"]=="Invalid token." ){
                     handleLogout();
                 } else {
