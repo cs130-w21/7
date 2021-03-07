@@ -22,7 +22,7 @@ export default function SignUp() {
   }
   
   function handleSignup () {
-    fetch('http://127.0.0.1:8000/api/register/', {
+    fetch('/api/register/', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -40,6 +40,7 @@ export default function SignUp() {
                 console.log(data)
                 localStorage.logIn = 1;
                 localStorage.token = data.token;
+                localStorage.setItem('id', data.id);
                 window.location.href='/create';
             } else {
                 document.getElementById('warning').style.visibility = 'visible'
