@@ -137,11 +137,22 @@ Assuming you have Python setup, to run locally, do the following commands.
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-<!-- ROADMAP -->
-## Roadmap
+<!-- CI/CD INSTRUCTIONS EXAMPLES -->
+## CI/CD Instructions
 
-Add Later
+For compile, test, packaging and deploy, we do that automatically everytime a Pull Request is created. You can use the command `git push origin <your-branch>` to create a PR to trigger the build automatically.
+
+If you prefer to trigger the build manually, you can access [Group 7 Travis CI](https://travis-ci.com/github/cs130-w21/7). Then select `Trigger Build`.
+
+![trigger_manual](images/trigger-manual.png)
+
+There will be a pop-up that let you choose `Branch`, `Commit Message`, and `Custom Config`. Once set, press `Trigger custom build` to start the build.
+
+![trigger_popup](images/trigger-popup.png)
+
+If done correctly, the builds will successfully start.
+
+![builds](images/builds-start.png)
 
 <!-- CONTRIBUTING -->
 ## Contributing
@@ -153,25 +164,6 @@ Contributions are what make the open source community such an amazing place to b
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-
-
-<!-- LICENSE -->
-## License
-
-Add Later.
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Add Later
-
-
-<!-- ACKNOWLEDGEMENTS -->
-## Acknowledgements
-Add Later
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
