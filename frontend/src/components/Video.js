@@ -74,5 +74,4 @@ function Video() {
     </div>
   );
 }
-
 export default Video;
