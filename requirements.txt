@@ -41,3 +41,5 @@ gunicorn==20.0.4
 whitenoise==5.2.0
 # django-cors-headers
 django-cors-middleware==1.5.0
+django-rest-swagger==2.2.0
+PyYAML==5.4.1
