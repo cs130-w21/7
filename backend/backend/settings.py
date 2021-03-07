@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'br^(wet+z_bvav+orj2dnr5f530&o3^5o6!to1k=vo@#kp!nst'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['yummy-app.herokuapp.com', '127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -74,10 +74,10 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = [
-    # 'http://localhost:8000',
-    # 'http://localhost:3000',
+    'http://localhost:8000',
+    'http://localhost:3000',
 ]
-
+CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
@@ -147,10 +147,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
 

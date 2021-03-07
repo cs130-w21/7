@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import '../../App.css';
 import { Button } from '../Button';
 import "../Login.css";
-import axios from 'axios';
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
-axios.defaults.withCredentials = true;
-
 
 export default function SignUp() {
   
@@ -27,10 +22,17 @@ export default function SignUp() {
   }
   
   function handleSignup () {
-    axios.post('/api/register', {
-      email: email,
-      password: password,
-      username: username
+    fetch('http://127.0.0.1:8000/api/register/', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password,
+            username: username
+        })
     }).then(parseJSON)
     .then(function(data) {
         if("response" in data) {
@@ -57,8 +59,6 @@ export default function SignUp() {
     }).catch(function(error) {
       console.log('request failed', error)
     });
-      
-
 }
 
   return (

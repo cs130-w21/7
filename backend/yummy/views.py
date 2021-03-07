@@ -22,7 +22,6 @@ from django.views.generic import View
 from django.conf import settings
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-
 class FrontendAppView(View):
     """
     Serves the compiled frontend entry point (only works if you have run `yarn
@@ -45,6 +44,7 @@ class FrontendAppView(View):
                 status=501,
             )
 
+
 @api_view(['POST'])
 def registration_view(request):
     if request.method == 'POST':
@@ -61,8 +61,9 @@ def registration_view(request):
         else:
             data = serializer.errors
             return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
-        
 
+
+@ensure_csrf_cookie  
 @api_view(['POST'])
 def login_view(request):
     data = {}
