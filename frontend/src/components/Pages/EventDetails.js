@@ -26,7 +26,7 @@ class EventDetails extends React.Component {
   }
 
   componentDidMount(){
-    fetch('http://127.0.0.1:8000/api/event/get_event', {
+    fetch('/api/event/get_event', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -78,7 +78,7 @@ class EventDetails extends React.Component {
   }
 
   leaveEvent() {
-    fetch('http://127.0.0.1:8000/api/event/leave_event', {
+    fetch('/api/event/leave_event', {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -100,7 +100,7 @@ class EventDetails extends React.Component {
   }
 
   joinEvent() {
-    fetch('http://127.0.0.1:8000/api/event/join_event', {
+    fetch('/api/event/join_event', {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',

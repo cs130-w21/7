@@ -218,7 +218,8 @@ def get_events(request):
             data['message'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         serializer = GetEventSerializer(data=request.data)
-        if serializer.is_valid():
+        # if serializer.is_valid():
+        if "name" in request.data:
             events = Event.objects.filter(name__contains=request.data['name'])
             return JsonResponse(data=EventSerializer(events,many=True).data,status=status.HTTP_200_OK,safe=False)
         else:

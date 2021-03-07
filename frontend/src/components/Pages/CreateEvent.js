@@ -29,7 +29,7 @@ export default function CreateEvent() {
         var year = datetime.getFullYear();
         var time = datetime.toTimeString().split(" ")[0];
         var date = year + '-' + month.pad() + '-' + day.pad() + 'T' + time;
-        fetch('http://127.0.0.1:8000/api/event/create/', {
+        fetch('/api/event/create/', {
             method: 'POST',
             headers: {
             'Accept': 'application/json',

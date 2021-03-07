@@ -22,7 +22,7 @@ class Event extends React.Component {
     }
 
     componentDidMount(){
-        fetch('http://127.0.0.1:8000/api/event/get_events', {
+        fetch('/api/event/get_events', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
