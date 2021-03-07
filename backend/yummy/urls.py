@@ -3,7 +3,7 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    re_path(r'^', views.FrontendAppView.as_view()),
+    url(r'^', views.FrontendAppView.as_view()),
     url(r'^api/register', views.registration_view, name="register"),
     url(r'^api/login', views.login_view, name="login"),
     url(r'^api/logout', views.logout_view, name="logout"),
