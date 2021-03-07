@@ -40,6 +40,7 @@ export default function SignUp() {
                 console.log(data)
                 localStorage.logIn = 1;
                 localStorage.token = data.token;
+                localStorage.setItem('id', data.id);
                 window.location.href='/create';
             } else {
                 document.getElementById('warning').style.visibility = 'visible'
