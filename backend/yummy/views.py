@@ -421,6 +421,9 @@ def ML_predict(businesses,cuisine,food_type):
         "Fish & Chips", "Dim Sum", "Cajun/Creole", "Ramen", "Creperies", "Food Court",
         "Bistros", "Gelato", "Waffles", "Hot Pot", "Acai Bowls", "Kebab", "Pretzels"]
 
+    # Loading list of businesses nearby
+    
+
     # Converting business information to dataframe format for machine learning prediction
     df = pd.DataFrame(columns = ["business_id", "categories"])
     for business in businesses["businesses"]:
@@ -436,6 +439,8 @@ def ML_predict(businesses,cuisine,food_type):
     cuisines_col_x = list(map(lambda name : name + '_x', cuisines))
     types_col_x = list(map(lambda name : name + '_x', types))
     df.columns = ["business_id"] + cuisines_col_x + types_col_x
+    if (len(df) == 0):
+        return []
     
     # Converting user information to dataframe format for machine learning prediction
     cuisines_col_y = list(map(lambda name : name + '_y', cuisines))
@@ -458,7 +463,7 @@ def ML_predict(businesses,cuisine,food_type):
     model_df = final_df.drop(columns="business_id")
     
     # Loading machine learning model
-    loaded_model = pickle.load(open("models/basemodel.pkl", 'rb'))
+    loaded_model = pickle.load(open("yummy/models/basemodel.pkl", 'rb'))
     rating = loaded_model.predict(model_df)
     prediction["rating"] = rating
     result = prediction.sort_values(by='rating', ascending=False).iloc[0:6,0].to_list()
