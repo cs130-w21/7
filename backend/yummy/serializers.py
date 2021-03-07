@@ -102,7 +102,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
   id = serializers.IntegerField(required=False)
-  attendees = UserSerializer(many=True)
+  attendees = UserSerializer(many=True,required=False)
   class Meta:
     model = Event
     fields = ['name','datetime','location','description','host','attendees','id']
