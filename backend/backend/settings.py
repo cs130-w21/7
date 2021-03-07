@@ -39,7 +39,7 @@ INSTALLED_APPS = [
 
     'corsheaders',
     'rest_framework',
-
+    'rest_framework_swagger',
     'yummy.apps.YummyConfig',
     'rest_framework.authtoken',
     'whitenoise.runserver_nostatic',
@@ -53,7 +53,14 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser',
+        'rest_framework.parsers.JSONParser',
     ]
+    
 }
 
 MIDDLEWARE = [
@@ -89,6 +96,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'staticfiles': 'django.templatetags.static',
+            }
         },
     },
 ]

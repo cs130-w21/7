@@ -16,8 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls import url, include 
+from rest_framework_swagger.views import get_swagger_view
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
+# schema_view = get_swagger_view(title="Yummy API documentation",permission_classes=(IsAuthenticated,))
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('api_documentation/', schema_view),
+    # url('api_documentation', schema_view, name="api documentation"),
     url(r'^', include('yummy.urls')),
 ]

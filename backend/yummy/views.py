@@ -21,6 +21,10 @@ import logging
 from django.views.generic import View
 from django.conf import settings
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+from rest_framework_swagger.renderers import OpenAPIRenderer, SwaggerUIRenderer
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework import response, schemas
+
 
 class FrontendAppView(View):
     """
@@ -47,6 +51,14 @@ class FrontendAppView(View):
 
 @api_view(['POST'])
 def registration_view(request):
+    """
+    parameters:
+    - name: body
+      description: JSON object containing two strings: password and username.
+      required: true
+      paramType: body
+      pytype: RequestSerializer
+    """
     if request.method == 'POST':
         serializer = RegistrationSerializer(data=request.data)
         data = {}
