@@ -2,19 +2,14 @@ import React, { useState } from "react";
 import '../../App.css';
 import { Button } from '../Button';
 import "../Login.css";
-import axios from 'axios';
 import Cookies from 'js-cookie';
 
-// axios.defaults.xsrfHeaderName = "X-CSRFToken";
-// axios.defaults.xsrfCookieName = "csrftoken"; 
-
 export default function LogIn() {
- 
-
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const [csrf, setCSRF] = useState("");
-  // var csrftoken = Cookies.get('csrftoken');
+  var csrfCookie = Cookies.get('XSRF-TOKEN');
+  console.log(csrfCookie)
   
   function validateForm() {
     return email.length > 0 && email.includes('@') && password.length > 0;
@@ -24,29 +19,18 @@ export default function LogIn() {
     event.preventDefault();
   }
 
-
-  // return axios({
-  //   method: 'post',
-  //   url: '/api/login',
-  //   withCredentials: true,
-  //   data:{
-  //     email: email,
-  //     password: password
-  //   },
-  //   headers: {
-  //     "X-CSRFToken": Cookies.get('csrftoken')
-  // }
   function fetchToken(){
-    return fetch('/api/login', {
+    return fetch('/api/login/', {
       method: 'POST',
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
       body : JSON.stringify({
         email: email,
         password: password
-      }),
-      headers: {
-        "X-CSRFToken": Cookies.get('csrftoken')
-    }
+      })
     }).then(response => response.json())
       .then(result => {
         localStorage.setItem('token', result.token);
@@ -76,7 +60,6 @@ export default function LogIn() {
   return (
     <div className="LogIn">
       <form onSubmit={handleSubmit}>
-        
         <div className='form-group login-attr' size="lg" id="email">
           <label>Email</label>
           <input
@@ -96,8 +79,7 @@ export default function LogIn() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        {/* <input type="hidden" name="csrfmiddlewaretoken" value={csrftoken}/> */}
-        <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleLogin} disabled={!validateForm()}>LOG IN</Button>
+        <Button id="login" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleLogin} disabled={!validateForm()} type="submit">LOG IN</Button>
         <div className='seperator' />
         <Button id="signup" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={handleSignup} type="submit">SIGN UP</Button>
         <div className='seperator' />

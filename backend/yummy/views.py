@@ -20,7 +20,7 @@ import os
 import logging
 from django.views.generic import View
 from django.conf import settings
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
 
 class FrontendAppView(View):
     """
@@ -63,8 +63,8 @@ def registration_view(request):
             return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
 
 
-@ensure_csrf_cookie  
 @api_view(['POST'])
+@ensure_csrf_cookie
 def login_view(request):
     data = {}
     if request.method == 'POST':

@@ -19,3 +19,11 @@ matrix:
         - cd ./frontend
         - npm install --silent
         - npm test --quiet
+deploy:
+  provider: heroku
+  api_key:
+    secure: WchQmhxhb4T2q0Vs6/8GJTECu09L9A0disLueVtjfinyAVsmtHt0VLjYjF2RJs16OAWp1e3g8Pw9XipcQALXdvhjgYktYrGhxJuL0BNX1o9R8sDCbTtJPIejUR9aO78m6U1/IadJ1pEs7+yHxuHmx8ZWxFYUXMdPtnAVjewmixPmxxabTuq9u0gAdiCD3PkvfNyF/P94sSeS3cvnv5Nh7tBl8Zda3N8H1ohROl2mANhwWLUoeK3VYX9u3sFFdanYnRwgb3+WSN5zl+melk7LWs5rBOa9jwu3o1U3MCgwGaA5+VC1CWAJk8UHKZgeq2XMBpAySdDucGEPvbPbYYiz8M56B3lelqCeKsq122vG8owldJJ3Pxxmvr3II5V7/+0mLB7VSwFTf20W6/u3nkTbX02ZgVGjdhTFlyVQw9mgisRPGmcRnERlamk2hJMI6yMVsejLRuEgpp3LxMfNHMin4Rf2ahgczrN5Kbjpi65WCwpH2C2gkC2TVnrepvBjNuFjo0E0daulUD/44TeXNHvFRv83ss0lqmG+cmA2p8LelqmTcbwAWzIgQJGTbds8NiwjO9JJpD+J5b2uy+SmbRYjLqVE5mX+QMHSWqtnspf0FU4oBxLfV4VaAcYnZDPD4tggr3NGwLEZ6sxySwWB9LJN5wqjNv6uaRVy1gSkdebHke8=
+  app: yummy-app
+  on:
+    repo: cs130-w21/7
+    branch: master

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -34,7 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
 
     'corsheaders',
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     'yummy.apps.YummyConfig',
     'rest_framework.authtoken',
-    
+    'whitenoise.runserver_nostatic',
 ]
 
 TOKEN_EXPIRED_AFTER_SECONDS = 7200
@@ -62,7 +62,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -74,13 +74,13 @@ CORS_ORIGIN_WHITELIST = [
     'http://localhost:8000',
     'http://localhost:3000',
 ]
-CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, '../frontend')],
+        'DIRS': [os.path.join(BASE_DIR, '../frontend/build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,13 +144,21 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+BACKEND_DIR = BASE_DIR  
+
+REACT_APP_DIR = os.path.abspath(os.path.join(BACKEND_DIR, '../frontend'))
+
+STATICFILES_DIRS = [os.path.join(REACT_APP_DIR, 'build', 'static')]
+
+STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
+WHITENOISE_ROOT = os.path.join(REACT_APP_DIR, 'build', 'root')
+# from corsheaders.defaults import default_headers
 
-REACT_APP_DIR = os.path.join(BASE_DIR, '../frontend')
-
-STATICFILES_DIRS = [os.path.join(REACT_APP_DIR, 'build', 'static'),]
-
-STATICFILES_STORAGE = 'whitenoise.django.CompressedManifestStaticFilesStorage'
+# CORS_ALLOW_HEADERS = list(default_headers) + [
+#     'X-CSRFTOKEN',
+# ]
