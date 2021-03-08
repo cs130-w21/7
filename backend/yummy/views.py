@@ -52,7 +52,17 @@ class FrontendAppView(View):
 @api_view(['POST'])
 def registration_view(request):
     """
-    This API taking a user's information (email, username, password) and create an account for that user. It reuturns a message in response
+    This API taking a user's information (email, username, password) and create an account for that user. It reuturns a message in response.
+    - Input:
+        - username: <username> (unique)
+        - email: <email> (unique)
+        - password: <password>
+    - Output: {
+        "message": <message>,
+        "email": <email>,
+        "tolen": tocken,
+        "id": <user_id>
+    }
     """
     if request.method == 'POST':
         serializer = RegistrationSerializer(data=request.data)
@@ -75,7 +85,16 @@ def registration_view(request):
 def login_view(request):
     """
     This API is used to login a user with email, and password. It returns the user's id and a token that expires in 2 hours
-    if login successfully
+    if login successfully.
+    - Input:
+        - email: registered email 
+        - password: password
+    - Output: {
+        "message": <message>,
+        "email": <email>,
+        "tolen": tocken,
+        "id": <user_id>
+    }
     """
     data = {}
     if request.method == 'POST':
@@ -107,6 +126,11 @@ def login_view(request):
 def logout_view(request):
     """
     This API is used to logout a user. It return a message.
+    - Input:
+        - Authorization: Token <user’s token taken from login or register>
+    - output: {
+        "message": <message>
+    }
     """
     data = {}
     if request.method == 'DELETE':
@@ -129,7 +153,22 @@ def logout_view(request):
 @permission_classes((IsAuthenticated,))
 def create_profile_view(request):
     """
-    This API is used to create a profile after register. It will return a message if it adds a new record successfully
+    This API is used to create a profile after register. It will return a message if it adds a new record successfully.
+    - Input:
+        - Authorization: Token <user’s token taken from login or register>
+        - username: string
+        - first_name: string
+        - last_name: string
+        - age: integer
+        - height: integer in inches
+        - weight: integer in lbs
+        - sex: <F or M>
+        - vegetarian: <T or F>
+        - cuisine: string
+        - food_type: string
+    - Output: {
+        "message": <message>
+    }
     """
     if request.method == 'POST':
         print(request.auth)
@@ -147,7 +186,22 @@ def create_profile_view(request):
 @permission_classes((IsAuthenticated,))
 def update_profile_view(request):
     """
-    This API is used to update a profile . It will return a message if it updates a new record successfully
+    This API is used to update a profile . It will return a message if it updates a new record successfully.
+    - Input:
+        - Authorization: Token <user’s token taken from login or register>
+        - username: string
+        - first_name: string
+        - last_name: string
+        - age: integer
+        - height: integer in inches
+        - weight: integer in lbs
+        - sex: <F or M>
+        - vegetarian: <T or F>
+        - cuisine: string
+        - food_type: string
+    - Output: {
+        "message": <message>
+    }
     """
     if request.method == 'PUT':
         data = {}
@@ -173,7 +227,21 @@ def update_profile_view(request):
 @permission_classes((IsAuthenticated,))
 def get_profile_view(request):
     """
-    This API is used to get a profile. It returns the user's profile as json format 
+    This API is used to get a profile. It returns the user's profile as json format.
+    - Input:
+        - Authorization: Token <user’s token taken from login or register>
+    - Output: {
+        "username": string,
+        "first_name": string,
+        "last_name": string,
+        "age": integer,
+        "height": integer in inches,
+        "weight": integer in lbs,
+        "sex": <F or M>,
+        "vegetarian": <T or F>,
+        "cuisine": string,
+        "food_type": string,
+    }
     """
     if request.method == 'GET':
         data = {}
@@ -196,6 +264,16 @@ def get_profile_view(request):
 def create_event(request):
     """
     This API is used to create an event. It returns a message. 
+    - Input:
+        - Authorization: Token <user’s token taken from login or register>
+        - name: string
+        - datetime: <YYYY-MM-DDTHH:MM:SS>
+        - location: string
+        - description: string
+
+    - Output: {
+        "message": string
+    }
     """
     data = {}
     token = Token.objects.get(key=request.auth)
@@ -219,7 +297,17 @@ def create_event(request):
 @permission_classes((IsAuthenticated,))
 def update_event(request):
     """
-    This API is used to update an event. It returns a message. 
+    This API is used to update an event. It returns a message.
+    - Input:
+        - Authorization: Token <user’s token taken from login or register>
+        - name: string
+        - datetime: <YYYY-MM-DDTHH:MM:SS>
+        - location: string
+        - description: string
+
+    - Output: {
+        "message": string
+    }
     """
     data = {}
     token = Token.objects.get(key=request.auth)
@@ -242,7 +330,42 @@ def update_event(request):
 @permission_classes((IsAuthenticated,))
 def get_events(request):
     """
-    This API is used to get information of events by name. It returns information of events as json format 
+    This API is used to get information of events by name. It returns information of events as json format.
+    - Input:
+        - Authorization: Token <user’s token taken from login or register>
+        - name: string
+    - Output: {
+        {
+            "name": string,
+            "datetime": datatime,
+            "location": string,
+            "description": string,
+            "host": user_id,
+            "attendees": [
+                {
+                    "id": user_id,
+                    "username": string,
+                    "email": string
+                }
+            ],
+            "id": event_id
+        },
+        {
+            "name": string,
+            "datetime": datatime,
+            "location": string,
+            "description": string,
+            "host": user_id,
+            "attendees": [
+                {
+                    "id": user_id,
+                    "username": string,
+                    "email": string
+                }
+            ],
+            "id": event_id
+        }
+    }
     """
     if request.method == 'POST':
         data = {}
@@ -262,7 +385,24 @@ def get_events(request):
 @permission_classes((IsAuthenticated,))
 def get_event_by_id(request):
     """
-    This API is used to get information of an evnet by id. It returns information of the event as json format 
+    This API is used to get information of an evnet by id. It returns information of the event as json format.
+    - Input:
+        - id: integer
+    - Output: {
+        "name": string,
+        "datetime": datatime,
+        "location": string,
+        "description": string,
+        "host": user_id,
+        "attendees": [
+            {
+                "id": user_id,
+                "username": string,
+                "email": string
+            }
+        ],
+        "id": event_id
+    }
     """
     if request.method == 'POST':
         data = {}
@@ -282,7 +422,13 @@ def get_event_by_id(request):
 @permission_classes((IsAuthenticated,))
 def join_event(request):
     """
-    This API is used when a user want to join an event. It returns a message 
+    This API is used when a user want to join an event. It returns a message.
+    - Input:
+        - user_id: integer
+        - event_id: integer
+    - Output: {
+        "message": string
+    }
     """
     if request.method == 'PUT':
         data = {}
@@ -324,7 +470,13 @@ def join_event(request):
 @permission_classes((IsAuthenticated,))
 def leave_event(request):
     """
-    This API is used when a user want to leave an event. It returns a message 
+    This API is used when a user want to leave an event. It returns a message
+    - Input:
+        - user_id: integer
+        - event_id: integer
+    - Output: {
+        "message": string
+    }
     """
     if request.method == 'DELETE':
         data = {}
@@ -365,7 +517,12 @@ def leave_event(request):
 @permission_classes((IsAuthenticated,))
 def update_password(request):
     """
-    This API is used when a user want reset her/his password
+    This API is used when a user want reset her/his password Parameters:
+    - Input: 
+        - old_password
+        - new_password
+    - Output:
+        - {message:"A message"}
     """
     data={}
     if request.method == 'POST':
@@ -400,6 +557,104 @@ def update_password(request):
 def recommendation(request):
     """
     This API takes location of a user and returns 6 nearby businesses that may have food the user wants
+    - Input:
+        - latitude: float
+        - longtitude: float
+        - cuisine: string
+        - food_type: string
+    - Output: {
+    "businesses": [
+        {
+            "id": "TQEfj1-QhyWCJ29u3l9Kjw",
+            "alias": "gen-korean-bbq-house-san-jose",
+            "name": "Gen Korean BBQ House",
+            "image_url": "https://s3-media1.fl.yelpcdn.com/bphoto/-g5mYPUvxsX7hfor95Iq-Q/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/gen-korean-bbq-house-san-jose?adjust_creative=SuGSFJESF5J6ELQXB8uQRA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=SuGSFJESF5J6ELQXB8uQRA",
+            "review_count": 7215,
+            "categories": [
+                {
+                    "alias": "korean",
+                    "title": "Korean"
+                },
+                {
+                    "alias": "bbq",
+                    "title": "Barbeque"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 37.3872324410459,
+                "longitude": -121.885422354631
+            },
+            "transactions": [],
+            "price": "$$",
+            "location": {
+                "address1": "1628 Hostetter Rd",
+                "address2": "Ste F",
+                "address3": "",
+                "city": "San Jose",
+                "zip_code": "95131",
+                "country": "US",
+                "state": "CA",
+                "display_address": [
+                    "1628 Hostetter Rd",
+                    "Ste F",
+                    "San Jose, CA 95131"
+                ]
+            },
+            "phone": "+14084772773",
+            "display_phone": "(408) 477-2773",
+            "distance": 1234.427583824074
+        },
+        {
+            "id": "OeePb_OQIgCnt3nO53XEtA",
+            "alias": "claw-shack-san-jose",
+            "name": "Claw Shack",
+            "image_url": "https://s3-media1.fl.yelpcdn.com/bphoto/KGxTuv0tqYpa6IeSLBmvYg/o.jpg",
+            "is_closed": false,
+            "url": "https://www.yelp.com/biz/claw-shack-san-jose?adjust_creative=SuGSFJESF5J6ELQXB8uQRA&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=SuGSFJESF5J6ELQXB8uQRA",
+            "review_count": 1296,
+            "categories": [
+                {
+                    "alias": "cajun",
+                    "title": "Cajun/Creole"
+                },
+                {
+                    "alias": "seafood",
+                    "title": "Seafood"
+                },
+                {
+                    "alias": "chicken_wings",
+                    "title": "Chicken Wings"
+                }
+            ],
+            "rating": 4.5,
+            "coordinates": {
+                "latitude": 37.3728449142057,
+                "longitude": -121.8738632705
+            },
+            "transactions": [
+                "delivery"
+            ],
+            "price": "$$",
+            "location": {
+                "address1": "1696 Berryessa Rd",
+                "address2": "",
+                "address3": "",
+                "city": "San Jose",
+                "zip_code": "95133",
+                "country": "US",
+                "state": "CA",
+                "display_address": [
+                    "1696 Berryessa Rd",
+                    "San Jose, CA 95133"
+                ]
+            },
+            "phone": "+14086496741",
+            "display_phone": "(408) 649-6741",
+            "distance": 1122.6155667338178
+        },
     """
     if request.method == 'GET':
         latitude = request.GET.get('latitude')
