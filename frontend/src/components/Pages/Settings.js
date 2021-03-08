@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
+import Chips, { Chip } from 'react-chips';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
@@ -12,6 +13,9 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import '../Settings.css'
+import cuisines from '../../assets/data/cuisines'
+import types from '../../assets/data/types'
+
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -84,6 +88,8 @@ function TabPanel(props) {
 export default function Setting() {
     const [isLoading, setIsLoading] = useState(false);
     const [profiles, setProfiles] = useState ([]);
+    const [cui, setCui] = useState([])
+    const [foodtype, setfoodType] = useState(types)
     const [passwords, setPasswords] = useState ({
         old_password : "",
         new_password : ""
@@ -118,7 +124,7 @@ export default function Setting() {
                     setToken(getToken);
                     setEmail(getEmail);
                     setIsLoading(false);
-                    
+                    console.log(data)
                 })
                 
               };
@@ -137,6 +143,9 @@ export default function Setting() {
           ...profiles,
           [e.target.name]: e.target.value
         });
+    };
+    const handleChangeCuiandType = (e) => {
+        setCui(e)
     };
     
     const submitUpdateProfile = (event) => {
@@ -267,27 +276,32 @@ export default function Setting() {
                     </div>
                 
                     <div className={classes.textfields}>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="uncontrolled-native">Vegetarian</InputLabel>
-                            <NativeSelect
-                            name="vegetarian"
-                            value={profiles.vegetarian}
-                            onChange={handleChange}>
-                            <option value={'true'}>Yes</option>
-                            <option value={'false'}>No</option>
-                            </NativeSelect>
-                        </FormControl>
-                        <FormControl className={classes.formControl}>
-                            <InputLabel htmlFor="uncontrolled-native">Diet Plan</InputLabel>
-                            <NativeSelect
-                            name="diet_plan"
-                            value={profiles.diet_plan}
-                            onChange={handleChange}>
-                            <option value={1}>1</option>
-                            <option value={2}>2</option>
-                            <option value={3}>3</option>
-                            </NativeSelect>
-                        </FormControl>
+                         <div className="cuisine-box">
+                            <InputLabel htmlFor="uncontrolled-native">Cuisines</InputLabel>
+                            <Chips
+                                name="cuisine"
+                                value={cui}
+                                onChange={handleChangeCuiandType}
+                                createChipKeys={['a']}
+                                placeholder={"Type a cuisine (American, Mexican, ...)"}
+                                suggestions={cuisines}
+                                shouldRenderSuggestions={value => value.length >= 0}
+                                fromSuggestionsOnly={false}>
+                            </Chips>
+                        </div>
+
+                        <div className="cuisine-box">
+                            <InputLabel htmlFor="uncontrolled-native">Food Type</InputLabel>
+                            <Chips
+                                name="foodtype"
+                                onChange={handleChangeCuiandType}
+                                createChipKeys={['a']}
+                                placeholder={"Type a food (Cafe, Bakery, ...)"}
+                                suggestions={types}
+                                shouldRenderSuggestions={value => value.length >= 0}
+                                fromSuggestionsOnly={false}>
+                            </Chips>
+                            </div>
                     </div>
                     {isOpened && (
                     <div id='success' className={classes.textfields}>Successfully updated profile</div>
