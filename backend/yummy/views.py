@@ -754,7 +754,7 @@ def ML_predict(businesses,cuisine,food_type):
     model_df = final_df.drop(columns="business_id")
     print(os.getcwd())
     # Loading machine learning model
-    loaded_model = pickle.load(open("/models/basemodel.pkl", 'rb'))
+    loaded_model = pickle.load(open("/app/backend/yummy/models/basemodel.pkl", 'rb'))
     rating = loaded_model.predict(model_df)
     prediction["rating"] = rating
     result = prediction.sort_values(by='rating', ascending=False).iloc[0:6,0].to_list()
