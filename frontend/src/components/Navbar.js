@@ -82,11 +82,6 @@ function Navbar() {
                                 Events
                             </Link>
                         </li>
-                        {/* <li className='nav-item'>
-                            <Link to='/create' className='nav-links' onClick={closeMobileMenu}>
-                                Create
-                            </Link>
-                        </li> */}
                         <li className='nav-item'>
                             <Link to='/setting' className='nav-links' onClick={closeMobileMenu}>
                                 Profile
@@ -131,11 +126,6 @@ function Navbar() {
                             Profile
                         </Link>
                     </li>
-                    {/* <li id='login-btn-mob' className='nav-item'>
-                        <Link to='/login' className='nav-links-mobile' onClick={closeMobileMenu}>
-                            Log In
-                        </Link>
-                    </li> */}
                 </ul>
                 {button && <Button id='login-btn' buttonStyle='btn--outline' onClick={btnHandler}>LOG IN</Button>}
               </div>
