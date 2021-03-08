@@ -10,12 +10,13 @@ export default function CardView(props) {
           <figure className='cards__item__pic-wrap' data-category={props.label}>
             <img
               className='cards__item__img'
-              alt='Travel Image'
+              alt='Image'
               src={props.src}
             />
           </figure>
           <div className='cards__item__info'>
-            <h5 className='cards__item__text'>{props.text}</h5>
+            <h5 className='cards__item__text'>{props.name}</h5>
+            <h5 className='cards__item__text'>{props.location}</h5>
           </div>
         </Link>
       </li>

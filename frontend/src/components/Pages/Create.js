@@ -52,7 +52,6 @@ const placeholder_strings = [
   "Type a food type (Fast Food, Restaurants, Cafes ...)"
 ];
 
-
 export default function Create() {
   const [profile, setProfile] = useState({
     first_name: "",
