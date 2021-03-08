@@ -169,6 +169,7 @@ def create_profile_view(request):
     - Output: {
         "message": <message>
     }
+    
     """
     if request.method == 'POST':
         print(request.auth)
