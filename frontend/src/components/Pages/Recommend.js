@@ -146,7 +146,7 @@ class Recommend extends React.Component {
             <div className='cards'>
                 <h3>There are no recommendation found</h3><br></br>
                 <h3>Have you created your preferences?</h3><br></br>
-                <Button id="createEvent" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={() => window.location.href='/create'}>CREATE PREFERENCES</Button>
+                <Button id="createEvent" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={() => window.location.href='/setting'}>CREATE PREFERENCES</Button>
             </div>)
         }
         return (
