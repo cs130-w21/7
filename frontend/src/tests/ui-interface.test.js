@@ -51,7 +51,6 @@ it('interfaces CreatePage', () => {
   });
 
   // Page frame
-  expect(screen.getByText('Select your preferences')).toBeInTheDocument();
   expect(screen.getByText('Cuisines')).toBeInTheDocument();
   expect(screen.getByText('Food Types')).toBeInTheDocument();
 });

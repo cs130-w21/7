@@ -374,7 +374,8 @@ def get_events(request):
             data['message'] = "Token expired"
             return JsonResponse(data=data,status=status.HTTP_400_BAD_REQUEST)
         serializer = GetEventSerializer(data=request.data)
-        if serializer.is_valid():
+        # if serializer.is_valid():
+        if "name" in request.data:
             events = Event.objects.filter(name__contains=request.data['name'])
             return JsonResponse(data=EventSerializer(events,many=True).data,status=status.HTTP_200_OK,safe=False)
         else:
@@ -657,9 +658,8 @@ def recommendation(request):
         },
     """
     if request.method == 'GET':
-        latitude = request.GET.get('latitude')
-        longitude = request.GET.get('latitude')
-        print(request.GET)
+        latitude = float(request.GET.get('latitude'))
+        longitude = float(request.GET.get('longitude'))
         data = {}
         token = Token.objects.get(key=request.auth)
         if token_expire_handler(token):
@@ -683,7 +683,7 @@ def recommendation(request):
                 res = requests.get(yelp_api, headers=auth, params=params)
                 res = json.loads(res.content)
                 result = ML_predict(res,profile.cuisine,profile.food_type)
-                return JsonResponse(data=result,status=status.HTTP_200_OK)
+                return JsonResponse(data=result,status=status.HTTP_200_OK, safe=False)
             else:
                 data = serializer.errors
                 return JsonResponse(data,status=status.HTTP_400_BAD_REQUEST)
@@ -711,6 +711,9 @@ def ML_predict(businesses,cuisine,food_type):
         "Fish & Chips", "Dim Sum", "Cajun/Creole", "Ramen", "Creperies", "Food Court",
         "Bistros", "Gelato", "Waffles", "Hot Pot", "Acai Bowls", "Kebab", "Pretzels"]
 
+    # Loading list of businesses nearby
+    
+
     # Converting business information to dataframe format for machine learning prediction
     df = pd.DataFrame(columns = ["business_id", "categories"])
     for business in businesses["businesses"]:
@@ -726,6 +729,8 @@ def ML_predict(businesses,cuisine,food_type):
     cuisines_col_x = list(map(lambda name : name + '_x', cuisines))
     types_col_x = list(map(lambda name : name + '_x', types))
     df.columns = ["business_id"] + cuisines_col_x + types_col_x
+    if (len(df) == 0):
+        return []
     
     # Converting user information to dataframe format for machine learning prediction
     cuisines_col_y = list(map(lambda name : name + '_y', cuisines))
@@ -748,7 +753,7 @@ def ML_predict(businesses,cuisine,food_type):
     model_df = final_df.drop(columns="business_id")
     
     # Loading machine learning model
-    loaded_model = pickle.load(open("models/basemodel.pkl", 'rb'))
+    loaded_model = pickle.load(open("yummy/models/basemodel.pkl", 'rb'))
     rating = loaded_model.predict(model_df)
     prediction["rating"] = rating
     result = prediction.sort_values(by='rating', ascending=False).iloc[0:6,0].to_list()
@@ -758,5 +763,4 @@ def ML_predict(businesses,cuisine,food_type):
     for business in businesses["businesses"]:
         if (business["id"] in result):
             json_result.append(business)
-    return json_result
-    return result
+    return json.dumps(json_result, indent=4, sort_keys=True)

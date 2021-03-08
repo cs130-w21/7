@@ -19,7 +19,7 @@ function Navbar() {
 
     const btnHandler = () => {
         if(localStorage.logIn == 1) {
-            window.location.href='/create';
+            window.location.href='/setting';
         } else 
             window.location.href='/login';
     }
@@ -78,6 +78,16 @@ function Navbar() {
                             </Link>
                         </li>
                         <li className='nav-item'>
+                            <Link to='/event' className='nav-links' onClick={closeMobileMenu}>
+                                Events
+                            </Link>
+                        </li>
+                        {/* <li className='nav-item'>
+                            <Link to='/create' className='nav-links' onClick={closeMobileMenu}>
+                                Create
+                            </Link>
+                        </li> */}
+                        <li className='nav-item'>
                             <Link to='/setting' className='nav-links' onClick={closeMobileMenu}>
                                 Profile
                             </Link>
@@ -113,14 +123,19 @@ function Navbar() {
                     </li>
                     <li className='nav-item'>
                         <Link to='/login' className='nav-links' onClick={closeMobileMenu}>
+                            Event
+                        </Link>
+                    </li>
+                    <li className='nav-item'>
+                        <Link to='/login' className='nav-links' onClick={closeMobileMenu}>
                             Profile
                         </Link>
-                        </li>
-                    <li id='login-btn-mob' className='nav-item'>
+                    </li>
+                    {/* <li id='login-btn-mob' className='nav-item'>
                         <Link to='/login' className='nav-links-mobile' onClick={closeMobileMenu}>
                             Log In
                         </Link>
-                    </li>
+                    </li> */}
                 </ul>
                 {button && <Button id='login-btn' buttonStyle='btn--outline' onClick={btnHandler}>LOG IN</Button>}
               </div>
