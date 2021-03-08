@@ -119,11 +119,6 @@ Assuming you have Python setup, to run locally, do the following commands.
     python3 manage.py migrate           // run migrate again
     python3 manage.py runserver         // start the development server on localhost:8000
     ```
-<!-- 3. Install Djongo framework -  SQL to Mongodb query transpiler for Django
-   ```
-   pip3 install dnspython
-   pip3 install djongo
-   ``` -->
 3. Go to frontend directory, install NPM packages and run the frontend.
    ```sh
    cd frontend

@@ -15,59 +15,64 @@ class Recommend extends React.Component {
         console.log(this.token);
     }
 
-    
-    handleLogout = () =>{
-        localStorage.clear();
-        window.location.href='/';
-    }
-    componentDidMount(){
-        fetch('http://ip-api.com/json')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            if(data.status == "success") {
-                fetch('/api/recommendation/?latitude='+data.lat+'&longitude='+data.lon, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Token ${this.token}`, 
-                        'Content-Type': 'application/json',
-                    }
-                })
-                .then(response => response.json())
-                .then(result => {
-                    data = typeof result == typeof "" ? JSON.parse(result) : result;
-                    console.log(data)
-                    if(data.length == 0 || data.length == undefined) {
-                        this.loaded = true;
-                        this.setState({
-                            restaurants: [],
-                        })
-                    } else {
-                        this.loaded = true;
-                        var restaurants = [];
-                        data.map(restaurant=>{
-                            var name = restaurant.name;
-                            var src = restaurant.image_url;
-                            var label = restaurant.categories[0].title;
-                            var id = restaurant.id;
-                            var location = ""
-                            restaurant.location.display_address.map(add => {
-                                location += add + " ";
-                            });
-                            restaurants.push({id:id, name:name, src:src, label:label, location:location, path:"/create_event?name="+name+"&location="+location})
-                        });
-                        this.setState({
-                            restaurants: restaurants,
-                        })
-                    }
-                })
-            } else {
-                this.loaded = true;
-                this.setState({
-                    restaurants: [],
-                })
-            }
+    getUserLocation() {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
         });
+    }
+
+    async componentDidMount(){
+        const {coords} = await this.getUserLocation();
+        const {latitude, longitude} = coords;
+        var data = {
+            "lat" : latitude,
+            "lon": longitude
+        }
+        console.log(data.lat)
+        console.log(data.lon)
+        
+        if(data.lat != undefined && data.lon != undefined) {
+            fetch('/api/recommendation/?latitude='+data.lat+'&longitude='+data.lon, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Token ${this.token}`, 
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(result => {
+                data = typeof result == typeof "" ? JSON.parse(result) : result;
+                console.log(data)
+                if(data.length == 0 || data.length == undefined) {
+                    this.loaded = true;
+                    this.setState({
+                        restaurants: [],
+                    })
+                } else {
+                    this.loaded = true;
+                    var restaurants = [];
+                    data.map(restaurant=>{
+                        var name = restaurant.name;
+                        var src = restaurant.image_url;
+                        var label = restaurant.categories[0].title;
+                        var id = restaurant.id;
+                        var location = ""
+                        restaurant.location.display_address.map(add => {
+                            location += add + " ";
+                        });
+                        restaurants.push({id:id, name:name, src:src, label:label, location:location, path:"/create_event?name="+name+"&location="+location})
+                    });
+                    this.setState({
+                        restaurants: restaurants,
+                    })
+                }
+            })
+        } else {
+            this.loaded = true;
+            this.setState({
+                restaurants: [],
+            })
+        }
     }
 
     getRestaurants(restaurants) {
