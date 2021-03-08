@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'br^(wet+z_bvav+orj2dnr5f530&o3^5o6!to1k=vo@#kp!nst'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['https://yummy-web.herokuapp.com','yummy-web.herokuapp.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -161,7 +161,7 @@ REACT_APP_DIR = os.path.abspath(os.path.join(BACKEND_DIR, '../frontend'))
 
 STATICFILES_DIRS = [os.path.join(REACT_APP_DIR, 'build', 'static')]
 
-# STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
+STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
