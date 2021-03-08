@@ -82,11 +82,11 @@ function Navbar() {
                                 Events
                             </Link>
                         </li>
-                        <li className='nav-item'>
+                        {/* <li className='nav-item'>
                             <Link to='/create' className='nav-links' onClick={closeMobileMenu}>
                                 Create
                             </Link>
-                        </li>
+                        </li> */}
                         <li className='nav-item'>
                             <Link to='/setting' className='nav-links' onClick={closeMobileMenu}>
                                 Profile
