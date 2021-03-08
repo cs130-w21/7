@@ -2,7 +2,6 @@ import React from 'react';
 import CardView from './CardView';
 import '../Cards.css';
 import { Button } from '../Button';
-import EventView from './EventView';
 
 class Recommend extends React.Component {
     constructor(){
@@ -12,7 +11,6 @@ class Recommend extends React.Component {
         };
         this.token = localStorage.getItem('token');
         this.loaded = false;
-        console.log(this.token);
     }
 
     getUserLocation() {
@@ -20,7 +18,6 @@ class Recommend extends React.Component {
             navigator.geolocation.getCurrentPosition(resolve, reject);
         });
     }
-
     async componentDidMount(){
         const {coords} = await this.getUserLocation();
         const {latitude, longitude} = coords;
@@ -28,8 +25,6 @@ class Recommend extends React.Component {
             "lat" : latitude,
             "lon": longitude
         }
-        console.log(data.lat)
-        console.log(data.lon)
         
         if(data.lat != undefined && data.lon != undefined) {
             fetch('/api/recommendation/?latitude='+data.lat+'&longitude='+data.lon, {
