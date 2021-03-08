@@ -52,12 +52,7 @@ class FrontendAppView(View):
 @api_view(['POST'])
 def registration_view(request):
     """
-    parameters:
-    - name: body
-      description: JSON object containing two strings: password and username.
-      required: true
-      paramType: body
-      pytype: RequestSerializer
+    This API taking a user's information (email, username, password) and create an account for that user. It reuturns a message in response
     """
     if request.method == 'POST':
         serializer = RegistrationSerializer(data=request.data)
@@ -78,6 +73,10 @@ def registration_view(request):
 @api_view(['POST'])
 @ensure_csrf_cookie
 def login_view(request):
+    """
+    This API is used to login a user with email, and password. It returns the user's id and a token that expires in 2 hours
+    if login successfully
+    """
     data = {}
     if request.method == 'POST':
         print(request.data)
@@ -106,6 +105,9 @@ def login_view(request):
 @api_view(['DELETE'])
 @permission_classes((IsAuthenticated,))
 def logout_view(request):
+    """
+    This API is used to logout a user. It return a message.
+    """
     data = {}
     if request.method == 'DELETE':
         # check if the user is login or not
@@ -126,6 +128,9 @@ def logout_view(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def create_profile_view(request):
+    """
+    This API is used to create a profile after register. It will return a message if it adds a new record successfully
+    """
     if request.method == 'POST':
         print(request.auth)
         serializer = ProfileSerializer(data=request.data)
@@ -141,6 +146,9 @@ def create_profile_view(request):
 @api_view(['PUT'])
 @permission_classes((IsAuthenticated,))
 def update_profile_view(request):
+    """
+    This API is used to update a profile . It will return a message if it updates a new record successfully
+    """
     if request.method == 'PUT':
         data = {}
         token = Token.objects.get(key=request.auth)
@@ -164,6 +172,9 @@ def update_profile_view(request):
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
 def get_profile_view(request):
+    """
+    This API is used to get a profile. It returns the user's profile as json format 
+    """
     if request.method == 'GET':
         data = {}
         print(request.auth)
@@ -183,6 +194,9 @@ def get_profile_view(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def create_event(request):
+    """
+    This API is used to create an event. It returns a message. 
+    """
     data = {}
     token = Token.objects.get(key=request.auth)
     if token_expire_handler(token):
@@ -204,6 +218,9 @@ def create_event(request):
 @api_view(['PUT'])
 @permission_classes((IsAuthenticated,))
 def update_event(request):
+    """
+    This API is used to update an event. It returns a message. 
+    """
     data = {}
     token = Token.objects.get(key=request.auth)
     if token_expire_handler(token):
@@ -224,6 +241,9 @@ def update_event(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def get_events(request):
+    """
+    This API is used to get information of events by name. It returns information of events as json format 
+    """
     if request.method == 'POST':
         data = {}
         token = Token.objects.get(key=request.auth)
@@ -241,6 +261,9 @@ def get_events(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def get_event_by_id(request):
+    """
+    This API is used to get information of an evnet by id. It returns information of the event as json format 
+    """
     if request.method == 'POST':
         data = {}
         token = Token.objects.get(key=request.auth)
@@ -258,6 +281,9 @@ def get_event_by_id(request):
 @api_view(['PUT'])
 @permission_classes((IsAuthenticated,))
 def join_event(request):
+    """
+    This API is used when a user want to join an event. It returns a message 
+    """
     if request.method == 'PUT':
         data = {}
         token = Token.objects.get(key=request.auth)
@@ -297,6 +323,9 @@ def join_event(request):
 @api_view(['DELETE'])
 @permission_classes((IsAuthenticated,))
 def leave_event(request):
+    """
+    This API is used when a user want to leave an event. It returns a message 
+    """
     if request.method == 'DELETE':
         data = {}
         token = Token.objects.get(key=request.auth)
@@ -335,6 +364,9 @@ def leave_event(request):
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def update_password(request):
+    """
+    This API is used when a user want reset her/his password
+    """
     data={}
     if request.method == 'POST':
         token = Token.objects.get(key=request.auth)
@@ -366,6 +398,9 @@ def update_password(request):
 @api_view(['GET'])
 @permission_classes((IsAuthenticated,))
 def recommendation(request):
+    """
+    This API takes location of a user and returns 6 nearby businesses that may have food the user wants
+    """
     if request.method == 'GET':
         latitude = request.GET.get('latitude')
         longitude = request.GET.get('latitude')
