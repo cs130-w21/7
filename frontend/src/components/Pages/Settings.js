@@ -89,7 +89,7 @@ export default function Setting() {
     const [isLoading, setIsLoading] = useState(false);
     const [profiles, setProfiles] = useState ([]);
     const [cui, setCui] = useState([])
-    const [foodtype, setfoodType] = useState(types)
+    const [foodtype, setfoodType] = useState([])
     const [passwords, setPasswords] = useState ({
         old_password : "",
         new_password : ""
@@ -144,8 +144,11 @@ export default function Setting() {
           [e.target.name]: e.target.value
         });
     };
-    const handleChangeCuiandType = (e) => {
+    const handleChangeCui = (e) => {
         setCui(e)
+    };
+    const handleChangeFoodType = (e) => {
+        setfoodType(e)
     };
     
     const submitUpdateProfile = (event) => {
@@ -281,7 +284,7 @@ export default function Setting() {
                             <Chips
                                 name="cuisine"
                                 value={cui}
-                                onChange={handleChangeCuiandType}
+                                onChange={handleChangeCui}
                                 createChipKeys={['a']}
                                 placeholder={"Type a cuisine (American, Mexican, ...)"}
                                 suggestions={cuisines}
@@ -294,7 +297,8 @@ export default function Setting() {
                             <InputLabel htmlFor="uncontrolled-native">Food Type</InputLabel>
                             <Chips
                                 name="foodtype"
-                                onChange={handleChangeCuiandType}
+                                value={foodtype}
+                                onChange={handleChangeFoodType}
                                 createChipKeys={['a']}
                                 placeholder={"Type a food (Cafe, Bakery, ...)"}
                                 suggestions={types}
