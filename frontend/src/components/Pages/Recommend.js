@@ -34,8 +34,9 @@ class Recommend extends React.Component {
                     }
                 })
                 .then(response => response.json())
-                .then(data => {
-                    console.log(data.length)
+                .then(result => {
+                    data = JSON.parse(result)
+                    console.log(data)
                     if(data.length == 0 || data.length == undefined) {
                         this.loaded = true;
                         this.setState({
