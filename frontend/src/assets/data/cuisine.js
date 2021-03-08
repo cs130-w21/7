@@ -1,4 +1,4 @@
-var DATA = {
+var cuisine = {
     "1": {
         "name": "American"
     },
@@ -102,4 +102,4 @@ var DATA = {
         "name": "Mongolian"
     }
 }
-export default DATA
+export default cuisine

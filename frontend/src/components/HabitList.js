@@ -46,13 +46,13 @@ class ChipsArray extends React.Component {
                 {this.state.chipData.map(data => {
                     let avatar = null;
 
-                    if (data.label === 'React') {
-                        avatar = (
-                            <Avatar>
-                                <TagFacesIcon className={classes.svgIcon} />
-                            </Avatar>
-                        );
-                    }
+                    // if (data.label === 'React') {
+                    //     avatar = (
+                    //         <Avatar>
+                    //             <TagFacesIcon className={classes.svgIcon} />
+                    //         </Avatar>
+                    //     );
+                    // }
 
                     return (
                         <Chip

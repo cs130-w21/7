@@ -83,6 +83,11 @@ function Navbar() {
                             </Link>
                         </li>
                         <li className='nav-item'>
+                            <Link to='/create' className='nav-links' onClick={closeMobileMenu}>
+                                Create
+                            </Link>
+                        </li>
+                        <li className='nav-item'>
                             <Link to='/setting' className='nav-links' onClick={closeMobileMenu}>
                                 Profile
                             </Link>
