@@ -50,7 +50,10 @@ class Recommend extends React.Component {
                             var src = restaurant.image_url;
                             var label = restaurant.categories[0].title;
                             var id = restaurant.id;
-                            var location = restaurant.location.display_address[0] + " " + restaurant.location.display_address[1]
+                            var location = ""
+                            restaurant.location.display_address.map(add => {
+                                location += add + " ";
+                            });
                             restaurants.push({id:id, name:name, src:src, label:label, location:location, path:"/create_event?name="+name+"&location="+location})
                         });
                         this.setState({
