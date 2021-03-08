@@ -1,51 +1,34 @@
-Restaurants
-Fast Food
-Sandwiches
-Pizza
-Breakfast & Brunch
-Burgers
-Specialty Food
-Bakeries
-Desserts
-Cafes
-Ice Cream & Frozen Yogurt
-Chicken Wings
-Salad
-Seafood
-Sushi Bars
-Beer
-Sports Bars
-Pubs
-Steakhouses
-Cocktail Bars
-Diners
-Ethnic Food
-Food Delivery Services
-Food Trucks
-Soup
-Comfort Food
-Buffets
-Donuts
-Tacos
-Hot Dogs
-Bubble Tea
-Chicken Shop
-Bagels
-Noodles
-Tapas/Small Plates
-Food Stands
-Cupcakes
-Soul Food
-Fish & Chips
-Dim Sum
-Cajun/Creole
-Ramen
-Creperies
-Food Court
-Bistros
-Gelato
-Waffles
-Hot Pot
-Acai Bowls
-Kebab
-Pretzels
+American (Traditional)
+Mexican
+American (New)
+Italian
+Chinese
+Japanese
+Asian Fusion
+Indian
+Thai
+Middle Eastern
+Vietnamese
+Greek
+French
+Korean
+Caribbean
+Latin American
+Pakistani
+Hawaiian
+Lebanese
+Taiwanese
+Filipino
+Spanish
+Irish
+African
+Turkish
+Cantonese
+Pan Asian
+German
+Brazilian
+Ethiopian
+Polish
+Malaysian
+Arabian
+Mongolian
