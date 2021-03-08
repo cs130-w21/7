@@ -126,6 +126,11 @@ function Navbar() {
                             Event
                         </Link>
                     </li>
+                        <li className='nav-item'>
+                            <Link to='/login' className='nav-links' onClick={closeMobileMenu}>
+                                Create
+                            </Link>
+                        </li>
                     <li className='nav-item'>
                         <Link to='/login' className='nav-links' onClick={closeMobileMenu}>
                             Profile
