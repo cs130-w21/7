@@ -35,7 +35,7 @@ class Recommend extends React.Component {
                 })
                 .then(response => response.json())
                 .then(result => {
-                    data = JSON.parse(result)
+                    data = typeof result == typeof "" ? JSON.parse(result) : result;
                     console.log(data)
                     if(data.length == 0 || data.length == undefined) {
                         this.loaded = true;
@@ -145,8 +145,8 @@ class Recommend extends React.Component {
             return (
             <div className='cards'>
                 <h3>There are no recommendation found</h3><br></br>
-                <h3>Have you updated your preferences?</h3><br></br>
-                <Button id="createEvent" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={() => window.location.href='/setting'}>UPDATE PROFILE</Button>
+                <h3>Have you created your preferences?</h3><br></br>
+                <Button id="createEvent" buttonStyle="btn--outline--black" buttonSize="btn--full" onClick={() => window.location.href='/create'}>CREATE PREFERENCES</Button>
             </div>)
         }
         return (
